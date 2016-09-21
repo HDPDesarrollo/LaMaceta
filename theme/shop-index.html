@@ -61,30 +61,14 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
   <link href="assets/corporate/css/themes/red.css" rel="stylesheet" id="style-color">
   <link href="assets/corporate/css/custom.css" rel="stylesheet">
   <!-- Theme styles END -->
+
 </head>
 <!-- Head END -->
 
 <!-- Body BEGIN -->
-<body class="ecommerce">
-    <!-- BEGIN STYLE CUSTOMIZER 
-    <div class="color-panel hidden-sm">
-      <div class="color-mode-icons icon-color"></div>
-      <div class="color-mode-icons icon-color-close"></div>
-      <div class="color-mode">
-        <p>THEME COLOR</p>
-        <ul class="inline">
-          <li class="color-red current color-default" data-style="red"></li>
-          <li class="color-blue" data-style="blue"></li>
-          <li class="color-green" data-style="green"></li>
-          <li class="color-orange" data-style="orange"></li>
-          <li class="color-gray" data-style="gray"></li>
-          <li class="color-turquoise" data-style="turquoise"></li>
-        </ul>
-      </div>
-    </div>
-     END BEGIN STYLE CUSTOMIZER --> 
-
-    <!-- BEGIN TOP BAR -->
+<body class="ecommerce" ng-app="Lamaceta">
+ 
+     <!-- BEGIN TOP BAR -->
     <div class="pre-header">
         <div class="container">
             <div class="row">
@@ -94,7 +78,6 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                         <li><i class="fa fa-phone"></i><span>+1 456 6717</span></li>
                         <!-- BEGIN CURRENCIES -->
                         <li class="shop-currencies">
-                            <a href="javascript:void(0);">€</a>
                             <a href="javascript:void(0);">£</a>
                             <a href="javascript:void(0);" class="current">$</a>
                         </li>
@@ -135,72 +118,26 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
         <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
 
         <!-- BEGIN CART -->
+        <div ng-controller="CtrlCarrito">
         <div class="top-cart-block">
           <div class="top-cart-info">
-            <a href="javascript:void(0);" class="top-cart-info-count">3 items</a>
-            <a href="javascript:void(0);" class="top-cart-info-value">$1260</a>
+            <a class="top-cart-info-count">{{ContentCArt.length}} item's</a>
+            <a class="top-cart-info-value">$1260</a>
           </div>
           <i class="fa fa-shopping-cart"></i>
                         
           <div class="top-cart-content-wrapper">
             <div class="top-cart-content">
               <ul class="scroller" style="height: 250px;">
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
-                <li>
-                  <a href="shop-item.html"><img src="assets/pages/img/cart-img.jpg" alt="Rolex Classic Watch" width="37" height="34"></a>
-                  <span class="cart-content-count">x 1</span>
-                  <strong><a href="shop-item.html">Rolex Classic Watch</a></strong>
-                  <em>$1230</em>
-                  <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
-                </li>
+                <div ng-repeat="art in ContentCArt track by $index">
+                  <li>
+                    <a href="shop-item.html"><img ng-src="{{art.img}}" alt="Rolex Classic Watch" width="37" height="34"></a>
+                    <span class="cart-content-count">{{art.quantity}}</span>
+                    <strong><a href="shop-item.html">{{art.name}}</a></strong>
+                    <em>$1230</em>
+                    <a ng-click="del($index)" class="del-goods">&nbsp;</a>
+                  </li>
+                </div>
               </ul>
               <div class="text-right">
                 <a href="shop-shopping-cart.html" class="btn btn-default">View Cart</a>
@@ -418,6 +355,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     <!-- Header END -->
 
     <!-- BEGIN SLIDER -->
+
     <div class="page-slider margin-bottom-35">
         <div id="carousel-example-generic" class="carousel slide carousel-slider">
             <!-- Indicators -->
@@ -504,6 +442,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             </a>
         </div>
     </div>
+ 
     <!-- END SLIDER -->
 
     <div class="main">
@@ -1144,6 +1083,10 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
         });
     </script>
     <!-- END PAGE LEVEL JAVASCRIPTS -->
+    <!-- Angular -->
+    <script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+    <script src="../js/controller/controlador.carrito.js"></script>
+    <script src="../js/service/service.carrito.js"></script>
 </body>
 <!-- END BODY -->
 </html>

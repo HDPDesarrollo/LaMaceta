@@ -1,26 +1,26 @@
-var ModuleCarro = angular.module('Lamaceta', ['ngAnimate','ui.bootstrap']);
+var ModuleCarro = angular.module('Lamaceta', []);
 
-ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$modal){
+ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 
 	$scope.ContentCArt = [{
-		nombre:"pantalon",
-		cantidad: 4,
-		precio: 154.6,
+		name:"pantalon",
+		quantity: 4,
+		price: 154.6,
 		id:754,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
-		precioT: 309.2
+		priceT: 309.2
 	},
 	{
-		nombre:"Campera roja",
-		cantidad: 4,
-		precio: 154.6,
+		name:"Campera roja",
+		quantity: 4,
+		price: 154.6,
 		id:12,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
 		precioT: 309.2
 	},
 	{
-		nombre:"Campera roja",
-		cantidad: 4,
+		name:"Campera roja",
+		quantity: 4,
 		precio: 154.6,
 		id:456,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
@@ -32,7 +32,6 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$modal){
 		angular.forEach($scope.ContentCArt, function(value, key){
 			if(key == index)
 			{
-				
 				if($scope.DeleteId(value.id))
 				{
 				$scope.ContentCArt.splice(key,1);
@@ -104,13 +103,13 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$modal){
 		});
 	}
 
-	$scope.ViewModal = function () {
+	/*$scope.ViewModal = function () {
     var modalInstance = $modal.open({
      	 templateUrl: 'myModalContent.html',
      	 controller: 'ModalInstanceCtrl'
     	});
 
-  	};
+  	};*/
 
   	
 });

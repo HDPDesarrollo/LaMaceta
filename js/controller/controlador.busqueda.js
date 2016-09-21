@@ -65,7 +65,6 @@ ModuloBusqueda.controller('CBusqueda',["$rootScope","$scope","compartirObj","Ser
 
 ModuloBusqueda.controller('RtaBusqueda',function($scope,compartirObj){
 	$scope.datosTraidos = [];
-	//$scope.datosTraidos = [{id:123,nombre:"pantalon"}];
 	$scope.datosTraidos = compartirObj.obtenerPrendas();
 });
 
@@ -88,7 +87,6 @@ ModuloBusqueda.controller('VerProducto',function($scope,$location,ServicioBuscar
 				$scope.prenda = compartirObj.obtenerUnaPrenda();
 			}else{
 				$scope.prenda = resp;
-				//console.log($scope.prenda);
 			}
 	});
 	
