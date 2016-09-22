@@ -58,7 +58,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 				}
 			}
 		});
-		$scope.alerta("Error en la operacion! Intentelo mas tarde por favor.","danger");
+		$scope.alerta("Intentelo mas tarde por favor.","danger");
 	};
 
 	$scope.alerts = [];
@@ -86,11 +86,10 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 	$scope.DeleteId = function(id){
 		
 		var rstDel = ServiceCart.DeletePerId(id).then(function(rst){
-			if(rst != true){
-				$scope.alerta("Error en la operacion! Intentelo mas tarde por favor.","danger");
-				return false;
-			}else{
+			if(rst){
 				return true;
+			}else{
+				return false;
 			}
 		})
 		.catch(function(error){
@@ -101,11 +100,10 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 
 	$scope.EmptyCart = function(){
 		ServiceCart.DeleteAll().then(function(rst){
-			if(rst != true){
-				$scope.alerta("Error en la operacion! Intentelo mas tarde por favor.","danger")
-				return false;
-			}else{
+			if(rst){
 				return true;
+			}else{
+				return false;
 			}
 		})
 	};
