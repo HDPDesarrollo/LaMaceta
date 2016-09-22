@@ -2,17 +2,37 @@ var ModuleCarro = angular.module('Lamaceta', []);
 
 ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 
+	$scope.up = function(index){
+		angular.forEach($scope.ContentCArt, function(value, key){
+			if(key == index){
+				value.quantity = value.quantity + 1;
+			}
+		});
+	};
+
+	$scope.down = function(index){
+		angular.forEach($scope.ContentCArt, function(value, key){
+			if(key == index){
+				if(value.quantity != 0)
+				{
+					value.quantity = value.quantity - 1;
+				}
+			}
+		});
+	};
+
 	$scope.ContentCArt = [{
 		name:"pantalon",
-		quantity: 4,
-		price: 154.6,
+		quantity: 1,
+		price: 102,
 		id:754,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
-		priceT: 309.2
+		description: "soy una descripcion de la prenda",
+		priceT: 123
 	},
 	{
 		name:"Campera roja",
-		quantity: 4,
+		quantity: 2,
 		price: 154.6,
 		id:12,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
@@ -20,9 +40,9 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 	},
 	{
 		name:"Campera roja",
-		quantity: 4,
-		precio: 154.6,
-		id:456,
+		quantity: 2,
+		price: 345.12,
+		id:789,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
 		precioT: 309.2
 	}];
@@ -38,6 +58,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 				}
 			}
 		});
+		$scope.alerta("Error en la operacion! Intentelo mas tarde por favor.","danger");
 	};
 
 	$scope.alerts = [];
@@ -66,7 +87,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 		
 		var rstDel = ServiceCart.DeletePerId(id).then(function(rst){
 			if(rst != true){
-				$scope.alerta("Error en la operacion! Intentelo mas tarde por favor.","danger")
+				$scope.alerta("Error en la operacion! Intentelo mas tarde por favor.","danger");
 				return false;
 			}else{
 				return true;

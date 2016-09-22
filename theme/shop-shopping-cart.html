@@ -66,7 +66,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 
 <!-- Body BEGIN -->
 <body class="ecommerce">
-
+    
     <!-- BEGIN TOP BAR -->
     <div class="pre-header">
         <div class="container">
@@ -353,8 +353,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
       </div>
     </div>
     <!-- Header END -->
-
-    <div class="main">
+    <div ng-app="Lamaceta">
+    <div class="main" ng-controller="CtrlCarrito">
       <div class="container">
         <!-- BEGIN SIDEBAR & CONTENT -->
         <div class="row margin-bottom-40">
@@ -373,60 +373,41 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <th class="goods-page-price">Unit price</th>
                     <th class="goods-page-total" colspan="2">Total</th>
                   </tr>
-                  <tr>
-                    <td class="goods-page-image">
-                      <a href="javascript:;"><img src="assets/pages/img/products/model3.jpg" alt="Berry Lace Dress"></a>
-                    </td>
-                    <td class="goods-page-description">
-                      <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
-                      <p><strong>Item 1</strong> - Color: Green; Size: S</p>
-                      <em>More info is here</em>
-                    </td>
-                    <td class="goods-page-ref-no">
-                      javc2133
-                    </td>
-                    <td class="goods-page-quantity">
-                      <div class="product-quantity">
-                          <input id="product-quantity" type="text" value="1" readonly class="form-control input-sm">
-                      </div>
-                    </td>
-                    <td class="goods-page-price">
-                      <strong><span>$</span>47.00</strong>
-                    </td>
-                    <td class="goods-page-total">
-                      <strong><span>$</span>47.00</strong>
-                    </td>
-                    <td class="del-goods-col">
-                      <a class="del-goods" href="javascript:;">&nbsp;</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-image">
-                      <a href="javascript:;"><img src="assets/pages/img/products/model4.jpg" alt="Berry Lace Dress"></a>
-                    </td>
-                    <td class="goods-page-description">
-                      <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
-                      <p><strong>Item 1</strong> - Color: Green; Size: S</p>
-                      <em>More info is here</em>
-                    </td>
-                    <td class="goods-page-ref-no">
-                      javc2133
-                    </td>
-                    <td class="goods-page-quantity">
-                      <div class="product-quantity">
-                          <input id="product-quantity2" type="text" value="1" readonly class="form-control input-sm">
-                      </div>
-                    </td>
-                    <td class="goods-page-price">
-                      <strong><span>$</span>47.00</strong>
-                    </td>
-                    <td class="goods-page-total">
-                      <strong><span>$</span>47.00</strong>
-                    </td>
-                    <td class="del-goods-col">
-                      <a class="del-goods" href="javascript:;">&nbsp;</a>
-                    </td>
-                  </tr>
+                  <div>
+                    <tr ng-repeat="art in ContentCArt">
+                      <td class="goods-page-image">
+                        <a href="{{art.img}}" class="fancybox-button"><img ng-src="{{art.img}}" alt=""></a>
+                      </td>
+                      <td class="goods-page-description">
+                        <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
+                        <p><strong>Item {{$index}}</strong> - Color: Green; Size: S</p>
+                        <em>{{art.description}}</em>
+                      </td>
+                      <td class="goods-page-ref-no">
+                       {{art.id}}
+                      </td>
+                      <td class="goods-page-quantity">
+                        <div class="product-quantity">
+                            <input id="product-quantity{{$index}}" type="text" ng-model="art.quantity" readonly class="form-control input-sm" >
+                            <div class="btn quantity-up">
+                              <i class='fa fa-angle-up' ng-click="up($index)"></i>
+                            </div>
+                            <div class="btn quantity-down">
+                            <i class='fa fa-angle-down' ng-click="down($index)"></i>
+                            </div>
+                        </div>
+                      </td>
+                      <td class="goods-page-price">
+                        <strong><span>$</span>{{art.price | number:2}}</strong>
+                      </td>
+                      <td class="goods-page-total">
+                        <strong><span>$</span>{{(art.price * art.quantity) | number:2}}</strong>
+                      </td>
+                      <td class="del-goods-col">
+                        <a class="del-goods" ng-click="del($index)">&nbsp;</a>
+                      </td>
+                    </tr>
+                  </div>
                 </table>
                 </div>
 
@@ -551,6 +532,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
         </div>
         <!-- END SIMILAR PRODUCTS -->
       </div>
+    </div>
     </div>
 
     <!-- BEGIN STEPS -->
@@ -788,9 +770,10 @@ Nostrud duis molestie at dolore.</p>
             Layout.initOWL();
             Layout.initTwitter();
             Layout.initImageZoom();
-            Layout.initTouchspin();
+            //Layout.initTouchspin();
             Layout.initUniform();
             Layout.initSliderRange();
+
         });
     </script>
     <!-- END PAGE LEVEL JAVASCRIPTS -->
