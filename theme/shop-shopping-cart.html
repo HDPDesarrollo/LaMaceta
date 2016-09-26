@@ -410,8 +410,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                   </div>
                 </table>
                 </div>
-
-                <div class="shopping-total" ng-controller="CtrlCarrito">
+                
+                <div class="shopping-total">
                   <ul>
                     <li>
                       <em>Sub total</em>
@@ -429,7 +429,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                 </div>
               </div>
               <button class="btn btn-default" type="submit">Continue shopping <i class="fa fa-shopping-cart"></i></button>
-              <button class="btn btn-primary" type="submit">Checkout <i class="fa fa-check"></i></button>
+              <button class="btn btn-primary" type="submit" ng-disabled="acumulador <= 0">Checkout <i class="fa fa-check"></i></button>
             </div>
           </div>
           <!-- END CONTENT -->
