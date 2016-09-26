@@ -70,14 +70,12 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		angular.forEach($scope.ContentCArt, function(value, key){
 			if(key == index)
 			{
+				if($scope.DeleteId(value.id))
+				{
 				$scope.ContentCArt.splice(key,1);
 				$rootScope.acumulador = $scope.getTotal();
-				// if($scope.DeleteId(value.id))
-				// {
-				// $scope.ContentCArt.splice(key,1);
-				// $rootScope.acumulador = $scope.getTotal();
-				// return true;
-				// }
+				return true;
+				}
 			}
 		});
 		$scope.alerta("Intentelo mas tarde por favor.","danger");
