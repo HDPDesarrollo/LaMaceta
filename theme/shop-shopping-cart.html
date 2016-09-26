@@ -379,7 +379,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                         <a href="{{art.img}}" class="fancybox-button"><img ng-src="{{art.img}}" alt=""></a>
                       </td>
                       <td class="goods-page-description">
-                        <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
+                        <h3><a href="shop-item.html?id={{art.id}}">{{art.name}}</a></h3>
                         <p><strong>Item {{$index}}</strong> - Color: Green; Size: S</p>
                         <em>{{art.description}}</em>
                       </td>
@@ -398,10 +398,10 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                         </div>
                       </td>
                       <td class="goods-page-price">
-                        <strong><span>$</span>{{art.price | number:2}}</strong>
+                        <strong>{{art.price | currency}}</strong>
                       </td>
                       <td class="goods-page-total">
-                        <strong><span>$</span>{{(art.price * art.quantity) | number:2}}</strong>
+                        <strong>{{(art.price * art.quantity) | currency}}</strong>
                       </td>
                       <td class="del-goods-col">
                         <a class="del-goods" ng-click="del($index)">&nbsp;</a>
@@ -411,11 +411,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                 </table>
                 </div>
 
-                <div class="shopping-total">
+                <div class="shopping-total" ng-controller="CtrlCarrito">
                   <ul>
                     <li>
                       <em>Sub total</em>
-                      <strong class="price"><span>$</span>47.00</strong>
+                      <strong class="price">{{acumulador | currency}}</strong>
                     </li>
                     <li>
                       <em>Shipping cost</em>

@@ -1,4 +1,4 @@
-var ModuloBusqueda = angular.module('Lamaceta',['ngRoute',"ui.bootstrap"]);
+var ModuloBusqueda = angular.module('Lamaceta',[]);
 
 ModuloBusqueda.run(function($rootScope){
 	$rootScope.datosTraidos = [];

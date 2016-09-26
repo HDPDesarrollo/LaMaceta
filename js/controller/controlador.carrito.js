@@ -1,25 +1,10 @@
 var ModuleCarro = angular.module('Lamaceta', []);
 
-ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
+ModuleCarro.run(function($rootScope){
+	$rootScope.acumulador = 0;
+});
 
-	$scope.up = function(index){
-		angular.forEach($scope.ContentCArt, function(value, key){
-			if(key == index){
-				value.quantity = value.quantity + 1;
-			}
-		});
-	};
-
-	$scope.down = function(index){
-		angular.forEach($scope.ContentCArt, function(value, key){
-			if(key == index){
-				if(value.quantity != 0)
-				{
-					value.quantity = value.quantity - 1;
-				}
-			}
-		});
-	};
+ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 
 	$scope.ContentCArt = [{
 		name:"pantalon",
@@ -47,18 +32,56 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart){
 		precioT: 309.2
 	}];
 
+
+	$scope.getTotal = function(){
+		$scope.acu = 0;
+		angular.forEach($scope.ContentCArt, function(value, key){
+			$scope.acu = $scope.acu + (value.price * value.quantity);
+		});
+		return $scope.acu;
+	};
+
+	$rootScope.acumulador = $scope.getTotal();
+
+	$scope.up = function(index){
+		angular.forEach($scope.ContentCArt, function(value, key){
+			if(key == index){
+				value.quantity = value.quantity + 1;
+				$rootScope.acumulador = $scope.getTotal();
+				console.log($rootScope.acumulador);
+			}
+		});
+	};
+
+	$scope.down = function(index){
+		angular.forEach($scope.ContentCArt, function(value, key){
+			if(key == index){
+				if(value.quantity != 0)
+				{
+					value.quantity = value.quantity - 1;
+					$rootScope.acumulador = $scope.getTotal();
+				}
+			}
+		});
+	};
+
 	$scope.del = function(index){
 
 		angular.forEach($scope.ContentCArt, function(value, key){
 			if(key == index)
 			{
-				if($scope.DeleteId(value.id))
-				{
 				$scope.ContentCArt.splice(key,1);
-				}
+				$rootScope.acumulador = $scope.getTotal();
+				// if($scope.DeleteId(value.id))
+				// {
+				// $scope.ContentCArt.splice(key,1);
+				// $rootScope.acumulador = $scope.getTotal();
+				// return true;
+				// }
 			}
 		});
 		$scope.alerta("Intentelo mas tarde por favor.","danger");
+
 	};
 
 	$scope.alerts = [];

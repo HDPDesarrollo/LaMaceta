@@ -136,7 +136,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
         <div class="top-cart-block">
           <div class="top-cart-info">
             <a class="top-cart-info-count">{{ContentCArt.length}} item's</a>
-            <a class="top-cart-info-value">$1260</a>
+            <a class="top-cart-info-value">{{acumulador}}</a>
           </div>
           <i class="fa fa-shopping-cart"></i>
                         
@@ -148,7 +148,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                     <a href="shop-item.html"><img ng-src="{{art.img}}" alt="Rolex Classic Watch" width="37" height="34"></a>
                     <span class="cart-content-count">{{art.quantity}}</span>
                     <strong><a href="shop-item.html">{{art.name}}</a></strong>
-                    <em>$1230</em>
+                    <em>{{(art.quantity * art.price | number:2.0)}}</em>
                     <a ng-click="del($index)" class="del-goods">&nbsp;</a>
                   </li>
                 </div>
