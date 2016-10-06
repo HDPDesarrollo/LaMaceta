@@ -1,0 +1,123 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Descuentos</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+  </style>
+
+  <form id="discountModal"  enctype="multipart/form-data" name="discountForm" novalidate>
+
+  <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3">
+          <div class="form-group">
+                <label for="name">Descuento</label>
+                <input type="text" id="discount" name="discount" class="form-control" ng-model="discount.percentage"/>
+                <br>
+                <button class="btn btn-primary" type="button" ng-click="save(address)">Guardar</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+
+        <label for="table">Descuentos existentes</label>
+          <br>
+          <br>
+          <table ng-table="tableParams" class="table"><!--show-filter="true"-->
+              <tr ng-repeat="user in data1">
+                <td title="'%'">
+                  15</td>
+                <td title="'Estado'">
+                  ACTIVO</td>
+                <td class="del-goods-col">
+                     <a class="del-goods" href="javascript:;">&nbsp;</a>
+                     <a class="add-goods" href="javascript:;">&nbsp;</a>
+                </td>
+              </tr>
+          </table>
+
+      </div>
+        <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5">
+            <label for="table">Descuentos configurados</label>
+            <br>
+            <br>
+              <div class="search-box" ><!--alinear a la derecha-->
+                <form action="#">
+                  <div class="input-group">
+                    <input type="text" placeholder="Search" class="form-control">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary" type="submit">Buscar productos</button>
+                    </span>
+                  </div>
+                </form>
+              </div> 
+            <br>
+            <br>
+            <table ng-table="tableParams" class="table"><!--show-filter="true"-->
+                <tr ng-repeat="user in data1">
+                  <td title="'SKU'" style="width:500%">
+                      <div class="form-group">
+                        <select>
+                          <option><a>12345</a></option>              
+                          <option><a>56789</a></option>
+                        </select>
+                    </div>
+                  </td>
+                  <td title="'Producto'">
+                      <div class="form-group">
+                        <select>
+                          <option><a>Pantalon</a></option>              
+                          <option><a>Remera</a></option>
+                        </select>
+                    </div>
+                  </td>
+                  <td title="'....Color............'">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option><a>Todos</a></option> 
+                          <option><a>Amarillo</a></option>              
+                          <option><a>Blanco</a></option>
+                        </select>
+                    </div>
+                  </td>
+                  <td title="'....Talle............'">
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option><a>Todos</a></option> 
+                          <option><a>S</a></option>              
+                          <option><a>M</a></option>
+                        </select>
+                    </div>
+                  </td>
+                  <td title="'Descuento'">
+                    10%</td>
+                  <td class="del-goods-col">
+                       <a class="del-goods" href="javascript:;">&nbsp;</a>
+                       <a class="add-goods" href="javascript:;">&nbsp;</a>
+                  </td>
+                </tr>
+            </table>
+          </div> 
+
+      </div><!--row-->
+  
+  </div> 
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

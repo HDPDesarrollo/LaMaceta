@@ -1,0 +1,46 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Color</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="colorModal"  enctype="multipart/form-data" name="colorForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+            <div class="form-group">
+            <label for="color">Nombre Color <span class="require">*</span></label>
+            <input type="text" id="name" class="form-control" required>               
+              <span class="messages" ng-show="colorForm.$submitted || colorForm.color.$touched">
+                <span ng-show="colorForm.color.$error.required">El campo es obligatorio.</span>
+              </span>
+            </div>
+        </div>      
+        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3">
+          <label for="color">Seleccione Color <span class="require">*</span></label>
+          <input class="form-control" name="color" type="color" />
+       </div>
+    </div>  <!-- /.row -->  
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+
