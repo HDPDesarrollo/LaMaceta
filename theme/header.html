@@ -1,0 +1,201 @@
+<div class="pre-header navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+            <div class="col-md-6 col-sm-6 additional-nav padding-top-20">
+                    <ul class="list-unstyled list-inline">
+                        <li><a href="shop-account.html">My Account</a></li>
+                        <li><a href="shop-checkout.html">Checkout</a></li>
+                        <li><a href="page-login.html">Log In</a></li>
+                    </ul>
+                </div>
+                <!-- BEGIN TOP BAR LEFT PART -->
+                <div class="col-md-4 col-sm-4">
+                      <div class="search-box ">
+                        <form action="shop-product-list.html?query=">
+                          <div class="input-group">
+                            <input name="strbs" type="text" placeholder="Search" class="form-control">
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary" type="submit">Search</button>
+                            </span>
+                          </div>
+                        </form>
+                      </div> 
+                </div>
+                <!-- END TOP BAR LEFT PART -->
+
+                <!-- BEGIN TOP BAR MENU -->
+
+                
+                <!-- END TOP BAR MENU -->
+            </div>
+        </div>        
+    </div>
+    
+    <!-- BEGIN HEADER -->
+    <div class=" fix-body" ng-controller="CtrlCarrito">
+    
+    <div class="header">
+      <!-- Inicio alerta en error con la eliminacion de articulo en el carro -->
+        <script type="text/ng-template" id="alert.html">
+           <div ng-transclude></div>
+        </script>
+        <div class="row">
+          <div class="col-xs-offset-3 col-sm-offset-3 col-md-offset-4 col-lg-offset-3 col-xs-8 col-sm-8 col-md-6 col-lg-6">
+            <div ng-repeat="alert in alerts" class="alert alert-{{alert.type}}">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close" ng-click="closeAlert($index)">&times;</a>
+               <strong>Error en la operacion!</strong> {{alert.msg}}
+            </div>
+          </div>
+        </div>
+        <!-- Fin alerta del carro -->
+
+      <div class="container">
+        <a class="site-logo" href="shop-index.html"><img src="assets/corporate/img/logos/logo-shop-red.png" alt="Metronic Shop UI"></a>
+
+        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars" onclick="myfunc()">            
+        </i></a>
+
+        <!-- BEGIN CART -->
+        <div>
+        <div class="top-cart-block">
+          <div class="top-cart-info">
+            <a class="top-cart-info-count">{{ContentCArt.length}} item's</a>
+            <a class="top-cart-info-value">{{acumulador}}</a>
+          </div>
+          <i class="fa fa-shopping-cart"></i>
+                        
+          <div class="top-cart-content-wrapper">
+            <div class="top-cart-content">
+              <ul class="scroller" style="height: 250px;">
+              <div ng-hide="ContentCArt.length == 0">
+                <div ng-repeat="art in ContentCArt track by $index">
+                  <li>
+                    <a href="shop-item.html"><img ng-src="{{art.img}}" alt="Rolex Classic Watch" width="37" height="34"></a>
+                    <span class="cart-content-count">{{art.quantity}}</span>
+                    <strong><a href="shop-item.html">{{art.name}}</a></strong>
+                    <em>{{(art.quantity * art.price | number:2.0)}}</em>
+                    <a ng-click="del($index)" class="del-goods">&nbsp;</a>
+                  </li>
+                </div>
+                </div>
+                <div ng-show="ContentCArt.length == 0">
+                  <div class="col-md-12 col-sm-12">
+                      <h1>Carro de compras vacio!</h1>
+                   </div>
+                </div>
+              </ul>
+              <div class="text-right">
+                <a href="shop-shopping-cart.html" class="btn btn-default">View Cart</a>
+                <a href="shop-checkout.html" class="btn btn-primary">Checkout</a>
+              </div>
+            </div>
+          </div>            
+        </div>
+        </div>
+        <!--END CART -->
+
+        <!-- BEGIN NAVIGATION -->
+        <div class="header-navigation">
+          <ul>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                Woman 
+                
+              </a>
+                
+              <!-- BEGIN DROPDOWN MENU -->
+              <ul class="dropdown-menu">
+                <li class="dropdown-submenu">
+                  <a href="shop-product-list.html">Hi Tops <i class="fa fa-angle-right"></i></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="shop-product-list.html">Second Level Link</a></li>
+                    <li><a href="shop-product-list.html">Second Level Link</a></li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                        Second Level Link 
+                        <i class="fa fa-angle-right"></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="shop-product-list.html">Third Level Link</a></li>
+                        <li><a href="shop-product-list.html">Third Level Link</a></li>
+                        <li><a href="shop-product-list.html">Third Level Link</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="shop-product-list.html">Running Shoes</a></li>
+                <li><a href="shop-product-list.html">Jackets and Coats</a></li>
+              </ul>
+              <!-- END DROPDOWN MENU -->
+            </li>
+            <li class="dropdown dropdown-megamenu">
+              <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                Man
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <div class="header-navigation-content">
+                    <div class="row">
+                      <div class="col-md-4 header-navigation-col">
+                        <h4>Footwear</h4>
+                        <ul>
+                          <li><a href="shop-product-list.html">Astro Trainers</a></li>
+                          <li><a href="shop-product-list.html">Basketball Shoes</a></li>
+                          <li><a href="shop-product-list.html">Boots</a></li>
+                          <li><a href="shop-product-list.html">Canvas Shoes</a></li>
+                          <li><a href="shop-product-list.html">Football Boots</a></li>
+                          <li><a href="shop-product-list.html">Golf Shoes</a></li>
+                          <li><a href="shop-product-list.html">Hi Tops</a></li>
+                          <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md-4 header-navigation-col">
+                        <h4>Clothing</h4>
+                        <ul>
+                          <li><a href="shop-product-list.html">Base Layer</a></li>
+                          <li><a href="shop-product-list.html">Character</a></li>
+                          <li><a href="shop-product-list.html">Chinos</a></li>
+                          <li><a href="shop-product-list.html">Combats</a></li>
+                          <li><a href="shop-product-list.html">Cricket Clothing</a></li>
+                          <li><a href="shop-product-list.html">Fleeces</a></li>
+                          <li><a href="shop-product-list.html">Gilets</a></li>
+                          <li><a href="shop-product-list.html">Golf Tops</a></li>
+                        </ul>
+                      </div>
+                      <div class="col-md-4 header-navigation-col">
+                        <h4>Accessories</h4>
+                        <ul>
+                          <li><a href="shop-product-list.html">Belts</a></li>
+                          <li><a href="shop-product-list.html">Caps</a></li>
+                          <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>
+                        </ul>
+
+                        <h4>Clearance</h4>
+                        <ul>
+                          <li><a href="shop-product-list.html">Jackets</a></li>
+                          <li><a href="shop-product-list.html">Bottoms</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li><a href="shop-item.html">Kids</a></li>
+
+            <!-- BEGIN TOP SEARCH -->
+            
+            <!-- END TOP SEARCH -->
+          </ul>
+        </div>
+        <!-- END NAVIGATION -->
+      </div>
+    </div>
+    </div>
+    <!-- Header END -->
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            Layout.init();    
+        });
+    </script>

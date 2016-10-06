@@ -1,0 +1,84 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Talle</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="sizeModal"  enctype="multipart/form-data" name="sizeForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+       <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+                <label for="size">Nombre Talle<span class="require"> *</span></label>
+                <input type="text" id="street" name="size" class="form-control" ng-model="product.size" required/>
+                <span class="messages" ng-show="sizeForm.$submitted || sizeForm.name.$touched">
+                <span ng-show="sizeForm.size.$error.required">El campo es obligatorio.</span>
+                </span>
+        </div>
+      </div>
+    </div><!--row-->
+
+    <div class="row">
+      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="provider">Proveedor<span class="require"> *</span></label>
+            <select class="form-control">
+              <option><a>Proveedor1</a></option>              
+              <option><a>Proveedor2</a></option>
+            </select>
+        </div>
+      </div>
+    </div><!--row-->  
+    <br>
+
+    <table ng-table="tableParams" class="table"><!--show-filter="true"-->
+        <tr ng-repeat="user in data1">
+          <td title="'Talle'">
+            {{user.name}}
+          </td>
+          <td title="'Cuello'">
+            {{user.age}}</td>
+          <td title="'Pecho'">
+            {{user.age}}</td>
+          <td title="'Largo manga'">
+            {{user.age}}</td>
+          <td title="'Cintura'">
+            {{user.age}}</td>
+          <td title="'Cadera'">
+            {{user.age}}</td>
+          <td title="'Largo'">
+            {{user.age}}</td>
+          <td title="'Disponible'">
+           <center><div class="checkbox">
+              <label>
+                <input type="checkbox">
+              </label>
+            </div></center>
+          </td>
+        </tr>
+    </table>
+    </div>    
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

@@ -1,0 +1,71 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Usuario</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="userModal"  enctype="multipart/form-data" name="userForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+     <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label for="name">Nombre <span class="require">*</span></label>
+            <input type="text" id="name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="lastname">Apellido <span class="require">*</span></label>
+            <input type="text" id="lastname" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">E-Mail <span class="require">*</span></label>
+            <input type="text" id="email" class="form-control">
+          </div>
+          <h3>Contraseña</h3>
+          <div class="form-group">
+            <label for="password">Contraseña <span class="require">*</span></label>
+            <input type="password" id="password" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
+            <input type="text" id="password-confirm" class="form-control">
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label for="birthdate">Fecha de Nacimiento</label>
+            <input type="date" id="company" class="form-control">
+          </div>
+          <label for="gender">Genero</label>                     
+          <div class="checkbox">
+            <label>
+              <input type="checkbox">Masculino
+            </label>
+            <label>
+              <input type="checkbox">Femenino
+            </label>
+          </div>
+        </div>
+    </div>    
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

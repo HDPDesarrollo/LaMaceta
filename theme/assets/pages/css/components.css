@@ -34,6 +34,19 @@ input::-moz-focus-inner {
     border: 0;
 }
 
+@media (max-width: 768px)
+{
+    .fix-body{
+        padding-top: 10%;
+    }
+}
+
+@media (min-width: 768px){
+    .fix-body{
+    padding-top: 3%;
+}
+}
+
 /* Bootstrap buttons */
 .btn-primary {
     color: #fff;
