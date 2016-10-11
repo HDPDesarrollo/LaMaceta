@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sale
  *
- * @ORM\Table(name="sale", indexes={@ORM\Index(name="sale-user", columns={"id_user"})})
+ * @ORM\Table(name="sale", indexes={@ORM\Index(name="idx_sale_user", columns={"id_user"})})
  * @ORM\Entity
  */
 class Sale
@@ -29,9 +29,9 @@ class Sale
     public $active;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
     public $date;
 
@@ -45,14 +45,21 @@ class Sale
     /**
      * @var integer
      *
-     * @ORM\Column(name="discount", type="integer", nullable=false)
+     * @ORM\Column(name="discount", type="integer", nullable=true)
      */
     public $discount;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="sale_number", type="integer", nullable=false)
+     */
+    public $saleNumber;
+
+    /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * })
@@ -60,69 +67,152 @@ class Sale
     public $idUser;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Sale
+     */
+    public function setActive($active)
     {
-        $this->id = $id;
+        $this->active = $active;
+
         return $this;
     }
 
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
     public function getActive()
     {
         return $this->active;
     }
 
-    public function setActive($active)
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Sale
+     */
+    public function setDate($date)
     {
-        $this->active = $active;
+        $this->date = $date;
+
         return $this;
     }
 
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
     public function getDate()
     {
         return $this->date;
     }
 
-    public function setDate($date)
+    /**
+     * Set price
+     *
+     * @param float $price
+     * @return Sale
+     */
+    public function setPrice($price)
     {
-        $this->date = $date;
+        $this->price = $price;
+
         return $this;
     }
 
+    /**
+     * Get price
+     *
+     * @return float 
+     */
     public function getPrice()
     {
         return $this->price;
     }
 
-    public function setPrice($price)
+    /**
+     * Set discount
+     *
+     * @param integer $discount
+     * @return Sale
+     */
+    public function setDiscount($discount)
     {
-        $this->price = $price;
-        return $this;   
+        $this->discount = $discount;
+
+        return $this;
     }
 
+    /**
+     * Get discount
+     *
+     * @return integer 
+     */
     public function getDiscount()
     {
         return $this->discount;
     }
 
-    public function setDiscount($discount)
+    /**
+     * Set saleNumber
+     *
+     * @param integer $saleNumber
+     * @return Sale
+     */
+    public function setSaleNumber($saleNumber)
     {
-        $this->discount = $discount;
+        $this->saleNumber = $saleNumber;
+
         return $this;
     }
 
-    public function getIdUser()//---------ver si no devuelve el user completo
+    /**
+     * Get saleNumber
+     *
+     * @return integer 
+     */
+    public function getSaleNumber()
     {
-        return $this->idUser;
+        return $this->saleNumber;
     }
 
-    public function setIdUser($idUser)
+    /**
+     * Set idUser
+     *
+     * @param \User $idUser
+     * @return Sale
+     */
+    public function setIdUser(\User $idUser = null)
     {
         $this->idUser = $idUser;
+
         return $this;
+    }
+
+    /**
+     * Get idUser
+     *
+     * @return \User 
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
     }
 }

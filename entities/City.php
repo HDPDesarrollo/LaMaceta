@@ -7,10 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * City
  *
- * @ORM\Table(name="city", indexes={@ORM\Index(name="user-addr", columns={"id_address"})})
+ * @ORM\Table(name="city", indexes={@ORM\Index(name="idx_state", columns={"id_province"})})
  * @ORM\Entity
  */
-
 class City
 {
     /**
@@ -23,16 +22,16 @@ class City
     public $id;
 
     /**
-     * @var integer
+     * @var boolean
      *
-     * @ORM\Column(name="active", type="integer", nullable=false)
+     * @ORM\Column(name="active", type="boolean", nullable=false)
      */
     public $active;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
     public $name;
 
@@ -46,68 +45,114 @@ class City
     /**
      * @var \Province
      *
-     * @ORM\ManyToOne(targetEntity="Province", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Province")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_province", referencedColumnName="id")
      * })
      */
+    public $idProvince;
 
-    public $idProvince;    
 
 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return City
+     */
+    public function setActive($active)
     {
-        $this->id = $id;
+        $this->active = $active;
+
         return $this;
     }
 
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
     public function getActive()
     {
         return $this->active;
     }
 
-    public function setActive($active)
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return City
+     */
+    public function setName($name)
     {
-        $this->active = $active;
+        $this->name = $name;
+
         return $this;
     }
 
+    /**
+     * Get name
+     *
+     * @return string 
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setName($name)
+    /**
+     * Set zipCode
+     *
+     * @param integer $zipCode
+     * @return City
+     */
+    public function setZipCode($zipCode)
     {
-        $this->name = $name;
+        $this->zipCode = $zipCode;
+
         return $this;
     }
 
+    /**
+     * Get zipCode
+     *
+     * @return integer 
+     */
     public function getZipCode()
     {
         return $this->zipCode;
     }
 
-    public function setZipCode($zipCode)
+    /**
+     * Set idProvince
+     *
+     * @param \Province $idProvince
+     * @return City
+     */
+    public function setIdProvince(\Province $idProvince = null)
     {
-        $this->zipCode = $zipCode;
+        $this->idProvince = $idProvince;
+
         return $this;
     }
 
+    /**
+     * Get idProvince
+     *
+     * @return \Province 
+     */
     public function getIdProvince()
     {
         return $this->idProvince;
     }
-
-    public function setIdProvince($idProvince)
-    {
-        $this->idProvince = $idProvince;
-        return $this;
-    }
-   
 }
