@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ArticleDiscount
  *
- * @ORM\Table(name="article_discount", indexes={@ORM\Index(name="fk_article_idx", columns={"id_article"}), @ORM\Index(name="fk_discount_idx", columns={"id_discount"})})
+ * @ORM\Table(name="article_discount", indexes={@ORM\Index(name="idx_article", columns={"id_article"}), @ORM\Index(name="idx_discount", columns={"id_discount"})})
  * @ORM\Entity
  */
 class ArticleDiscount
@@ -19,7 +19,7 @@ class ArticleDiscount
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var \Article
@@ -29,7 +29,7 @@ class ArticleDiscount
      *   @ORM\JoinColumn(name="id_article", referencedColumnName="id")
      * })
      */
-    private $idArticle;
+    public $idArticle;
 
     /**
      * @var \Discount
@@ -39,7 +39,63 @@ class ArticleDiscount
      *   @ORM\JoinColumn(name="id_discount", referencedColumnName="id")
      * })
      */
-    private $idDiscount;
+    public $idDiscount;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idArticle
+     *
+     * @param \Article $idArticle
+     * @return ArticleDiscount
+     */
+    public function setIdArticle(\Article $idArticle = null)
+    {
+        $this->idArticle = $idArticle;
+
+        return $this;
+    }
+
+    /**
+     * Get idArticle
+     *
+     * @return \Article 
+     */
+    public function getIdArticle()
+    {
+        return $this->idArticle;
+    }
+
+    /**
+     * Set idDiscount
+     *
+     * @param \Discount $idDiscount
+     * @return ArticleDiscount
+     */
+    public function setIdDiscount(\Discount $idDiscount = null)
+    {
+        $this->idDiscount = $idDiscount;
+
+        return $this;
+    }
+
+    /**
+     * Get idDiscount
+     *
+     * @return \Discount 
+     */
+    public function getIdDiscount()
+    {
+        return $this->idDiscount;
+    }
 }
