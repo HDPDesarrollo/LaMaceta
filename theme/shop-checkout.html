@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
 <!--
 Template: Metronic Frontend Freebie - Responsive HTML Template Based On Twitter Bootstrap 3.3.4
 Version: 1.0.0
@@ -71,7 +71,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
        </div>
        <!-- FIN VISTA HEADER -->
 
-    <div class="main">
+    <div class="main" ng-init="ConfimOrder()">
       <div class="container">
         <ul class="breadcrumb">
             <li><a href="index.html">Home</a></li>
@@ -449,7 +449,8 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                             </ul>
                           </div>
                           <div class="clearfix"></div>
-                          <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="ConfimOrder()">Confirmar Orden</button>
+                          <a ng-click="openUrl(urlPay)">
+                          <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ">Confirmar Orden</button></a>
                         </div>
                       </div>
                     </div>
@@ -501,12 +502,12 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             Layout.initTouchspin();
             Layout.initUniform();
             Checkout.init();
+           
         });
     </script>
     <!-- END PAGE LEVEL JAVASCRIPTS -->
     <!-- Angular -->
     <script type="text/javascript" src="../bower_components/angular/angular.js"></script>
-    <script src="../js/controller/OrdenController.js"></script>
     <script src="../js/controller/controlador.carrito.js"></script>
     <script src="../js/service/service.carrito.js"></script>
 </body>

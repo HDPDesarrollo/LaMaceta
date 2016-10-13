@@ -4,7 +4,7 @@ ModuleCarro.run(function($rootScope){
 	$rootScope.acumulador = 0;
 });
 
-ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
+ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$location){
 
 	$scope.ContentCArt = [{
 		name:"pantalon",
@@ -21,6 +21,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		price: 154.6,
 		id:12,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
+		description: "soy otra descripcion de la prenda",
 		precioT: 309.2
 	}/*,
 	{
@@ -147,9 +148,17 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 
 	$scope.ConfimOrder = function(){
 		ServiceCart.ConfOrden($scope.ContentCArt,$scope.Shipping).then(function(rst){
-			alert(rst);
+			$rootScope.urlPay = rst;
+			return rst;
 		})
 	};
+
+	$rootScope.urlPay = $scope.ConfimOrder();
+
+	$scope.openUrl = function(url){
+		window.open(url);
+	}
+
 
 	/*$scope.ViewModal = function () {
     var modalInstance = $modal.open({

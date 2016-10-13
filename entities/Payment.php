@@ -6,23 +6,23 @@ $mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
 $DatosPorPost = file_get_contents("php://input");
 $dato = json_decode($DatosPorPost);
 
-/*function ItemsToArray($dato){
+function ItemsToArray($dato){
 	$arrayItem = array();
-	for ($i=0; $i < count($dato->art); $i++){
+	for ($i=0; $i <= count($dato->art)-1; $i++){
 				$arrayItem += array(
-					"id" => $dato->art[i]->id,
+					"id" => $dato->art[$i]->id,
 					"currency_id" => "ARG",
-					"picture_url" => $dato->art[i]->img,
-					"description" =>$dato->art[i]->description,
-					"quantity" => $dato->art[i]->quantity,
-					"unit_price" =>  $dato->art[i]->price
+					"picture_url" => $dato->art[$i]->img,
+					"description" =>$dato->art[$i]->description,
+					"quantity" => $dato->art[$i]->quantity,
+					"unit_price" =>  $dato->art[$i]->price
 					);
 			}
 	return $arrayItem;
-}*/
+}
 
 $preference_data = array(
-		"items" => $dato->art,
+		"items" => array(ItemsToArray($dato)),
 		"payer" => array(
 			"name" => $dato->ShipInf[0]->name,
 			"surname" => $dato->ShipInf[0]->surname,
@@ -45,5 +45,6 @@ $preference_data = array(
 
 $preference = $mp->create_preference($preference_data);
 
-echo json_encode($preference["response"]["sandbox_init_point"]);
+echo $preference["response"]["sandbox_init_point"];
+
  ?>
