@@ -1,4 +1,4 @@
-var app = angular.module('Lamaceta');
+var app = angular.module('LaMaceta');
 
 app.service('ServiceCart', ['$http', function($http,producto){
 	
@@ -30,6 +30,8 @@ app.service('ServiceCart', ['$http', function($http,producto){
 		return SendHttp("./modulos/carrito/carrito.GetDeleteAll.php",{data:getAll});
 	};
 
-
-
+	this.ConfOrden = function(Carrito,CostoEnvio){
+		return SendHttp("../entities/Payment.php",{art:Carrito,ShipInf:CostoEnvio});
+	}
+	
 }]);

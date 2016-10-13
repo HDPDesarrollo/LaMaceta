@@ -1,4 +1,4 @@
-var ModuleCarro = angular.module('Lamaceta', []);
+var ModuleCarro = angular.module('LaMaceta', []);
 
 ModuleCarro.run(function($rootScope){
 	$rootScope.acumulador = 0;
@@ -22,7 +22,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		id:12,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
 		precioT: 309.2
-	},
+	}/*,
 	{
 		name:"Campera roja",
 		quantity: 2,
@@ -30,8 +30,18 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		id:789,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
 		precioT: 309.2
-	}];
+	}*/];
 
+	$scope.Shipping = [{
+		name:"Pepito",
+		surname:"Perez",
+		email:"pepitoPerez@lala.com",
+		dni:"35761754",
+		address:{
+			street:"calle falsa",
+			number:"123",
+			zipCode:"1452"}
+	}];
 
 	$scope.getTotal = function(){
 		$scope.acu = 0;
@@ -79,20 +89,17 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 			}
 		});
 		$scope.alerta("Intentelo mas tarde por favor.","danger");
-
 	};
 
 	$scope.alerts = [];
 
 	$scope.alerta = function(msg,type){
 		$scope.alerts.push({msg:msg,type:type});
-
 	};
 
-	$scope.closeAlert = function(index) {
+	$scope.closeAlert = function(index){
     $scope.alerts.splice(index, 1);
   		};
-
 
 	$scope.GetStockById = function(id){
 		ServiceCart.GetStock(id).then(function(rst){
@@ -100,12 +107,10 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		})
 		.catch(function(error){
 			return error;
-		})
-		
+		})	
 	};
 
-	$scope.DeleteId = function(id){
-		
+	$scope.DeleteId = function(id){		
 		var rstDel = ServiceCart.DeletePerId(id).then(function(rst){
 			if(rst){
 				return true;
@@ -115,8 +120,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		})
 		.catch(function(error){
 			return error;
-		})
-		
+		})	
 	};
 
 	$scope.EmptyCart = function(){
@@ -129,19 +133,23 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope){
 		})
 	};
 
-	$scope.abrir = function(id,cantidad)
-	{
+	$scope.abrir = function(id,cantidad){
 		if(this.AddToCart(id,cantidad)){
 			this.ViewModal();
 		}
 	};
 
-	$scope.GetCart = function()
-	{
+	$scope.GetCart = function(){
 		ServiceCart.GetAll().then(function(rst){
 			$scope.ContentCArt.push(rst);
 		});
 	}
+
+	$scope.ConfimOrder = function(){
+		ServiceCart.ConfOrden($scope.ContentCArt,$scope.Shipping).then(function(rst){
+			alert(rst);
+		})
+	};
 
 	/*$scope.ViewModal = function () {
     var modalInstance = $modal.open({

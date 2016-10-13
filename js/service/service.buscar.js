@@ -1,4 +1,4 @@
-var servicio = angular.module('Lamaceta');
+var servicio = angular.module('LaMaceta');
 
 servicio.service('ServicioBuscar', function($http){
 	this.EnviarCadena = function(cadena){

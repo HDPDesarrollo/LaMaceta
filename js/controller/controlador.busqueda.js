@@ -1,4 +1,4 @@
-var ModuloBusqueda = angular.module('Lamaceta',[]);
+var ModuloBusqueda = angular.module('LaMaceta',[]);
 
 ModuloBusqueda.run(function($rootScope){
 	$rootScope.datosTraidos = [];
