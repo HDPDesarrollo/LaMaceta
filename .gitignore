@@ -1,3 +1,3 @@
-cli-config.php
-config.php
-doctrine-cfg.php
+**/cli-config.php
+**/config.php
+**/doctrine-cfg.php
