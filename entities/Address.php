@@ -98,6 +98,18 @@ class Address
     public $idUser;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Address
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

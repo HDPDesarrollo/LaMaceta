@@ -7,8 +7,8 @@
   <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
   <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
-  <script src="../js/controllers/AdminController.js"></script>
-  <script src="../js/services/AdminService.js"></script>
+  <script src="../js/controller/AdminController.js"></script>
+  <script src="../js/service/AdminService.js"></script>
 
 
   <meta charset="utf-8">
@@ -104,7 +104,7 @@
                     <th >Tipo de Usuario</th>
                     <th >Estado</th>
                   </tr>
-                  <tr ng-repeat="user in users  | filter:{active:true} track by $index">
+                  <tr ng-repeat="user in users track by $index">
                       <td >
                         <h3>{{user.surname}}, {{user.name}}</h3>
                         <p>{{user.email}}</p>
@@ -117,7 +117,7 @@
                            <span ng-if="user.active == true">
                              ACTIVO
                            </span>
-                           <span ng-if="user.active != true">
+                           <span ng-if="user.active == false">
                              INACTIVO
                            </span>
                         </p>
@@ -131,6 +131,8 @@
                           <ul class="dropdown-menu" aria-labelledby="userActions">
                             <li><a ng-click="openEditUserTypeModal(user)">Cambiar Tipo</a></li>
                             <li role="separator" class="divider"></li>
+                            <li><a ng-click="openEditUser(user)">Editar</a></li>
+                            <li role="separator" class="divider"></li>
                             <li><a ng-click="removeUser(user)">Eliminar</a></li>
                           </ul>
                         </div>
@@ -143,37 +145,104 @@
           </div> <!---ng-show-->  
         <div ng-show="selectedTab=='products'">
             <h1>PRODUCTOS</h1>
-            <div align="right"><button type="submit" class="btn btn-primary" ng-click="openProductModal()">Agregar Producto</button></div>
+            <div align="right"><button type="submit" class="btn btn-primary" ng-click="openArticleModal()">Agregar Producto</button></div>
             </br>
             <div class="goods-page">
               <div class="goods-data clearfix">
                 <div class="table-wrapper-responsive">
-                                <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">SKU</th>
-                    <th class="goods-page-description">Descripcion</th>
-                    <th class="goods-page-description">Stock</th>
-                    <th class="goods-page-price" colspan="2">Precio</th>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      1234
+                <table ng-table="defaultConfigTableParams" class="table table-condensed table-bordered table-striped">
+                  <tr ng-repeat="row in $data">
+                    <td data-title="'Nro. Prod'" class="goods-page-ref-no" ><!-- filter="{sku: 'text'}"-->
+                        <p>{{row.id}}</p>
                     </td>
-                    <td class="goods-page-description">
-                      <p><strong><a>Pantalon</a></strong> - Color: Verde; Talle: S;</p>
+                    <td data-title="'Estado'" filter="{prodActive: 'select'}" filter-data="productStatus">
+                        <p>
+                           <span ng-if="row.prodActive == true">
+                             ACTIVO
+                           </span>
+                           <span ng-if="row.prodActive == false">
+                             INACTIVO
+                           </span>
+                        </p>
                     </td>
-                    <td class="goods-page-stock">
-                      15
+                    <td data-title="'Producto'" filter="{description: 'text'}">
+                        <p>{{row.description}}</p>
                     </td>
-                    <td class="goods-page-price">
-                      <strong><span>$</span>100.00</strong>
+                    <td data-title="'Descripcion'"">
+                      <button type="submit" class="btn btn-primary" ng-click="openDetailProductModal(row.products)">Ver / Editar Detalles</button>
                     </td>
-                      <td class="del-goods-col">
-                        <a class="del-goods" href="">&nbsp;</a>
-                        <a class="add-goods" href="" ng-click="openEditProductModal(product)">&nbsp;</a>
-                      </td>
+                    <td data-title="'Acciones'">
+                      <div class="dropdown">
+                        <button class="btn btn-primary" type="button" id="ProductActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                          Acciones
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="ProductActions">
+                          <li><a ng-click="openEditArticleModal(row)">Editar</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a ng-click="removeArticle(row)">Eliminar</a></li>
+                        </ul>
+                      </div>
+                    </td>
+
+
                   </tr>
                 </table>
+                <!--<table summary="Shopping cart">
+                  <tr>
+                    <th class="goods-page-ref-no">SKU</th>
+                    <th class="goods-page-description">Descripcion</th>
+                    <th class="goods-page-quantity">Stock</th>
+                    <th class="goods-page-quantity">Min Stock</th>
+                    <th class="goods-page-description">Estado</th>
+                    <th class="goods-page-price" colspan="2">Precio</th>
+
+                  </tr>
+                  <tr ng-repeat="article in articles track by $index">
+                      <td class="goods-page-ref-no">
+                        <p>{{article.sku}}</p>
+                      </td>
+                      <td >
+                        <p>{{article.description}} - {{article.color}} - {{article.size}}</p>
+                      </td>
+                    <td class="goods-page-quantity">
+                      <div class="product-quantity">
+                          <input id="product-quantity" type="text" value="{{article.stock}}" readonly class="form-control input-sm">
+                      </div>
+                    </td>
+                    <td class="goods-page-quantity">
+                      <div class="product-quantity">
+                          <input id="product-quantity" type="text" value="{{article.minStock}}" readonly class="form-control input-sm">
+                      </div>
+                    </td>
+                      <td >
+                        <p>
+                           <span ng-if="article.active == true">
+                             ACTIVO
+                           </span>
+                           <span ng-if="article.active == false">
+                             INACTIVO
+                           </span>
+                        </p>
+                      </td>
+                      <td class="goods-page-price">
+                        <strong><span>$</span>{{article.price}}</strong>
+                      </td>
+                      <td >
+                        <div class="dropdown">
+                          <button class="btn btn-primary" type="button" id="ProductActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Acciones
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="ProductActions">
+                            <li><a ng-click="openEditArticleModal(article)">Editar</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a ng-click="removeArticle(article)">Eliminar</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                  </tr>
+                </table>-->
                 </div>
               </div>
             </div>

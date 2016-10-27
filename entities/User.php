@@ -80,14 +80,25 @@ class User
     /**
      * @var \UserType
      *
-     * @ORM\ManyToOne(targetEntity="UserType")
+     * @ORM\ManyToOne(targetEntity="UserType", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user_type", referencedColumnName="id")
      * })
      */
     public $idUserType;
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return User
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
+        return $this;
+    }
 
     /**
      * Get id
@@ -111,6 +122,7 @@ class User
 
         return $this;
     }
+
 
     /**
      * Get active

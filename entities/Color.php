@@ -43,6 +43,18 @@ class Color
     public $rgb;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Color
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

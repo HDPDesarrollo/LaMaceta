@@ -35,7 +35,18 @@ class Size
      */
     public $size;
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Size
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
+        return $this;
+    }
 
     /**
      * Get id

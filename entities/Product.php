@@ -43,6 +43,18 @@ class Product
     public $description;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Product
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

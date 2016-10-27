@@ -22,50 +22,79 @@
 
   <form id="userModal"  enctype="multipart/form-data" name="userForm" novalidate>
     <div layout="column" layout-align="space-around center">
-     <div class="col-md-6 col-sm-6">
-          <div class="form-group">
-            <label for="name">Nombre <span class="require">*</span></label>
-            <input type="text" id="name" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="lastname">Apellido <span class="require">*</span></label>
-            <input type="text" id="lastname" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="email">E-Mail <span class="require">*</span></label>
-            <input type="text" id="email" class="form-control">
-          </div>
-          <h3>Contraseña</h3>
-          <div class="form-group">
-            <label for="password">Contraseña <span class="require">*</span></label>
-            <input type="password" id="password" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
-            <input type="text" id="password-confirm" class="form-control">
-          </div>
-        </div>
-
+      <div class="row">
         <div class="col-md-6 col-sm-6">
-          <div class="form-group">
-            <label for="birthdate">Fecha de Nacimiento</label>
-            <input type="date" id="company" class="form-control">
-          </div>
-          <label for="gender">Genero</label>                     
-          <div class="checkbox">
-            <label>
-              <input type="checkbox">Masculino
-            </label>
-            <label>
-              <input type="checkbox">Femenino
-            </label>
-          </div>
+                  <div class="form-group">
+                    <label for="name">Nombre <span class="require">*</span></label>
+                    <input type="text" id="name" name="name" class="form-control" ng-model="user.name" required>
+                      <span class="messages" ng-show="userForm.$submitted || userForm.name.$touched">
+                      <span ng-show="userForm.name.$error.required">El campo es obligatorio.</span>
+                      </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="surname">Apellido <span class="require">*</span></label>
+                    <input type="text" id="surname" name="surname" class="form-control" ng-model="user.surname" required>
+                      <span class="messages" ng-show="userForm.$submitted || userForm.surname.$touched">
+                      <span ng-show="userForm.surname.$error.required">El campo es obligatorio.</span>
+                      </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">E-Mail <span class="require">*</span></label>
+                    <input type="text" id="email" name="email" class="form-control" ng-model="user.email" required>
+                      <span class="messages" ng-show="userForm.$submitted || userForm.email.$touched">
+                      <span ng-show="userForm.email.$error.required">El campo es obligatorio.</span>
+                      </span>
+                  </div>
+                <h3>Contraseña</h3>
+                    <div class="form-group">
+                      <label for="password">Contraseña <span class="require">*</span></label>
+                      <input type="password" id="password" name="password" class="form-control" ng-model="user.password" required>
+                        <span class="messages" ng-show="userForm.$submitted || userForm.password.$touched">
+                        <span ng-show="userForm.password.$error.required">El campo es obligatorio.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
+                      <input type="password" id="password-confirm" name="password" class="form-control" ng-model="user.password" required>
+                        <span class="messages" ng-show="userForm.$submitted || userForm.password.$touched">
+                        <span ng-show="userForm.password.$error.required">El campo es obligatorio.</span>
+                        </span>
+                    </div>
+            </div>
+
+              <div class="col-md-6 col-sm-6">
+                 <!-- <div class="form-group">
+                    <label for="birthdate">Fecha de Nacimiento</label>
+                    <input type="date" id="company" name="birthdate" class="form-control" ng-model="user.birthDate">
+                  </div>-->
+                  <div class="form-group">
+                    <label for="gender">Genero</label> </br>                    
+                    <label>
+                      <input type="radio" ng-model="user.gender" value="Masculino">
+                      Masculino
+                    </label>
+                    <label>
+                      <input type="radio" ng-model="user.gender" value="Femenino">
+                      Femenino
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label for="idUserType">Tipo de Usuario<span class="require"> *</span></label>
+                    <select class="form-control" id="idUserType" ng-model="user.idUserType" name="idUserType" 
+                    ng-options="userType as userType.type for userType in userTypes track by userType.id"    
+                     required>
+                    </select>
+                      <span class="messages" ng-show="userForm.$submitted || userForm.idUserType.$touched">
+                      <span ng-show="userForm.idUserType.$error.required">El campo es obligatorio.</span>
+                      </span>
+                  </div>
+            </div>
         </div>
-    </div>    
+      </div>  
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-primary" type="button" ng-click="save(user)" ng-disabled="userForm.$invalid">Guardar</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>
 

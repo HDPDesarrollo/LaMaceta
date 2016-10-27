@@ -25,13 +25,13 @@
       <div class="row">
         <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
             <div class="form-group">
-              <label for="userType">Tipo de Usuario<span class="require"> *</span></label>
-              <select class="form-control" id="userType" ng-model="user.userType" name="userType"              
-               required>
-                <option ng-repeat="province in provinces track by $index">{{province.name}}</option>
-              </select>
-              <span class="messages" ng-show="UserTypeForm.$submitted || UserTypeForm.userType.$touched">
-                <span ng-show="UserTypeForm.userType.$error.required">El campo es obligatorio.</span>
+              <label for="idUserType">Tipo de Usuario<span class="require"> *</span></label>
+                    <select class="form-control" id="idUserType" ng-model="user.idUserType" name="idUserType" 
+                    ng-options="userType as userType.type for userType in userTypes track by userType.id"    
+                     required>
+                    </select>
+              <span class="messages" ng-show="UserTypeForm.$submitted || UserTypeForm.idUserType.$touched">
+                <span ng-show="UserTypeForm.idUserType.$error.required">El campo es obligatorio.</span>
               </span>
             </div>
         </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
@@ -40,7 +40,7 @@
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save(userType)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-primary" type="button" ng-click="save(user)" ng-disabled="addressForm.$invalid">Guardar</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>
 

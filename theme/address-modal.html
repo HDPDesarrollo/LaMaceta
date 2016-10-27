@@ -83,10 +83,9 @@
         <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
             <div class="form-group">
               <label for="province">Provincia<span class="require"> *</span></label>
-              <select class="form-control" id="province" ng-model="address.province" name="province"              
-               required><!--ng-options="province as province.name for province in provinces track by province.id"-->
-                <!--<option value="">--Seleccione provincia--</option>-->
-                <option ng-repeat="province in provinces track by $index">{{province.name}}</option>
+              <select class="form-control" id="province" ng-model="address.province" name="province" 
+              ng-options="province as province.name for province in provinces track by province.id"           
+               required>
               </select>
               <span class="messages" ng-show="addressForm.$submitted || addressForm.province.$touched">
                 <span ng-show="addressForm.province.$error.required">El campo es obligatorio.</span>
@@ -113,7 +112,7 @@
       <div class="row">
         <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
           <div class="form-group">
-            <label for="phone">Teléfono Celular<span class="require"> *</span></label>
+            <label for="phone">Teléfono</label>
               <input type="text" class="form-control" ng-pattern="/^[0-9]+$/"
               ng-model="address.phone" name="phone" ng-minlength="8"/>
           </div>

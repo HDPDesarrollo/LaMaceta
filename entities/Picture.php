@@ -52,7 +52,18 @@ class Picture
      */
     public $idProd;
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Picture
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
+        return $this;
+    }
 
     /**
      * Get id

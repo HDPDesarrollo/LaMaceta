@@ -94,6 +94,18 @@ class Article
     public $idSize;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Article
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

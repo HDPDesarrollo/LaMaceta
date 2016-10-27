@@ -308,6 +308,7 @@ a:hover {
 }
 
 .del-goods:hover,
+.upd-goods:hover,
 .add-goods:hover {
   background-color: #85CA63;
 }

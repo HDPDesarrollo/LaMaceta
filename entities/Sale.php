@@ -66,7 +66,18 @@ class Sale
      */
     public $idUser;
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Sale
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
+        return $this;
+    }
 
     /**
      * Get id

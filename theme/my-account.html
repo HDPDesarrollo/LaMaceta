@@ -6,8 +6,8 @@
   <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
-  <script src="../js/controllers/AccountController.js"></script>
-  <script src="../js/services/AccountService.js"></script>
+  <script src="../js/controller/AccountController.js"></script>
+  <script src="../js/service/AccountService.js"></script>
 
 
   <meta charset="utf-8">
@@ -99,8 +99,8 @@
                   <tr ng-repeat="address in addresses  | filter:{active:true} track by $index">
                       <td >
                         <h3>{{address.street}} {{address.number}}</h3>
-                        <p>{{address.idCity.name}} - C.P.: {{address.zipCode}}</p>
-                        <em>{{address.idCity.idProvince.name}}</em>
+                        <p>{{address.city}} - C.P.: {{address.zipCode}}</p>
+                        <em>{{address.idProvince.name}}</em>
                       </td>
                       <td >
                         <p>{{address.phone}}</p>
@@ -108,8 +108,8 @@
                       </td>
                       </td>
                       <td class="del-goods-col">
-                        <a class="del-goods" href="">&nbsp;</a>
-                        <a class="add-goods" href="" ng-click="openEditAddressModal(address)">&nbsp;</a>
+                        <a class="del-goods" href="" ng-click="removeAddress(address)">&nbsp;</a>
+                        <a class="upd-goods" href="" ng-click="editAddressModal(address)">&nbsp;</a>
                       </td>
                   </tr>
                 </table>
@@ -122,34 +122,67 @@
             <div class="goods-page">
               <div class="goods-data clearfix">
                 <div class="table-wrapper-responsive">
-                                <table summary="Shopping cart">
+                  <table summary="Shopping cart">
                   <tr>
-                    <th class="goods-page-description">Nro. Compra</th>
+                    <th class="goods-page-description">Nro.</th>
                     <th class="goods-page-description">Descripcion</th>
                     <th class="goods-page-description">Fecha</th>
                     <th class="goods-page-description">Estado</th>
                     <th class="goods-page-price" colspan="2">Monto total</th>
                   </tr>
-                  <tr>
+                  <tr ng-repeat="purchase in myPurchases track by $index">
                     <td class="goods-page-description">
-                      1234
-                    </td>
-                    <td class="goods-page-description">
-                      <p><strong><a>Item 1</a></strong> - Color: Verde; Talle: S; Cantidad: 1</p>
-                      <p><strong><a>Item 2</a></strong> - Color: Azul;  Talle: X; Cantidad: 5</p>
+                      {{purchase.saleNumber}} 
+                    </td>                    
+                    <td class="goods-page-description" >
+                      <accordion>
+                          <accordion-group>
+                            <accordion-heading >
+                              Ver Detalle
+                            </accordion-heading>
+                          <div class="panel-body">
+                              <table style="border-collapse: separate; border-spacing: 10px;">
+                               <tr>
+                                <th class="goods-page-description">Item</th>
+                                <th class="goods-page-description">Color</th>
+                                <th class="goods-page-description">Talle</th>
+                                <th class="goods-page-description">Cant.</th>
+                                <th class="goods-page-description">Precio Unit.</th>
+                              </tr>
+                              <tr ng-repeat="detail in purchase.description track by $index">
+                                  <td class="goods-page-description">
+                                    <strong><a>{{detail.name}}</a></strong>
+                                  </td> 
+                                  <td class="goods-page-description">
+                                    {{detail.color}}
+                                  </td> 
+                                  <td class="goods-page-description">
+                                    {{detail.size}} 
+                                  </td> 
+                                  <td class="goods-page-description">
+                                    {{detail.quantity}}
+                                  </td> 
+                                  <td class="goods-page-description">
+                                    ${{detail.unitPrice}}
+                                  </td> 
+                              </tr>
+                            </table>
+                          </div>
+                          </accordion-group>
+                        </accordion>
                     </td>
                     <td class="goods-page-stock">
-                      15/10/2016
+                      {{purchase.date.split(" ")[0]}}
                     </td>
                     <td class="goods-page-stock">
-                      Aceptada
+                      {{purchase.state}}
+                        <!--<select ng-options="item as item.description for item in purchaseStates track by item.id" ng-model="purchase[0].idState"></select>-->
                     </td>
                     <td class="goods-page-price">
-                      <strong><span>$</span>500.00</strong>
+                      <strong><span>$</span>{{purchase.totalAmount}}</strong>
                     </td>
-                    <td class="del-goods-col">
-                     <!-- <a class="del-goods" href="javascript:;">&nbsp;</a> btnDetalle???
-                      <a class="add-goods" href="javascript:;">&nbsp;</a>-->
+                    <td class="del-goods-col">                        
+                        <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="cancelPurchase(purchase)" ng-disabled="allowedCancelPurchase(purchase)">Cancelar</button>  
                     </td>
                   </tr>
                 </table>
@@ -163,31 +196,31 @@
                     <div class="col-md-6 col-sm-6">
                       <div class="form-group">
                         <label for="name">Nombre <span class="require">*</span></label>
-                        <input type="text" id="name" class="form-control">
+                        <input type="text" id="name" class="form-control" ng-model="user.name">
                       </div>
                       <div class="form-group">
                         <label for="lastname">Apellido <span class="require">*</span></label>
-                        <input type="text" id="lastname" class="form-control">
+                        <input type="text" id="lastname" class="form-control" ng-model="user.surname">
                       </div>
                       <div class="form-group">
                         <label for="email">E-Mail <span class="require">*</span></label>
-                        <input type="text" id="email" class="form-control">
+                        <input type="text" id="email" class="form-control" ng-model="user.email">
                       </div>
                       <h3>Contraseña</h3>
                       <div class="form-group">
                         <label for="password">Contraseña <span class="require">*</span></label>
-                        <input type="password" id="password" class="form-control">
+                        <input type="password" id="password" class="form-control" ng-model="user.password">
                       </div>
                       <div class="form-group">
                         <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
-                        <input type="text" id="password-confirm" class="form-control">
+                        <input type="password" id="password-confirm" class="form-control" ng-model="user.password">
                       </div>
                     </div>
 
                     <div class="col-md-6 col-sm-6">
                       <div class="form-group">
                         <label for="birthdate">Fecha de Nacimiento</label>
-                        <input type="date" id="company" class="form-control">
+                        <input type="date" id="company" class="form-control" ng-model="user.birthdateate">
                       </div>
                       <label for="gender">Genero</label>                     
                       <div class="checkbox">
@@ -200,8 +233,9 @@
                       </div>
                     </div>
                     <hr>
-                    <div class="col-md-12">                      
-                      <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse" data-parent="#checkout-page" data-target="#shipping-address-content" id="button-payment-address">Guardar</button>                      
+                    <div class="col-md-12">   
+                      <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="updateProfile(user)" >Guardar</button>
+                      <button type="button" class="btn btn-default pull-right margin-right-20" ng-click="cancelUpdateProfile()">Cancelar</button>   
                     </div>
                   </div>
           </div> <!---ng-show--> 

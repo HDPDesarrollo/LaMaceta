@@ -41,6 +41,18 @@ class ArticleDiscount
      */
     public $idDiscount;
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return ArticleDiscount
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
 
     /**

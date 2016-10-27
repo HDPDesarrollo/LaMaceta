@@ -232,6 +232,7 @@ Header and header elements
 .top-cart-content strong,
 .top-cart-content span,
 .top-cart-content .del-goods,
+.top-cart-content .upd-goods,
 .top-cart-content .add-goods {
 	float: left;
 }
@@ -265,6 +266,7 @@ Header and header elements
 }
 
 .del-goods,
+.upd-goods,
 .add-goods {
 	width: 17px;
 	height: 17px;
@@ -276,6 +278,7 @@ Header and header elements
 	font-size: 12px;
 }
 .del-goods:hover,
+.upd-goods:hover,
 .add-goods:hover {
 	text-decoration: none;
 }
@@ -284,6 +287,12 @@ Header and header elements
 }
 .del-goods:hover {
 	background: #E94D1C url(../../pages/img/icons/del-goods.png) no-repeat 50% 50%;
+}
+.upd-goods {
+	background: #d7dde3 url(../../pages/img/icons/upd-goods.png) no-repeat 50% 50%;
+}
+.upd-goods:hover {
+	background: #E94D1C url(../../pages/img/icons/upd-goods.png) no-repeat 50% 50%;
 }
 .add-goods {
 	background: #7bdd00 url(../../pages/img/icons/add-goods.png) no-repeat 50% 50%;
@@ -518,6 +527,7 @@ Header and header elements
 }
 
 .goods-data .del-goods,
+.goods-data .upd-goods,
 .goods-data .add-goods {
 	margin-top: 4px;
 }
