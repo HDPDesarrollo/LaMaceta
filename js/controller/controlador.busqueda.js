@@ -95,7 +95,6 @@ ModuloBusqueda.controller('SearchResult', function($scope,$location,ServicioBusc
 	$scope.numPages = function () {
     return Math.ceil($scope.prendas.length / $scope.numPerPage);
   	};
-
 	$scope.StrSearch = $location.search().strbs;
 	ServicioBuscar.EnviarCadena($scope.StrSearch).then(function(resp){
 		console.log(resp);

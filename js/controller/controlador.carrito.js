@@ -4,6 +4,59 @@ ModuleCarro.run(function($rootScope){
 	$rootScope.acumulador = 0;
 });
 
+ModuleCarro.factory('compartirObj', function(){
+	var obj = {};
+	var prendas='';
+	var unaPrenda = '';
+
+	obj.ingresarPrendas = function(NuevoElemento){
+		prendas = NuevoElemento;
+	}
+
+	obj.ingresarUnaPrenda = function(NuevoElemento){
+		unaPrenda = NuevoElemento;
+	}
+
+	obj.BorrarTodo = function(){
+		prenda = '';
+	}
+
+	obj.obtenerPrendas = function(){
+		return prendas;
+	}
+
+	obj.obtenerUnaPrenda = function(){
+		return unaPrenda;
+	}
+	return obj;
+
+});
+
+ModuleCarro.controller('SearchResult', function($scope,$location,ServicioBuscar,compartirObj){
+	$scope.numPerPage = 6;
+	$scope.numPages = function () {
+    return Math.ceil($scope.prendas.length / $scope.numPerPage);
+  	};
+
+	$scope.StrSearch = $location.search().strbs;
+	
+	ServicioBuscar.EnviarCadena($scope.StrSearch).then(function(resp){
+		console.log(resp);
+		if(resp != "false")
+			{
+				compartirObj.ingresarPrendas(resp);
+				$scope.prendas = compartirObj.obtenerUnaPrenda();
+			}else{
+				$scope.prendas = resp;
+			}
+	});
+	$scope.$watch('currentPage + numPerPage', function() {
+    var begin = (($scope.currentPage - 1) * $scope.numPerPage) , end = begin + $scope.numPerPage;
+    
+    //$scope.filteredTodos = $scope.prendas.slice(begin, end);
+  	});
+});
+
 ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$location){
 	$scope.quantity = 1;
 	/*$scope.ContentCArt = [{
@@ -172,7 +225,12 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$loc
   	};*/ 	
 });
 
-
+ModuleCarro.config(function($locationProvider) {
+	$locationProvider.html5Mode({
+  						enabled: true,
+  						requireBase: false
+					});
+});
 
 /*angular.module('Lamaceta').controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
  
