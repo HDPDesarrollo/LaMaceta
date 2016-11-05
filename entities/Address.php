@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Address
  *
- * @ORM\Table(name="address")
+ * @ORM\Table(name="address", indexes={@ORM\Index(name="idx_user_adress", columns={"id_user"}), @ORM\Index(name="idx_address_province", columns={"id_province"})})
  * @ORM\Entity
  */
 class Address
@@ -31,7 +31,7 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="street", type="string", length=255, nullable=false)
+     * @ORM\Column(name="street", type="string", length=100, nullable=false)
      */
     public $street;
 
@@ -43,38 +43,25 @@ class Address
     public $number;
 
     /**
-     * @var \City
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="City", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_city", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="city", type="string", length=100, nullable=false)
      */
-    public $idCity;
+    public $city;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=32, nullable=true)
+     * @ORM\Column(name="phone", type="string", length=100, nullable=true)
      */
     public $phone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mobile_phone", type="string", length=32, nullable=true)
+     * @ORM\Column(name="mobile_phone", type="string", length=100, nullable=true)
      */
     public $mobilePhone;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
-     * })
-     */
-    public $idUser;
 
     /**
      * @var integer
@@ -86,120 +73,269 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="apartment", type="string", length=25, nullable=true)
+     * @ORM\Column(name="apartment", type="string", length=100, nullable=true)
      */
     public $apartment;
 
+    /**
+     * @var \Province
+     *
+     * @ORM\ManyToOne(targetEntity="Province")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_province", referencedColumnName="id")
+     * })
+     */
+    public $idProvince;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     * })
+     */
+    public $idUser;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Address
+     */
+    public function setActive($active)
     {
-        $this->id = $id;
+        $this->active = $active;
+
         return $this;
     }
 
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
     public function getActive()
     {
         return $this->active;
     }
 
-    public function setActive($active)
+    /**
+     * Set street
+     *
+     * @param string $street
+     * @return Address
+     */
+    public function setStreet($street)
     {
-        $this->active = $active;
+        $this->street = $street;
+
         return $this;
     }
 
+    /**
+     * Get street
+     *
+     * @return string 
+     */
     public function getStreet()
     {
         return $this->street;
     }
 
-    public function setStreet($street)
+    /**
+     * Set number
+     *
+     * @param integer $number
+     * @return Address
+     */
+    public function setNumber($number)
     {
-        $this->street = $street;
+        $this->number = $number;
+
         return $this;
     }
 
+    /**
+     * Get number
+     *
+     * @return integer 
+     */
     public function getNumber()
     {
         return $this->number;
     }
 
-    public function setNumber($number)
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return Address
+     */
+    public function setCity($city)
     {
-        $this->number = $number;
+        $this->city = $city;
+
         return $this;
     }
 
-    public function getIdCity()
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
     {
-        return $this->idCity;
+        return $this->city;
     }
 
-    public function setIdCity($idCity)
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     * @return Address
+     */
+    public function setPhone($phone)
     {
-        $this->idCity = $idCity;
+        $this->phone = $phone;
+
         return $this;
     }
 
+    /**
+     * Get phone
+     *
+     * @return string 
+     */
     public function getPhone()
     {
         return $this->phone;
     }
 
-    public function setPhone($phone)
+    /**
+     * Set mobilePhone
+     *
+     * @param string $mobilePhone
+     * @return Address
+     */
+    public function setMobilePhone($mobilePhone)
     {
-        $this->phone = $phone;
+        $this->mobilePhone = $mobilePhone;
+
         return $this;
     }
 
+    /**
+     * Get mobilePhone
+     *
+     * @return string 
+     */
     public function getMobilePhone()
     {
         return $this->mobilePhone;
     }
 
-    public function setMobilePhone($mobilePhone)
+    /**
+     * Set zipCode
+     *
+     * @param integer $zipCode
+     * @return Address
+     */
+    public function setZipCode($zipCode)
     {
-        $this->mobilePhone = $mobilePhone;
+        $this->zipCode = $zipCode;
+
         return $this;
     }
 
-    public function getIdUser()//---------ver si no devuelve el user completo
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser($idUser)
-    {
-        $this->idUser = $idUser;
-        return $this;
-    }
-
+    /**
+     * Get zipCode
+     *
+     * @return integer 
+     */
     public function getZipCode()
     {
         return $this->zipCode;
     }
 
-    public function setZipCode($zipCode)
+    /**
+     * Set apartment
+     *
+     * @param string $apartment
+     * @return Address
+     */
+    public function setApartment($apartment)
     {
-        $this->zipCode = $zipCode;
+        $this->apartment = $apartment;
+
         return $this;
     }
 
+    /**
+     * Get apartment
+     *
+     * @return string 
+     */
     public function getApartment()
     {
         return $this->apartment;
     }
 
-    public function setApartment($apartment)
+    /**
+     * Set idProvince
+     *
+     * @param \Province $idProvince
+     * @return Address
+     */
+    public function setIdProvince(\Province $idProvince = null)
     {
-        $this->apartment = $apartment;
+        $this->idProvince = $idProvince;
+
         return $this;
     }
 
+    /**
+     * Get idProvince
+     *
+     * @return \Province 
+     */
+    public function getIdProvince()
+    {
+        return $this->idProvince;
+    }
+
+    /**
+     * Set idUser
+     *
+     * @param \User $idUser
+     * @return Address
+     */
+    public function setIdUser(\User $idUser = null)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    /**
+     * Get idUser
+     *
+     * @return \User 
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
 }

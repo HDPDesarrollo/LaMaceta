@@ -31,40 +31,65 @@ class Province
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
     public $name;
 
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Province
+     */
+    public function setActive($active)
     {
-        $this->id = $id;
+        $this->active = $active;
+
         return $this;
     }
 
-   public function getActive()
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
     {
         return $this->active;
     }
 
-    public function setActive($active)
-    {
-        $this->active = $active;
-        return $this;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Province
+     */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

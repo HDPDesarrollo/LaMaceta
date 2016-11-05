@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="user-type", columns={"id_user_type"})})
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="idx_user_type", columns={"id_user_type"})})
  * @ORM\Entity
  */
 class User
@@ -57,17 +57,6 @@ class User
     public $gender;
 
     /**
-     * @var \UserType
-     *
-     * @ORM\ManyToOne(targetEntity="UserType", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user_type", referencedColumnName="id")
-     * })
-     */
-    public $idUserType;
-
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="id_token_card", type="integer", nullable=true)
@@ -88,114 +77,232 @@ class User
      */
     public $surname;
 
+    /**
+     * @var \UserType
+     *
+     * @ORM\ManyToOne(targetEntity="UserType")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user_type", referencedColumnName="id")
+     * })
+     */
+    public $idUserType;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return User
+     */
+    public function setActive($active)
     {
-        $this->id = $id;
+        $this->active = $active;
+
         return $this;
     }
 
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
     public function getActive()
     {
         return $this->active;
     }
 
-    public function setActive($active)
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
     {
-        $this->active = $active;
+        $this->email = $email;
+
         return $this;
     }
 
+    /**
+     * Get email
+     *
+     * @return string 
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
     {
-        $this->email = $email;
+        $this->password = $password;
+
         return $this;
     }
 
+    /**
+     * Get password
+     *
+     * @return string 
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
-    public function setPassword($password)
+    /**
+     * Set birthDate
+     *
+     * @param \DateTime $birthDate
+     * @return User
+     */
+    public function setBirthDate($birthDate)
     {
-        $this->password = $password;
+        $this->birthDate = $birthDate;
+
         return $this;
     }
 
+    /**
+     * Get birthDate
+     *
+     * @return \DateTime 
+     */
     public function getBirthDate()
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate($birthDate)
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return User
+     */
+    public function setGender($gender)
     {
-        $this->birthDate = $birthDate;
+        $this->gender = $gender;
+
         return $this;
     }
 
+    /**
+     * Get gender
+     *
+     * @return string 
+     */
     public function getGender()
     {
         return $this->gender;
     }
 
-    public function setGender($gender)
+    /**
+     * Set idTokenCard
+     *
+     * @param integer $idTokenCard
+     * @return User
+     */
+    public function setIdTokenCard($idTokenCard)
     {
-        $this->gender = $gender;
+        $this->idTokenCard = $idTokenCard;
+
         return $this;
     }
 
-    public function getIdUserType()
-    {
-        return $this->idUserType;
-    }
-
-    public function setIdUserType($idUserType)
-    {
-        $this->idUserType = $idUserType;
-        return $this;
-    }
-
+    /**
+     * Get idTokenCard
+     *
+     * @return integer 
+     */
     public function getIdTokenCard()
     {
         return $this->idTokenCard;
     }
 
-    public function setIdTokenCard($idTokenCard)
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return User
+     */
+    public function setName($name)
     {
-        $this->idTokenCard = $idTokenCard;
+        $this->name = $name;
+
         return $this;
     }
 
+    /**
+     * Get name
+     *
+     * @return string 
+     */
     public function getName()
     {
         return $this->name;
     }
 
-    public function setName($name)
+    /**
+     * Set surname
+     *
+     * @param string $surname
+     * @return User
+     */
+    public function setSurname($surname)
     {
-        $this->name = $name;
+        $this->surname = $surname;
+
         return $this;
     }
 
+    /**
+     * Get surname
+     *
+     * @return string 
+     */
     public function getSurname()
     {
         return $this->surname;
     }
 
-    public function setSurname($surname)
+    /**
+     * Set idUserType
+     *
+     * @param \UserType $idUserType
+     * @return User
+     */
+    public function setIdUserType(\UserType $idUserType = null)
     {
-        $this->surname = $surname;
+        $this->idUserType = $idUserType;
+
         return $this;
     }
 
+    /**
+     * Get idUserType
+     *
+     * @return \UserType 
+     */
+    public function getIdUserType()
+    {
+        return $this->idUserType;
+    }
 }

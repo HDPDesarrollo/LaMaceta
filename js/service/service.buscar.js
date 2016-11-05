@@ -1,8 +1,8 @@
-var servicio = angular.module('Lamaceta');
+var servicio = angular.module('LaMaceta');
 
 servicio.service('ServicioBuscar', function($http){
 	this.EnviarCadena = function(cadena){
-		return $http.post("http://localhost/lamaceta/modulos/busqueda/busqueda.post.php", cadena)
+		return $http.post("http://localhost/lamaceta/bd/Search.php", {data:{cadena:cadena,action:"string"}})
 				.then(function(respuesta) {  
                     return respuesta.data;          
                       },function errorCallback(response) {        

@@ -11,7 +11,7 @@
                 <!-- BEGIN TOP BAR LEFT PART -->
                 <div class="col-md-4 col-sm-4">
                       <div class="search-box ">
-                        <form action="shop-product-list.html?query=">
+                        <form action="shop-search-result.html">
                           <div class="input-group">
                             <input name="strbs" type="text" placeholder="Search" class="form-control">
                             <span class="input-group-btn">
@@ -39,6 +39,7 @@
         <script type="text/ng-template" id="alert.html">
            <div ng-transclude></div>
         </script>
+        <div class="row"><br></div>
         <div class="row">
           <div class="col-xs-offset-3 col-sm-offset-3 col-md-offset-4 col-lg-offset-3 col-xs-8 col-sm-8 col-md-6 col-lg-6">
             <div ng-repeat="alert in alerts" class="alert alert-{{alert.type}}">
@@ -59,15 +60,22 @@
         <div>
         <div class="top-cart-block">
           <div class="top-cart-info">
-            <a class="top-cart-info-count">{{ContentCArt.length}} item's</a>
-            <a class="top-cart-info-value">{{acumulador | currency}}</a>
+            <div ng-if="ContentCArt != null">
+              <a class="top-cart-info-count">{{ContentCArt.length}} item's</a>
+              <a class="top-cart-info-value">{{acumulador | currency}}</a>
+            </div>
+            <div ng-if="ContentCArt == null">
+              <a class="top-cart-info-count">0 item's</a>
+              <a class="top-cart-info-value">{{acumulador | currency}}</a>
+            </div>
           </div>
+          
           <i class="fa fa-shopping-cart"></i>
                         
           <div class="top-cart-content-wrapper">
             <div class="top-cart-content">
               <ul class="scroller" style="height: 250px;">
-              <div ng-hide="ContentCArt.length == 0">
+              <div ng-if="ContentCArt != null">
                 <div ng-repeat="art in ContentCArt track by $index">
                   <li>
                     <a href="shop-item.html"><img ng-src="{{art.img}}" alt="Rolex Classic Watch" width="37" height="34"></a>
@@ -78,7 +86,7 @@
                   </li>
                 </div>
                 </div>
-                <div ng-show="ContentCArt.length == 0">
+                <div ng-if="ContentCArt == null">
                   <div class="col-md-12 col-sm-12">
                       <h1>Carro de compras vacio!</h1>
                    </div>
@@ -86,7 +94,7 @@
               </ul>
               <div class="text-right">
                 <a href="shop-shopping-cart.html" class="btn btn-default">View Cart</a>
-                <a href="shop-checkout.html" class="btn btn-primary">Checkout</a>
+                <a ng-show="ContentCArt != null" href="shop-checkout.html" class="btn btn-primary">Checkout</a>
               </div>
             </div>
           </div>            
@@ -199,3 +207,4 @@
             Layout.init();    
         });
     </script>
+    
