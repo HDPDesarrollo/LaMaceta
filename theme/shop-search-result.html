@@ -168,7 +168,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             <!-- BEGIN PRODUCT LIST -->
             <div class="row product-list">
               <!-- PRODUCT ITEM START -->
-              <div ng-repeat="prenda in filteredTodos">
+              <div ng-repeat="prenda in prendas | startFrom:currentPage*pageSize | limitTo:pageSize">
                 <div class="col-md-4 col-sm-6 col-xs-12">
                   <div class="product-item">
                     <div class="pi-img-wrapper">
@@ -187,9 +187,11 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
             </div>
             <!-- END PRODUCT LIST -->
             <!-- BEGIN PAGINATOR -->
-            <div data-pagination="" data-num-pages="numPages()" 
-              data-current-page="currentPage" data-max-size="maxSize"  
-              data-boundary-links="true"></div>
+             <button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+               {{currentPage+1}}/{{numberOfPages()}}
+              <button class="btn btn-primary" ng-disabled="currentPage >= prendas.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+              Next
+             </button>
             <!-- END PAGINATOR -->
           </div>
           <!-- END CONTENT -->
@@ -305,6 +307,7 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
     
     <script src="../js/service/service.buscar.js?0.0.1"></script>
     <script src="../js/service/service.carrito.js?0.0.1"></script>
+
 </body>
 <!-- END BODY -->
 </html>

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 $dbParams = [
 	'driver' => 'pdo_mysql',
 	'host' => '127.0.0.1',
-	'dbname' => 'db_lamaceta',
+	'dbname' => 'lamaceta',
 	'user' =>'root',
 	'password' => ''
 ];

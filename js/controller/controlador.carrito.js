@@ -6,7 +6,7 @@ ModuleCarro.run(function($rootScope){
 
 ModuleCarro.factory('compartirObj', function(){
 	var obj = {};
-	var prendas='';
+	var prendas;
 	var unaPrenda = '';
 
 	obj.ingresarPrendas = function(NuevoElemento){
@@ -32,29 +32,26 @@ ModuleCarro.factory('compartirObj', function(){
 
 });
 
-ModuleCarro.controller('SearchResult', function($scope,$location,ServicioBuscar,compartirObj){
-	$scope.numPerPage = 6;
-	$scope.numPages = function () {
-    return Math.ceil($scope.prendas.length / $scope.numPerPage);
-  	};
+ModuleCarro.controller('SearchResult', function($rootScope,$scope,$location,ServicioBuscar,compartirObj){
 
 	$scope.StrSearch = $location.search().strbs;
 	
 	ServicioBuscar.EnviarCadena($scope.StrSearch).then(function(resp){
-		console.log(resp);
 		if(resp != "false")
 			{
 				compartirObj.ingresarPrendas(resp);
-				$scope.prendas = compartirObj.obtenerUnaPrenda();
+				$scope.prendas = compartirObj.obtenerPrendas();
+				
 			}else{
 				$scope.prendas = resp;
 			}
 	});
-	$scope.$watch('currentPage + numPerPage', function() {
-    var begin = (($scope.currentPage - 1) * $scope.numPerPage) , end = begin + $scope.numPerPage;
-    
-    //$scope.filteredTodos = $scope.prendas.slice(begin, end);
-  	});
+
+	$scope.currentPage = 0;
+    $scope.pageSize = 3;
+    $scope.numberOfPages=function(){
+        return Math.ceil($scope.prendas.length/$scope.pageSize);                
+    }
 });
 
 ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$location){
@@ -230,6 +227,13 @@ ModuleCarro.config(function($locationProvider) {
   						enabled: true,
   						requireBase: false
 					});
+});
+
+ModuleCarro.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
 });
 
 /*angular.module('Lamaceta').controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
