@@ -1,0 +1,53 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Costo de Envio</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="provinceModal"  enctype="multipart/form-data" name="provinceForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+        <div class="row">
+          <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+            <div class="form-group">
+              <label for="name">Provincia<span class="require">*</span></label>
+              <input type="text" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" name="name" id="name" class="form-control" ng-model="province.name" required>               
+              <span class="messages" ng-show="provinceForm.$submitted || provinceForm.name.$touched">
+                <div ng-show="provinceForm.name.$error.pattern">Solo letras y espacios</div>
+                <div ng-show="provinceForm.name.$error.minlength">Mínimo tres letras</div>
+                <div ng-show="provinceForm.name.$error.required">Requerido</div>
+              </span>
+            </div>
+
+            <div class="form-group">
+            <label for="province">Costo de Envio<span class="require">*</span></label>
+            <input type="number" min=0 max=1000 step="any" id="cost" class="form-control" ng-model="province.cost" required>               
+              <span class="messages" ng-show="provinceForm.$submitted || provinceForm.cost.$touched">
+                <span ng-show="provinceForm.cost.$error.required">El campo es obligatorio.</span>
+              </span>
+            </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+    </div>    
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(province)" ng-disabled="provinceForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

@@ -23,38 +23,37 @@
 
   <div layout="column" layout-align="space-around center">
       <div class="row">
-        <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3">
+        <div class="col-xs-3 col-sm-3 col-md-4 col-lg-4">
           <div class="form-group">
                 <label for="name">Descuento</label>
-                <input type="text" id="discount" name="discount" class="form-control" ng-model="discount.percentage"/>
+                <input type="number" id="discount2" name="discount2" class="form-control" ng-model="discount.percentage"/>
                 <br>
-                <button class="btn btn-primary" type="button" ng-click="save(address)">Guardar</button>
-                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+                <button class="btn btn-primary" type="button" ng-click="save();">Guardar</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel();">Cancel</button>
         </div>
 
         <label for="table">Descuentos existentes</label>
           <br>
           <br>
-          <table ng-table="tableParams" class="table"><!--show-filter="true"-->
-              <tr ng-repeat="user in data1">
+          <table ng-table="tableParams2" class="table"><!--  show-filter="true" summary="Shopping cart"-->
+              <tr ng-repeat="percent in percentages track by $index">
                 <td title="'%'">
-                  15</td>
+                 {{percent.percentage}} </td>
                 <td title="'Estado'">
-                  ACTIVO</td>
-                <td class="del-goods-col">
-                     <a class="del-goods" href="javascript:;">&nbsp;</a>
-                     <a class="add-goods" href="javascript:;">&nbsp;</a>
-                </td>
+                    <select class="form-control" id="active" ng-model="percent.active" name="active" filter="{status: 'select'}" filter-data="discountStatus" 
+                            ng-options="status.title for status in discountStatus track by status.active" ng-change="changeStatusPercentage(percent, percent.active)">
+                    </select>
+                  </td>
               </tr>
           </table>
 
-      </div>
-        <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5">
+     </div>
+        <div class="col-xs-6 col-sm-6 col-md-7 col-lg-7">
             <label for="table">Descuentos configurados</label>
             <br>
             <br>
-              <div class="search-box" ><!--alinear a la derecha-->
-                <form action="#">
+            <!--  <div class="search-box" ><!--alinear a la derecha-->
+               <!--<form action="#">
                   <div class="input-group">
                     <input type="text" placeholder="Search" class="form-control">
                     <span class="input-group-btn">
@@ -62,51 +61,37 @@
                     </span>
                   </div>
                 </form>
-              </div> 
+              </div>
             <br>
-            <br>
+            <br>-->
             <table ng-table="tableParams" class="table"><!--show-filter="true"-->
-                <tr ng-repeat="user in data1">
-                  <td title="'SKU'" style="width:500%">
+                <tr ng-repeat="prod in $data">
+                  <td title="'Id'"><!-- style="width:500%"-->
                       <div class="form-group">
-                        <select>
-                          <option><a>12345</a></option>              
-                          <option><a>56789</a></option>
-                        </select>
+                        {{prod.idProduct.id}}
                     </div>
                   </td>
-                  <td title="'Producto'">
+                  <td title="'Producto'" filter="{name: 'text'}">
                       <div class="form-group">
-                        <select>
-                          <option><a>Pantalon</a></option>              
-                          <option><a>Remera</a></option>
-                        </select>
-                    </div>
-                  </td>
-                  <td title="'....Color............'">
-                      <div class="form-group">
-                        <select class="form-control">
-                          <option><a>Todos</a></option> 
-                          <option><a>Amarillo</a></option>              
-                          <option><a>Blanco</a></option>
-                        </select>
-                    </div>
-                  </td>
-                  <td title="'....Talle............'">
-                      <div class="form-group">
-                        <select class="form-control">
-                          <option><a>Todos</a></option> 
-                          <option><a>S</a></option>              
-                          <option><a>M</a></option>
-                        </select>
+                        {{prod.idProduct.name}}
                     </div>
                   </td>
                   <td title="'Descuento'">
-                    10%</td>
-                  <td class="del-goods-col">
-                       <a class="del-goods" href="javascript:;">&nbsp;</a>
-                       <a class="add-goods" href="javascript:;">&nbsp;</a>
+
+                   <select class="form-control" id="discount3" ng-model="prod.idDiscount" name="discount3" 
+                    ng-options="percentage.percentage for percentage in percentages track by percentage.id" ng-init="prod.idDiscount" ng-change="changePercentageProductDiscount(prod.idProduct.id, prod.idDiscount)"
+                     required>
+                    </select>
                   </td>
+                  <td title="'Estado'">
+                       <select class="form-control" id="active" ng-model="prod.active" name="active" filter="{status: 'select'}" filter-data="discountStatus" 
+                              ng-options="status.title for status in discountStatus track by status.active" ng-change="changeStatusProductDiscount(prod.idProduct.id, prod.active)">
+                      </select>
+                  </td>
+                  <!--<td class="del-goods-col">
+                       <a class="del-goods" href="" ng-click="removeProductDiscount(prod.idProduct.id)">&nbsp;</a>
+                      <a class="add-goods" href="javascript:;">&nbsp;</a>
+                  </td>-->
                 </tr>
             </table>
           </div> 
@@ -117,7 +102,6 @@
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="exit()" >Salir</button>
 </div>
 

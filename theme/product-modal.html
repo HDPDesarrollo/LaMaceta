@@ -22,13 +22,13 @@
   <form id="productModal"  enctype="multipart/form-data" name="productForm" novalidate>
     <div layout="column" layout-align="space-around center">
       <div class="row">
-        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
-          <div class="form-group">
-                <label for="name">Nombre<span class="require"> *</span></label>
-                <input type="text" id="name" name="name" class="form-control" ng-model="product.name" required/>
-                <span class="messages" ng-show="productForm.$submitted || productForm.name.$touched">
-                <span ng-show="productForm.name.$error.required">El campo es obligatorio.</span>
-                </span>
+      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <div class="form-group">
+              <label for="name">Nombre<span class="require"> *</span></label>
+              <input type="text" id="name" name="name" class="form-control" ng-model="product.name" required/>
+              <span class="messages" ng-show="productForm.$submitted || productForm.name.$touched">
+              <span ng-show="productForm.name.$error.required">El campo es obligatorio.</span>
+              </span>
         </div>
       </div>
       <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
@@ -42,18 +42,55 @@
     <div class="row">
       <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
         <div class="form-group">
-          <label for="supplier">Proveedor<span class="require"> *</span></label>
-            <select class="form-control" id="supplier" name="supplier" required>
-              <option><a>Proveedor1</a></option>              
-              <option><a>Proveedor2</a></option>
+          <label for="provider">Proveedor<span class="require"> *</span></label>
+            <select class="form-control" id="provider" ng-model="product.provider" name="provider" ng-options="provider as provider.name for provider in providers track by provider.id"        
+             required>
             </select>
-                <span class="messages" ng-show="productForm.$submitted || productForm.supplier.$touched">
-                <span ng-show="productForm.supplier.$error.required">El campo es obligatorio.</span>
+            <span class="messages" ng-show="productForm.$submitted || productForm.provider.$touched">
+            <span ng-show="productForm.provider.$error.required">El campo es obligatorio.</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="season">Temporada<span class="require"> *</span></label>
+            <select class="form-control" id="season" ng-model="product.season" name="season" ng-options="season as season.season for season in seasons track by season.id"        
+             required>
+            </select>
+                <span class="messages" ng-show="productForm.$submitted || productForm.season.$touched">
+                <span ng-show="productForm.season.$error.required">El campo es obligatorio.</span>
                 </span>
         </div>
       </div>
     </div><!--row-->  
-    <br>
+
+    <div class="row">
+      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="supplier">Target<span class="require"> *</span></label>
+            <select class="form-control" id="target" ng-model="product.target" name="target" required>
+            <option value="Nenes">Nenes</option>
+            <option value="Nenas">Nenas</option>
+            <option value="Bebes">Bebes</option>
+            <option value="Unisex">Unisex</option>
+            </select>
+            <span class="messages" ng-show="productForm.$submitted || productForm.target.$touched">
+            <span ng-show="productForm.target.$error.required">El campo es obligatorio.</span>
+            </span>
+        </div>
+      </div>
+
+      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <div class="form-group">
+            <label for="prodType">Tipo de producto<span class="require"> *</span></label>
+            <input type="text" id="prodType" prodType="prodType" class="form-control" ng-model="product.prodType" required/>
+            <span class="messages" ng-show="productForm.$submitted || productForm.prodType.$touched">
+            <span ng-show="productForm.prodType.$error.required">El campo es obligatorio.</span>
+            </span>
+        </div>
+      </div>
+    </div><!--row-->  
+
 
     <!--<table ng-table="tableParams" class="table">
 
@@ -97,7 +134,7 @@
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-primary" type="button" ng-click="save(product)" ng-disabled="productForm.$invalid">Guardar</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>
 

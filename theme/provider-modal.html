@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <center><h3 class="modal-title">Proveedores</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="providerModal"  enctype="multipart/form-data" name="providerForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+            <div class="form-group">
+            <label for="name">Nombre<span class="require">*</span></label>
+            <input type="text" id="name" name="name" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" class="form-control" ng-model="provider.name" required>               
+              <span class="messages" ng-show="providerForm.$submitted || providerForm.name.$touched">
+                <div ng-show="providerForm.name.$error.pattern">Solo letras y espacios</div>
+                <div ng-show="providerForm.name.$error.minlength">Mínimo tres letras</div>
+                <div ng-show="providerForm.name.$error.required">Requerido</div>
+              </span>
+            </div>
+            <div class="form-group">
+              <label for="email">E-Mail <span class="require">*</span></label>
+                <input type="email" id="email" name="email" class="form-control" ng-model="provider.email" required>
+                  <span class="messages" ng-show="userForm.$submitted || userForm.email.$touched">
+                    <div ng-show="providerForm.email.$error.email">Debe ser formato mail</div>
+                    <div ng-show="providerForm.email.$error.required">Requerido</div>
+                  </span>
+            </div>
+            <div class="form-group">
+            <label for="phone">Dirección<span class="require">*</span></label>
+            <input type="text" id="address" name="address" ng-pattern="/^[a-zA-Z1-9\_\- ]*$/" ng-minlength="3" class="form-control" ng-model="provider.address" required>               
+              <span class="messages" ng-show="providerForm.$submitted || providerForm.address.$touched">
+                <div ng-show="providerForm.address.$error.pattern">Solo letras, numeros y espacios</div>
+                <div ng-show="providerForm.address.$error.minlength">Mínimo tres letras</div>
+                <div ng-show="providerForm.address.$error.required">Requerido</div>
+              </span>
+            </div>
+        </div>
+    </div>  <!-- /.row -->  
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(provider)" ng-disabled="providerForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

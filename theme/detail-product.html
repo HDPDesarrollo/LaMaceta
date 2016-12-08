@@ -1,0 +1,66 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Detalle Producto</h3></center>
+</div>
+<div class="modal-body">
+
+  <form id="userModal"  enctype="multipart/form-data" name="userForm" novalidate>
+            <div class="goods-page">
+              <div class="goods-data clearfix">
+                <div class="table-wrapper-responsive">
+                <table ng-table="detailConfigTableParams" class="table table-condensed table-bordered table-striped">
+                  <tr ng-repeat="row in $data">
+                    <td data-title="'Color'" class="goods-page-description" ><!--filter="{colors: 'select'}" filter-data="colors" -->
+                        <div class="form-group">
+                          <select class="form-control" id="color" ng-model="row.color" name="color" 
+                          ng-options="color as color.color for color in colors track by color.id"  required>
+                          </select>
+                        </div>
+                    </td> 
+                    <td data-title="'Talle'" class="goods-page-description" ><!-- filter="{size: 'select'}" filter-data="sizes"-->
+                    <div class="form-group">
+                      <select class="form-control" id="size" ng-model="row.size" name="size" 
+                      ng-options="size as size.size for size in sizes track by size.id"  required>
+                      </select>
+                    </div>
+                    </td> 
+                    <td data-title="'Stock'" class="goods-page-quantity">
+                        <input type="number" name="stock" ng-model="row.stock" class="editable-input form-control input-sm" required/>
+                    </td> 
+                    <td data-title="'Min Stock'" class="goods-page-quantity">
+                        <input type="number" name="minStock" ng-model="row.minStock" class="editable-input form-control input-sm" required/>
+                    </td> 
+                    <td data-title="'Precio $'" class="goods-page-price">
+                        <input type="price" step="any" name="price" ng-model="row.price" class="editable-input form-control input-sm"  required/>
+                    </td> 
+                    <td data-title="'Estado'" class="goods-page-description" filter="{active: 'select'}" filter-data="productStatus">
+                      <p>
+                      <select class="form-control" id="active" ng-model="row.active" name="active" 
+                      ng-options="status as status.title for status in productStatus track by status.id" required>
+                      </select>
+                       <!--<span ng-if="row.active == true">
+                         ACTIVO
+                       </span>
+                       <span ng-if="row.active == false">
+                         INACTIVO
+                       </span>-->
+                      </p>
+                    </td>  
+                   <!-- <td class="del-goods-col">
+                     <a class="del-goods" ng-click="deleteRow(row)">&nbsp;</a> 
+                      <a class="add-goods" href="javascript:;">&nbsp;</a>
+                    </td>     -->             
+                  </tr>
+                </table>
+                </div>
+              </div>
+            </div>
+  </form>
+</div>
+<div class="modal-footer">
+              <button class="btn btn-primary" type="button" ng-click="deleteRow()">Eliminar Vacios</button>
+              <button class="btn btn-primary" type="button" ng-click="addRow()">Agregar Fila</button>
+              <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="userForm.$invalid">Guardar</button>
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Salir</button>                     
+
+</div>
+

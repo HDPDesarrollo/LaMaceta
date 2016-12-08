@@ -1,0 +1,45 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Tarjetas</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="CardModal"  enctype="multipart/form-data" name="cardForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+                <label for="name">Nombre<span class="require"> *</span></label>
+                <input type="text" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" id="name" name="name" class="form-control" ng-model="card.name" required/>
+                <span class="messages" ng-show="cardForm.$submitted || cardForm.name.$touched">
+                    <div ng-show="cardForm.name.$error.pattern">Solo letras y espacios</div>
+                    <div ng-show="cardForm.name.$error.minlength">Mínimo tres letras</div>
+                    <div ng-show="cardForm.name.$error.required">Requerido</div>
+                </span>
+          </div>
+        </div>
+      </div><!--row-->
+    </div>    
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(card)" ng-disabled="cardForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

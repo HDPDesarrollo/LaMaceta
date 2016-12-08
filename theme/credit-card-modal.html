@@ -1,0 +1,125 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Tareta</h3></center>
+</div>
+<div class="modal-body">
+  
+  <!--<div ng-include="'address.html'"></div>-->
+
+   <form id="CreditCardModal"  enctype="multipart/form-data" name="creditCardForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+      	<div class="row">
+        	<div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          		<div class="form-group">
+	                <label for="number">Numero<span class="require"> *</span></label>
+                  <input type="text" class="form-control" ng-pattern="/^[0-9]+$/" id="number"
+                        ng-model="creditCard.number" name="number" ng-minlength="16" ng-maxlength="16" required/>
+                    <span class="messages" ng-show="creditCardForm.$submitted || creditCardForm.number.$touched">
+                      <div ng-show="creditCardForm.number.$error.pattern">Solo números</div>
+                      <div ng-show="creditCardForm.number.$error.minlength">16 números</div>
+                      <div ng-show="creditCardForm.number.$error.maxlength">16 números</div>
+                      <div ng-show="creditCardForm.number.$error.required">Requerido</div>
+                    </span>
+        		  </div>
+      		</div>
+      </div><!--row-->
+
+      <div class="row">
+      	<div class="col-xs-2 col-sm-3 col-md-4 col-lg-4">
+      		<div class="form-group">
+           		<label for="bank">Banco<span class="require">*</span></label>
+              <select class="form-control" id="bank" ng-model="creditCard.bank" name="bank" 
+              ng-options="bank.name for bank in banks track by bank.id" ng-change="getAssociatedCards(creditCard.bank)" required>
+              </select>
+              <span class="messages" ng-show="creditCardForm.$submitted || creditCardForm.bank.$touched">
+                <span ng-show="creditCardForm.bank.$error.required">El campo es obligatorio.</span>
+              </span>
+          	</div><!-- /input-group -->
+        </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+      </div><!--row-->   
+
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+              <label for="card">Tarjeta<span class="require">*</span></label>
+              <select class="form-control" id="card" ng-model="creditCard.card" name="card" ng-options="card.idCard as card.idCard.name for card in associatedCards"        
+               required>
+              </select>
+              <span class="messages" ng-show="creditCardForm.$submitted || creditCardForm.card.$touched">
+                <div ng-show="creditCardForm.card.$error.required">El campo es obligatorio.</span>
+              </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!--row-->
+
+      <div class="row">
+        <div class="col-xs-4 col-sm-6 col-md-7 col-md-offset-1 col-lg-7">
+          <div class="form-group">
+              <label for="number">Nombre<span class="require"> *</span></label>
+              <input type="text" class="form-control" ng-model="creditCard.name" name="name" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" required/>
+              <span class="messages" ng-show="creditCardForm.$submitted || creditCardForm.name.$touched">
+                  <div ng-show="creditCardForm.name.$error.pattern">Solo letras y espacios</div>
+                  <div ng-show="creditCardForm.name.$error.maxlength">Mínimo tres letras</div>
+                  <div ng-show="creditCardForm.name.$error.required">Requerido</div>
+              </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+      </div><!-- /.row -->
+
+      <div class="row">
+        <div class="col-xs-2 col-sm-3 col-md-4 col-md-offset-1 col-lg-4">
+          <div class="form-group">
+              <label for="number">CVV<span class="require"> *</span></label>
+                <input type="text" class="form-control" ng-pattern="/^[0-9/]/"
+                 ng-maxlength="3"  ng-minlength="3" ng-model="creditCard.cvv" name="cvv" required/>
+                <span class="messages" ng-show="creditCardForm.$submitted || creditCardForm.cvv.$touched">
+                  <div ng-show="creditCardForm.cvv.$error.pattern">Solo números</div>
+                  <div ng-show="creditCardForm.cvv.$error.minlength">3 números</div>
+                  <div ng-show="creditCardForm.cvv.$error.maxlength">3 números</div>
+                  <div ng-show="creditCardForm.cvv.$error.required">Requerido</div>
+              </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+      </div><!--row-->
+
+      <div class="row">
+        <div class="col-xs-2 col-sm-3 col-md-4 col-md-offset-1 col-lg-4">
+          <div class="form-group">
+            <label for="number">Vencimiento<span class="require"> *</span></label><br>
+              <select ng-model="creditCard.expirationDateMonth" name="expirationDateMonth" required>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select> / <select ng-model="creditCard.expirationDateYear" name="expirationDateYear" required>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                          </select>
+          </div>
+        </div>
+      </div><!--row-->
+
+    </div>    
+  </form>
+
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(creditCard)" ng-disabled="creditCardForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

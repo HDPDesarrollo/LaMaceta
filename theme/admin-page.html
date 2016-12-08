@@ -7,8 +7,39 @@
   <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
   <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
+  <script src="../bower_components/ng-file-upload/ng-file-upload.min.js" type="text/javascript"></script>
+  <script src="../js/checklist-model.js"></script>
+  <script src="../js/angular-cookies.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
+
+
+  <script src="../js/app/app.js"></script>
+  
   <script src="../js/controller/AdminController.js"></script>
+
+  <script src="../js/controller/SubCtrlAdmin/User.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Product.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Sale.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Discount.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/EditProfile.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Report.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/SizeAndColor.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Image.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Province.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Triple.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Provider.js"></script>
+
   <script src="../js/service/AdminService.js"></script>
+  <script src="../js/service/AccountService.js"></script>
+
+  <script src="../js/controller/CartController.js"></script>
+  <script src="../js/service/CartService.js"></script>
+
+  <script src="../js/controller/SearchController.js"></script>
+  <script src="../js/service/SearchService.js"></script>
+
+  <script src="../js/controller/PreheaderController.js"></script>
 
 
   <meta charset="utf-8">
@@ -55,14 +86,12 @@
 </head>
 <!-- Head END -->
 
-<br>
-<br>
-<br>
-<br>
-<br>
+<!-- VISTA HEADER -->
+  <div ng-include="'header.html'"></div>
+   <!-- FIN VISTA HEADER -->
 
 <!-- Body BEGIN -->
-<body class="ecommerce"  ng-controller="AdminController">       
+<body class="ecommerce" ng-app="LaMaceta" ng-controller="AdminController">       
     
     <div class="main">
       <div class="container">
@@ -84,461 +113,592 @@
               <li class="list-group-item clearfix" ng-click="selectTab('reports')"><a href=""><i class="fa fa-angle-right"></i>Reportes</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('size-colors')"><a href=""><i class="fa fa-angle-right"></i>Talles/Colores</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('images')"><a href=""><i class="fa fa-angle-right"></i>Imagenes</a></li>
-              <li class="list-group-item clearfix" ng-click="selectTab('shippingCost')"><a href=""><i class="fa fa-angle-right"></i>Costo de Envio</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('provinces')"><a href=""><i class="fa fa-angle-right"></i>Costo de Envio</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('cards')"><a href=""><i class="fa fa-angle-right"></i>Tarjetas</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('banks')"><a href=""><i class="fa fa-angle-right"></i>Bancos</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('promotions')"><a href=""><i class="fa fa-angle-right"></i>Promociones</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('providers')"><a href=""><i class="fa fa-angle-right"></i>Proveedores</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('logout')"><a href=""><i class="fa fa-angle-right"></i>Cerrar Sesion</a></li>
-            </ul>
+            </ul> 
           </div>
           <!-- END SIDEBAR -->
 
+
+      <!-- MODIFIQUE EL USER DEL NG REPEAT PARA QUE NO TENGA PROBLEMAS CON EL USER LOGEADO -->
       <div class="col-md-9 col-sm-7">
         <div ng-show="selectedTab=='users'">
-           <h1>USUARIOS</h1> 
-           <div align="right"><button type="submit" class="btn btn-primary" ng-click="openUserModal()">Agregar Usuario</button></div>
-         </br>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                <div class="table-wrapper-responsive">
-                <table summary="Shopping cart">
-                  <tr>
-                    <th >Datos Usuario</th>
-                    <th >Tipo de Usuario</th>
-                    <th >Estado</th>
-                  </tr>
-                  <tr ng-repeat="user in users track by $index">
-                      <td >
-                        <h3>{{user.surname}}, {{user.name}}</h3>
-                        <p>{{user.email}}</p>
-                      </td>
-                      <td >
-                        <p>{{user.idUserType.type}}</p>
-                      </td>
-                      <td >
-                        <p>
-                           <span ng-if="user.active == true">
-                             ACTIVO
-                           </span>
-                           <span ng-if="user.active == false">
-                             INACTIVO
-                           </span>
-                        </p>
-                      </td>
-                      <td >
-                        <div class="dropdown">
-                          <button class="btn btn-primary" type="button" id="userActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Acciones
-                            <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu" aria-labelledby="userActions">
-                            <li><a ng-click="openEditUserTypeModal(user)">Cambiar Tipo</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a ng-click="openEditUser(user)">Editar</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a ng-click="removeUser(user)">Eliminar</a></li>
-                          </ul>
-                        </div>
-                      </td>
-                  </tr>
-                </table>
+          <div ng-controller="SubCtrlAdmin_User">
+               <h1>USUARIOS</h1> 
+               <div align="right"><button type="submit" class="btn btn-primary" ng-click="openUserModal()">Agregar Usuario</button></div>
+             </br>
+                <div class="goods-page">
+                  <div class="goods-data clearfix">
+                    <div class="table-wrapper-responsive">
+                    <table summary="Shopping cart">
+                      <tr>
+                        <th >Datos Usuario</th>
+                        <th >Tipo de Usuario</th>
+                        <th >Estado</th>
+                        <th >Blacklist</th>
+                      </tr>
+                      <tr ng-repeat="oneUser in users track by $index">
+                          <td >
+                            <h3>{{oneUser.surname}}, {{oneUser.name}}</h3>
+                            <p>{{oneUser.email}}</p>
+                          </td>
+                          <td >
+                            <p>{{oneUser.idUserType.type}}</p>
+                          </td>
+                          <td >
+                            <p>
+                               <span ng-if="oneUser.active == true">
+                                 ACTIVO
+                               </span>
+                               <span ng-if="oneUser.active == false">
+                                 INACTIVO
+                               </span>
+                            </p>
+                          </td>
+                          <td >
+                            <p>
+                               <span ng-if="oneUser.blacklist">
+                                 SI
+                               </span>
+                               <span ng-if="!oneUser.blacklist">
+                                 NO
+                               </span>
+                            </p>
+                          </td>
+                          <td >
+                            <div class="dropdown">
+                              <button ng-disabled="user.idUserType.type!='ADMIN'" class="btn btn-primary" type="button" id="userActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Acciones
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="userActions">
+                                <li><a ng-click="openEditUserTypeModal(oneUser)">Cambiar Tipo</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-click="openEditUser(oneUser)">Editar</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-click="removeUser(oneUser)">Eliminar</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-click="removeBlacklist(oneUser)">Blacklist</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                      </tr>
+                    </table>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+            </div> <!---ng-controller--> 
           </div> <!---ng-show-->  
         <div ng-show="selectedTab=='products'">
+          <div ng-controller="SubCtrlAdmin_Product">
             <h1>PRODUCTOS</h1>
-            <div align="right"><button type="submit" class="btn btn-primary" ng-click="openArticleModal()">Agregar Producto</button></div>
-            </br>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                <div class="table-wrapper-responsive">
-                <table ng-table="defaultConfigTableParams" class="table table-condensed table-bordered table-striped">
-                  <tr ng-repeat="row in $data">
-                    <td data-title="'Nro. Prod'" class="goods-page-ref-no" ><!-- filter="{sku: 'text'}"-->
-                        <p>{{row.id}}</p>
-                    </td>
-                    <td data-title="'Estado'" filter="{prodActive: 'select'}" filter-data="productStatus">
-                        <p>
-                           <span ng-if="row.prodActive == true">
-                             ACTIVO
-                           </span>
-                           <span ng-if="row.prodActive == false">
-                             INACTIVO
-                           </span>
-                        </p>
-                    </td>
-                    <td data-title="'Producto'" filter="{description: 'text'}">
-                        <p>{{row.description}}</p>
-                    </td>
-                    <td data-title="'Descripcion'"">
-                      <button type="submit" class="btn btn-primary" ng-click="openDetailProductModal(row.products)">Ver / Editar Detalles</button>
-                    </td>
-                    <td data-title="'Acciones'">
-                      <div class="dropdown">
-                        <button class="btn btn-primary" type="button" id="ProductActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                          Acciones
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="ProductActions">
-                          <li><a ng-click="openEditArticleModal(row)">Editar</a></li>
-                          <li role="separator" class="divider"></li>
-                          <li><a ng-click="removeArticle(row)">Eliminar</a></li>
-                        </ul>
-                      </div>
-                    </td>
+              <div align="right"><button type="submit" class="btn btn-primary" ng-click="openArticleModal()">Agregar Producto</button></div>
+              </br>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                  <table ng-table="productsConfigTableParams" class="table table-condensed table-bordered table-striped">
+                    <tr ng-repeat="row in $data">
+                      <td data-title="'Nro. Prod'" class="goods-page-ref-no"  ><!-- filter="{sku: 'text'}"-->
+                          <p>{{row.id}}</p>
+                      </td>
+                      <td data-title="'Estado'" filter="{prodActive: 'select'}" filter-data="productStatus" sortable="'productStatus'" >
+                          <p>
+                             <span ng-if="row.prodActive == true">
+                               ACTIVO
+                             </span>
+                             <span ng-if="row.prodActive == false">
+                               INACTIVO
+                             </span>
+                          </p>
+                      </td>
+                      <td data-title="'Producto'" filter="{name: 'text'}" sortable="'name'">
+                          <p>{{row.name}}</p>
+                      </td>
+                      <td data-title="'Descripcion'"">
+                        <button type="submit" class="btn btn-primary" ng-click="openDetailProductModal(row.articles, row.id)">Ver / Editar Detalles</button>
+                      </td>
+                      <td data-title="'Acciones'">
 
-
-                  </tr>
-                </table>
-                <!--<table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-ref-no">SKU</th>
-                    <th class="goods-page-description">Descripcion</th>
-                    <th class="goods-page-quantity">Stock</th>
-                    <th class="goods-page-quantity">Min Stock</th>
-                    <th class="goods-page-description">Estado</th>
-                    <th class="goods-page-price" colspan="2">Precio</th>
-
-                  </tr>
-                  <tr ng-repeat="article in articles track by $index">
-                      <td class="goods-page-ref-no">
-                        <p>{{article.sku}}</p>
-                      </td>
-                      <td >
-                        <p>{{article.description}} - {{article.color}} - {{article.size}}</p>
-                      </td>
-                    <td class="goods-page-quantity">
-                      <div class="product-quantity">
-                          <input id="product-quantity" type="text" value="{{article.stock}}" readonly class="form-control input-sm">
-                      </div>
-                    </td>
-                    <td class="goods-page-quantity">
-                      <div class="product-quantity">
-                          <input id="product-quantity" type="text" value="{{article.minStock}}" readonly class="form-control input-sm">
-                      </div>
-                    </td>
-                      <td >
-                        <p>
-                           <span ng-if="article.active == true">
-                             ACTIVO
-                           </span>
-                           <span ng-if="article.active == false">
-                             INACTIVO
-                           </span>
-                        </p>
-                      </td>
-                      <td class="goods-page-price">
-                        <strong><span>$</span>{{article.price}}</strong>
-                      </td>
-                      <td >
+                          <!--<select class="form-control">
+                            <option><a>Seleccione</a></option>
+                            <option><a ng-click="openEditArticleModal(row)">Editar</a></option>              
+                            <option><a ng-click="removeProduct(row)">Eliminar</a></option>
+                          </select>-->
                         <div class="dropdown">
                           <button class="btn btn-primary" type="button" id="ProductActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             Acciones
                             <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" aria-labelledby="ProductActions">
-                            <li><a ng-click="openEditArticleModal(article)">Editar</a></li>
+                            <li><a ng-click="openEditArticleModal(row)">Editar</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a ng-click="removeArticle(article)">Eliminar</a></li>
+                            <li><a ng-click="removeProduct(row)">Eliminar</a></li>
                           </ul>
                         </div>
                       </td>
-                  </tr>
-                </table>-->
+                    </tr>
+                  </table>               
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> <!---ng-controller--> 
           </div> <!---ng-show-->  
           <div ng-show="selectedTab=='sales'">
-            <h1>VENTAS</h1>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                <div class="table-wrapper-responsive">
-                  <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">Nro. Venta</th>
-                    <th class="goods-page-description">Descripcion</th>
-                    <th class="goods-page-description">Fecha</th>
-                    <th class="goods-page-description">Estado</th>
-                    <th class="goods-page-price" colspan="2">Monto total</th>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      1234
-                    </td>
-                    <td class="goods-page-description">
-                      <p><strong><a>Item 1</a></strong> - Color: Verde; Talle: S; Cantidad: 1</p>
-                      <p><strong><a>Item 2</a></strong> - Color: Azul;  Talle: X; Cantidad: 5</p>
-                    </td>
-                    <td class="goods-page-stock">
-                      15/10/2016
-                    </td>
-                    <td class="goods-page-stock">
-                      Aceptada
-                    </td>
-                    <td class="goods-page-price">
-                      <strong><span>$</span>500.00</strong>
-                    </td>
-                    <td class="del-goods-col">
-                     <!-- <a class="del-goods" href="javascript:;">&nbsp;</a> btnDetalle???
-                      <a class="add-goods" href="javascript:;">&nbsp;</a>-->
-                    </td>
-                  </tr>
-                </table>
+            <div ng-controller="SubCtrlAdmin_Sale">
+              <h1>VENTAS</h1>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+
+                  <table ng-table="salesConfigTableParams" class="table table-condensed table-bordered table-striped">
+                    <tr ng-repeat="row in $data track by $index">
+                      <td data-title="'Nro. Venta'" class="goods-page-ref-no" id="saleNumber" name="saleNumber"   filter="{saleNumber: 'text'}">
+                          <p>{{row.saleNumber}}</p>
+                      </td>
+                      <td data-title="'Estado'" class="goods-page-price" ng-if="user.idUserType.type=='ADMIN'">
+                          <select class="form-control" id="state" ng-model="row.state" name="state" 
+                                  ng-options="state.description for state in states track by state.id" ng-change="changeState(row.saleNumber, row.state.description)">
+                          </select>
+                      </td>
+                      <td data-title="'Detalles'"">
+                        <button type="submit" class="btn btn-primary" ng-click="openDetailSaleModal(row.saleNumber)">Ver Detalles</button>
+                      </td>
+                      <td data-title="'Usuario'">
+                          <p>{{row.userName}}</p>
+                      </td>
+                      <td data-title="'Fecha'"><!-- filter="{date: 'date'}"-->
+                          <p>{{row.saleDate.split(" ")[0]}}</p>
+                      </td>
+                      <td data-title="'Monto total'" class="goods-page-price">
+                          <p>${{row.price}}</p>
+                      </td>
+                    </tr>
+                  </table>
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> <!---ng-controller--> 
           </div> <!---ng-show-->  
           <div ng-show="selectedTab=='configureDiscounts'">
-            <h1>CONFIGURAR DESCUENTOS</h1>
-            <div align="right"><button type="submit" class="btn btn-primary" ng-click="openDiscountModal()">Agregar Descuento</button></div>
-            </br>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                <div class="table-wrapper-responsive">
-                <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">Id</th>
-                    <th class="goods-page-description">Producto</th>
-                    <th class="goods-page-description">Precio</th>
-                    <th class="goods-page-price">Descuento</th>
-                    <th class="goods-page-description">Precio c/Descuento</th>
-                    <th class="goods-page-description">estado</th>             
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      1234
-                    </td>
-                    <td class="goods-page-description">
-                      <p><strong><a>Pantalon</a></strong> - Color: Verde; Talle: S;</p>
-                    </td>
-                    <td class="goods-page-price">
-                      <strong><span>$</span>100.00</strong>
-                    </td>
-                    <td class="goods-page-price">
-                        <select class="form-control">
-                          <option><a>10%</a></option>              
-                          <option><a>20%</a></option>
-                        </select>
-                    </td>
-                    <td class="goods-page-price">
-                     <center><strong><span>$</span>90.00</strong> </center>
-                    </td>
-                    <td class="goods-page-description">
-                      ACTIVO
-                    </td>
-                    <td class="del-goods-col">
-                      <a class="del-goods" href="">&nbsp;</a>
-                    </td>
-                  </tr>
-                </table>
+            <div ng-controller="SubCtrlAdmin_Discount">
+              <h1>CONFIGURAR DESCUENTOS</h1>
+              <div align="right"><button type="submit" class="btn btn-primary" ng-click="openDiscountModal()">Agregar / Editar Descuento</button></div>
+              </br>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                  <table summary="Shopping cart">
+                    <tr>
+                      <th class="goods-page-description">Id</th>
+                      <th class="goods-page-description">Producto</th>
+                      <th class="goods-page-price">Descuento</th>           
+                    </tr>
+                    <tr ng-repeat="discount in discounts track by $index"><!--filtrar active  | filter:{active: true} track by $index-->
+                      <td class="goods-page-description">
+                        {{discount.id}}
+                      </td>
+                      <td class="goods-page-description">
+                        <p><strong>{{discount.idProduct.name}}</strong></p>
+                      </td>
+                      <td class="goods-page-price">
+                        <p><strong>%{{discount.idDiscount.percentage}}</strong></p>                     
+                      </td>
+                      <td class="goods-page-description" ng-if="user.idUserType.type=='ADMIN'">
+                          <select class="form-control" id="active" ng-model="discount.active" name="active" 
+                                  ng-options="status.title for status in discountStatus track by status.active" ng-change="changeStateDiscount(discount.idProduct.id, discount.active)">
+                          </select>
+                      </td>
+                    </tr>
+                  </table>
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> <!---ng-controller--> 
           </div> <!---ng-show--> 
           <div ng-show="selectedTab=='editProfile'">
-            <h1>CAMBIAR DATOS PERFIL</h1>
-                  <div class="panel-body row">
-                    <div class="col-md-6 col-sm-6">
-                      <div class="form-group">
-                        <label for="name">Nombre <span class="require">*</span></label>
-                        <input type="text" id="name" class="form-control">
+            <div ng-controller="SubCtrlAdmin_EditProfile">
+              <h1>CAMBIAR DATOS PERFIL</h1>
+                <form id="userModal"  enctype="multipart/form-data" name="userForm" novalidate>
+                    <div class="panel-body row">
+                      <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                          <label for="name">Nombre <span class="require">*</span></label>
+                          <input type="text" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" name="name" id="name" class="form-control" ng-model="user.name" required>
+                          <div ng-show="userForm.name.$error.pattern">Solo letras y espacios</div>
+                          <div ng-show="userForm.name.$error.minlength">Mínimo tres letras</div>
+                          <div ng-show="userForm.name.$error.required">Requerido</div>
+                        </div>
+                        <div class="form-group">
+                          <label for="surname">Apellido <span class="require">*</span></label>
+                          <input type="text" id="surname" name="surname" class="form-control" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" ng-model="user.surname">
+                          <div ng-show="userForm.surname.$error.pattern">Solo letras y espacios</div>
+                          <div ng-show="userForm.surname.$error.minlength">Mínimo tres letras</div>
+                          <div ng-show="userForm.surname.$error.required">Requerido</div>
+                        </div>
+                        <div class="form-group">
+                          <label for="email">E-Mail <span class="require">*</span></label>
+                          <input type="email" id="email" name="email" class="form-control" ng-model="user.email" required>
+                          <div ng-show="userForm.email.$error.email">Debe ser formato mail</div>
+                          <div ng-show="userForm.email.$error.required">Requerido</div>
+                        </div>
+                        <h3>Contraseña</h3>
+                        <div class="form-group">
+                          <label for="password">Contraseña <span class="require">*</span></label>
+                          <input type="password" id="password" name="password" class="form-control" ng-minlength="6" ng-model="user.password" required>
+                          <div ng-show="userForm.password.$error.minlength">Mínimo seis letras</div>
+                          <div ng-show="userForm.password.$error.required">Requerido</div>
+                        </div>
+                        <div class="form-group">
+                          <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
+                          <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" data-password-verify="user.password" 
+                                  ng-init="user.passwordConfirm = user.password" ng-model="user.passwordConfirm" required>
+                          <div ng-show="userForm.passwordConfirm.$error.passwordVerify">Fields are not equal!</div>
+                        </div> 
+                     </div>
+                      <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                          <label for="birthdate">Fecha de Nacimiento</label>
+                          <input type="date" id="birthdate" name="birthdate" ng-model="user.birthDate" class="form-control" max="{{hace18 | date:'yyyy-MM-dd'}}" required>
+                          <div ng-show="userForm.birthdate.$error.required">Requerido</div>
+                        </div>
+                        <label for="gender">Genero</label>                     
+                        <div class="checkbox">
+                          <label>
+                            Masculino <input type="radio" ng-model="user.gender" value="Masculino">
+                          </label>
+                          <label>
+                            Femenino <input type="radio" ng-model="user.gender" value="Femenino">
+                          </label>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="lastname">Apellido <span class="require">*</span></label>
-                        <input type="text" id="lastname" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label for="email">E-Mail <span class="require">*</span></label>
-                        <input type="text" id="email" class="form-control">
-                      </div>
-                      <h3>Contraseña</h3>
-                      <div class="form-group">
-                        <label for="password">Contraseña <span class="require">*</span></label>
-                        <input type="password" id="password" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
-                        <input type="text" id="password-confirm" class="form-control">
+                      <hr>
+                      <div class="col-md-12">                      
+                        <button class="btn btn-primary" type="button" ng-click="updateProfile(user)" ng-disabled="userForm.$invalid">Guardar</button>                     
                       </div>
                     </div>
-
-                    <div class="col-md-6 col-sm-6">
-                      <div class="form-group">
-                        <label for="birthdate">Fecha de Nacimiento</label>
-                        <input type="date" id="birthdate" class="form-control">
-                      </div>
-                      <label for="gender">Genero</label>                     
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox">Masculino
-                        </label>
-                        <label>
-                          <input type="checkbox">Femenino
-                        </label>
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="col-md-12">                      
-                      <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse" data-parent="#checkout-page" data-target="#shipping-address-content" id="button-payment-address">Guardar</button>                      
-                    </div>
-                  </div>
+                </form>
+              </div> <!---ng-controller--> 
           </div> <!---ng-show--> 
           <div ng-show="selectedTab=='reports'">
-            <h1>REPORTES</h1>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                <div class="table-wrapper-responsive">
-                  <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">Nombre Reporte</th>
-                    <th class="goods-page-description">Fecha Desde</th>
-                    <th class="goods-page-description">Fecha Hasta</th>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      <p><strong>Ventas</strong></p>
-                    </td>
-                    <td>
-                      <div class="form-group">
-                        <input type="date" id="dateFrom" class="form-control">
-                      </div>
-                    </td>
-                    <td>
-                      <div class="form-group">
-                        <input type="date" id="dateFrom" class="form-control">
-                      </div>
-                    </td>
-                    <td >
-                      <button class="btn btn-primary" type="button" id="userActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Generar                         
-                      </button>
-                    </td>
-                  </tr>
-                </table>
+            <div ng-controller="SubCtrlAdmin_Report">
+              <h1>REPORTES</h1>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                    <form id="reportForm"  enctype="multipart/form-data" name="reportForm" novalidate>
+                      <table summary="Shopping cart">
+                        <tr>
+                          <th class="goods-page-description">Nombre Reporte</th>
+                          <th class="goods-page-description">Fecha Desde</th>
+                          <th class="goods-page-description">Fecha Hasta</th>
+                        </tr>
+                        <tr>
+                          <td class="goods-page-description">
+                            <select ng-model="report.type" required>
+                              <option value="Ventas">Ventas</option>
+                              <option value="Articulos">Articulos</option>
+                              <option value="Usuarios">Usuarios</option>
+                            </select>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <input type="date" id="dateFrom" name="dateFrom" ng-model="report.dateFrom" class="form-control" required>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <input type="date" id="dateTo" name="dateTo" ng-model="report.dateTo" class="form-control" ng-change="checkErr(report.dateFrom,report.dateTo)" max="{{today}}" required>
+                            </div>
+                          </td>
+                          <td>
+                            <button class="btn btn-primary" type="button" ng-click="generateReport(report)" ng-disabled="reportForm.$invalid || checkErr(report.dateFrom,report.dateTo)">Generar</button>
+                          </td>
+                        </tr>
+                      </table>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> <!---ng-controller--> 
           </div> <!---ng-show-->  
           <div ng-show="selectedTab=='size-colors'">
-            <h1>TALLES / COLORES</h1>
-              <div align="right">
-                <button type="submit" class="btn btn-primary" ng-click="openColorModal()">Agregar Color</button>
-                <button type="submit" class="btn btn-primary" ng-click="openSizeModal()">Agregar Talle</button>
+            <div ng-controller="SubCtrlAdmin_SizeAndColor">
+              <h1>TALLES / COLORES</h1>
+                <div align="right">
+                  <button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openColorModal()">Agregar Color</button>
+                  <button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openSizeModal()">Agregar Talle</button>
+                </div>
+              </br>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                    <table summary="Shopping cart">
+                      <tr>
+                        <th class="goods-page-description">Nombre</th>
+                        <th class="goods-page-price" colspan="2">Color</th>
+                      </tr>
+                      <tr ng-repeat="color in colors | filter:{active:true} track by $index">
+                        <td>{{color.color}}</td>
+                        <td><input class="form-control" name="color" type="color" ng-model="color.rgb" ng-init="color.rgb=color.rgb" disabled/></td>                  
+                        <td class="del-goods-col" ng-if="user.idUserType.type=='ADMIN'">
+                          <a class="del-goods" href="" ng-click="removeColor(color)">&nbsp;</a>
+                          <a class="upd-goods" href="" ng-click="editColorModal(color)">&nbsp;</a>
+                        </td>
+                      </tr>
+                    </table>
+                  <br>
+                  <br>
+                  <br>
+                  <table summary="Shopping cart">
+                    <tr>
+                      <th class="goods-page-description">Nombre</th>
+                      <th class="goods-page-description">Largo</th>
+                    </tr>
+                    <tr ng-repeat="size in sizes | filter:{active:true} track by $index">
+                        <td>{{size.size}}</td>
+                        <td>{{size.large}} cm</td>
+                        <td class="del-goods-col" ng-if="user.idUserType.type=='ADMIN'">
+                          <a class="del-goods" href="" ng-click="removeSize(size)">&nbsp;</a>
+                          <a class="upd-goods" href="" ng-click="editSizeModal(size)">&nbsp;</a>
+                        </td>
+                      </tr>
+                  </table>
+                  </div>
+                </div>
               </div>
+            </div> <!---ng-controller--> 
+          </div> <!---ng-show--> 
+          <div ng-show="selectedTab=='images'">
+            <div ng-controller="SubCtrlAdmin_Image">
+                 <h1>IMAGENES</h1>
+                  <div align="right"><button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openImagesModal()">Borrar imágenes</button></div>
+                  <form id="formFiles"  enctype="multipart/form-data" name="filesForm" novalidate>
+                    <div class="goods-page">
+                      <div class="goods-data clearfix">
+                          <div class="row">
+                            <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+                              <div class="form-group">
+                                <label for="product">¿A qué desea subirle foto?<span class="require">*</span></label>
+                                <select class="form-control" id="type" ng-model="images.type" name="type" ng-change="images.product=products[0]">
+                                  <option value="producto">Producto</option>
+                                  <option value="slider1">Slider 1</option>
+                                  <option value="slider2">Slider 2</option>
+                                </select>
+                                  <div ng-show="images.type == 'producto'">
+                                    <br><label>Producto </label>
+                                    <select class="form-control" id="product" ng-model="images.product" name="product" 
+                                      ng-options="product.name for product in products | filter:{active:'true'} track by product.id">
+                                      </select>
+                                  </div>
+                                  <div ng-show="images.type == 'slider1'">
+                                    <br><label>Referencia: </label>
+                                    <select class="form-control" id="sliderLink" ng-model="images.sliderLink" name="sliderLink">
+                                        <option value="my-account.html" selected>Mi Cuenta</option>
+                                        <option value="search-result.html">Búsqueda</option>
+                                        <option value="checkout.html">Checkout</option>
+                                        <option value="shop-shopping-cart.html">Carrito</option>
+                                    </select>
+                                  </div>
+                                <span class="messages" ng-show="formFiles.$submitted || formFiles.product.$touched">
+                                  <span ng-show="formFiles.product.$error.required">El campo es obligatorio.</span>
+                                </span>
+                              </div>
+                                <label for="myFiles">Imagen </label>
+                                <input type="file" ngf-select="imagesVerification($files,$invalidFiles)" ng-model="images.myFiles" name="myFiles"    
+                                   accept="image/*" ngf-max-size="5MB" ngf-max-height="2000" ngf-max-width="2000" ngf-model-invalid="errorFile"
+                                   required multiple/><br>
+                                     <div ng-show="goodFiles!=undefined || badFiles!=undefined">
+                                         <div ng-show="goodFiles.length!=0"><label>Sin errores:</label></div>
+                                         <li ng-repeat="f in goodFiles">{{f.name}}</li><br>
+                                         <div ng-show="badFiles.length!=0"><label>Con errores:</label></div>
+                                         <li ng-repeat="f in badFiles">"{{f.name}}". Error: {{f.$error}}. Límite: {{f.$errorParam}}</li>
+                                     </div>
+                                     <span ng-show="errorMsg != ''">{{errorMsg}}</span>
+                            </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+                          </div><!-- /.row -->
+                      </div>
+                    </div>
+                    <div class="col-md-12">      
+                      <button class="btn btn-primary" type="button" ng-click="uploadImages(images)" ng-disabled="filesForm.$invalid || images.myFiles.length==0">Guardar</button>
+                      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>                   
+                    </div>
+                </form>
+              </div> <!---ng-controller--> 
+          </div> <!---ng-show--> 
+
+        <div ng-show="selectedTab=='provinces'">
+          <div ng-controller="SubCtrlAdmin_Province">
+            <h1>Provincias/Costo de envío</h1>
+            <div align="right"><button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openProvinceModal()">Agregar costo de envío</button></div>
             </br>
             <div class="goods-page">
               <div class="goods-data clearfix">
                 <div class="table-wrapper-responsive">
                   <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">Color</th>
-                    <th class="goods-page-description">Estado</th>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      Amarillo
-                    </td>
-                    <td class="goods-page-description">
-                      Activo
-                    </td>
-                    <td class="del-goods-col">
-                      <a class="del-goods" href="">&nbsp;</a>
-                      <a class="add-goods" href="" ng-click="openEditProductModal(product)">&nbsp;</a>
-                    </td>                  
-                  </tr>
-                </table>
-                <br>
-                <br>
-                <br>
-                <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">Talle</th>
-                    <th class="goods-page-description">Proveedor</th>
-                    <th class="goods-page-description">Estado</th>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      S
-                    </td>
-                    <td class="goods-page-description">
-                      Proveedor 1
-                    </td>
-                    <td class="goods-page-description">
-                      Activo
-                    </td>
-                    <td class="del-goods-col">
-                      <a class="del-goods" href="">&nbsp;</a>
-                      <a class="add-goods" href="" ng-click="openEditProductModal(product)">&nbsp;</a>
-                    </td>
-                  </tr>
-                </table>
+                    <tr>
+                      <th class="goods-page-description">Provincia</th>
+                      <th class="goods-page-price" colspan="2">Costo de Envio</th>
+                    </tr>
+                    <tr ng-repeat="province in provinces | filter:{active:true} track by $index">
+                      <td>{{province.name}}</td>
+                      <td>${{province.cost}}</td>                  
+                      <td class="del-goods-col" ng-if="user.idUserType.type=='ADMIN'">
+                        <a class="del-goods" href="" ng-click="removeProvince(province)">&nbsp;</a>
+                        <a class="upd-goods" href="" ng-click="editProvinceModal(province)">&nbsp;</a>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </div>
             </div>
-          </div> <!---ng-show-->  
-          <div ng-show="selectedTab=='images'">
-            <h1>IMAGENES</h1>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                  <div class="row">
-                    <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
-                      <div class="form-group">
-                        <label for="userType">Seleccione imagen que desea cargar<span class="require"> *</span></label>
-                        <select class="form-control" id="userType" ng-model="user.userType" name="userType"              
-                         required>
-                          <option >Slider1</option>
-                          <option >Slider2</option>
-                          <option >Recomendado1</option>
-                        </select>
-                        <span class="messages" ng-show="UserTypeForm.$submitted || UserTypeForm.userType.$touched">
-                          <span ng-show="UserTypeForm.userType.$error.required">El campo es obligatorio.</span>
-                        </span>
-                      </div>
-                        <label for="file">Imagen </label>
-                        <input type="file" id="file" name="file"/>
-                    </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
-                  </div><!-- /.row -->
-              </div>
-            </div>
-            <div class="col-md-12">                      
-              <button class="btn btn-primary" type="button" ng-click="save(address)" ng-disabled="addressForm.$invalid">Guardar</button>
-              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>                   
-            </div>
-          </div> <!---ng-show--> 
+           </div> <!---ng-controller--> 
+        </div> <!---ng-show-->  
 
-         <div ng-show="selectedTab=='shippingCost'">
-            <h1>COSTO DE ENVIO</h1>
-            <div align="right"><button type="submit" class="btn btn-primary" ng-click="openShippingCostModal()">Agregar Costo de Envio</button></div>
-            </br>
-            <div class="goods-page">
-              <div class="goods-data clearfix">
-                <div class="table-wrapper-responsive">
-                                <table summary="Shopping cart">
-                  <tr>
-                    <th class="goods-page-description">Provincia</th>
-                    <th class="goods-page-price" colspan="2">Costo de Envio</th>
-                  </tr>
-                  <tr>
-                    <td class="goods-page-description">
-                      Buenos Aires
-                    </td>
-                    <td class="goods-page-price">
-                      <strong><span>$</span>15.00</strong> 
-                    </td>                  
-                    <td class="del-goods-col">
-                      <a class="del-goods" href="">&nbsp;</a>
-                      <a class="add-goods" href="" ng-click="openShippingCostModal()">&nbsp;</a>
-                    </td>
-                  </tr>
-                </table>
+
+        <div ng-controller="SubCtrlAdmin_Triple">
+          <div ng-show="selectedTab=='promotions'">
+              <h1>PROMOCIONES</h1>
+              <div align="right"><button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openPromotionModal()">Agregar Promoción</button></div>
+              </br>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                    <table summary="Shopping cart">
+                      <tr>
+                        <th class="goods-page-description">Banco</th>
+                        <th class="goods-page-description">Tarjeta</th>
+                        <th class="goods-page-description">Desde</th>
+                        <th class="goods-page-description">Hasta</th>
+                        <th class="goods-page-description">Días</th>
+                        <th class="goods-page-price" colspan="2">Porcentaje</th>
+                        <th></th>
+                      </tr>
+                      <tr ng-repeat="promotion in promotions | filter:{active:true} track by $index">
+                        <td class="goods-page-description">
+                           {{promotion.idBankCard.idBank.name}}
+                        </td>
+                        <td class="goods-page-description">
+                          {{promotion.idBankCard.idCard.name}}
+                        </td>
+                        <td class="goods-page-description">
+                          {{promotion.dateFrom.date | dateFilter}}
+                        </td>
+                        <td class="goods-page-description">
+                          {{promotion.dateTo.date | dateFilter}}
+                        </td>
+                        <td class="goods-page-description">
+                          {{promotion | weekDaysFilter}}
+                        </td>
+                        <td class="goods-page-price">
+                          {{promotion.percentage}}
+                        </td>
+                          <td ng-if="user.idUserType.type=='ADMIN'" class="del-goods-col">
+                            <a class="del-goods" href="" ng-click="removePromotion(promotion)">&nbsp;</a>
+                            <a class="upd-goods" href="" ng-click="editPromotionModal(promotion)">&nbsp;</a>
+                          </td>
+                      </tr>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div> <!---ng-show-->  
-        </div>        
+            </div> <!---ng-show-->
+
+            <div ng-show="selectedTab=='cards'">
+              <h1>Tarjetas</h1>
+              <div align="right"><button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openCardModal()">Agregar Tarjeta</button></div>
+              </br>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                    <table summary="Shopping cart">
+                      <tr>
+                        <th class="goods-page-description">Nombre</th>
+                      </tr>
+                      <tr ng-repeat="card in cards | filter:{active:true} track by $index">
+                        <td>{{card.name}}</td>               
+                        <td ng-if="user.idUserType.type=='ADMIN'" class="del-goods-col">
+                          <a class="del-goods" href="" ng-click="removeCard(card)">&nbsp;</a>
+                          <a class="upd-goods" href="" ng-click="editCardModal(card)">&nbsp;</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div> <!---ng-show-->  
+
+            <div ng-show="selectedTab=='banks'">
+                <h1>Bancos</h1>
+                <div align="right"><button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openBankModal()">Agregar Bancos</button></div>
+                </br>
+                <div class="goods-page">
+                  <div class="goods-data clearfix">
+                    <div class="table-wrapper-responsive">
+                      <table summary="Shopping cart">
+                        <tr>
+                          <th class="goods-page-description">Nombre</th>
+                        </tr>
+                        <tr ng-repeat="bank in banks | filter:{active:true} track by $index">
+                          <td>{{bank.name}}</td>               
+                          <td ng-if="user.idUserType.type=='ADMIN'" class="del-goods-col">
+                            <a class="del-goods" href="" ng-click="removeBank(bank)">&nbsp;</a>
+                            <a class="upd-goods" href="" ng-click="editBankModal(bank)">&nbsp;</a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+            </div> <!---ng-show-->  
+          </div>
+
+          <div ng-show="selectedTab=='providers'">
+            <div ng-controller="SubCtrlAdmin_Provider">
+              <h1>Proveedores</h1>
+                <div align="right">
+                  <button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openProviderModal()">Agregar Proveedor</button>
+                </div>
+              </br>
+              <div class="goods-page">
+                <div class="goods-data clearfix">
+                  <div class="table-wrapper-responsive">
+                    <table summary="Shopping cart">
+                      <tr>
+                        <th class="goods-page-description">Nombre</th>
+                        <th class="goods-page-description">e-mail</th>
+                        <th class="goods-page-description">Dirección</th>
+                      </tr>
+                      <tr ng-repeat="provider in providers | filter:{active:true} track by $index">
+                        <td>{{provider.name}}</td>
+                        <td>{{provider.email}}</td>   
+                        <td>{{provider.address}}</td>                 
+                        <td ng-if="user.idUserType.type=='ADMIN'" class="del-goods-col">
+                          <a class="del-goods" href="" ng-click="removeProvider(provider)">&nbsp;</a>
+                          <a class="upd-goods" href="" ng-click="editProviderModal(provider)">&nbsp;</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div> <!---ng-controller--> 
+          </div> <!---ng-show-->      
+        
+
         </div>
         <!-- END SIDEBAR & CONTENT -->
       </div>
     </div>
+
+          
+    <!-- VISTA FOOTER -->
+    <div ng-include="'footer.html'"></div>
+    <!-- FIN VISTA FOOTER -->
 
     <!-- Load javascripts at bottom, this will reduce page load time -->
     <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->

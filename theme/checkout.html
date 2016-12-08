@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+
+<html lang="es" ng-app="LaMaceta">
+
+<!-- Head BEGIN -->
+<head>
+
+  <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
+
+  <script src="../js/angular-cookies.js"></script>
+  <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
+  <script src="../bower_components/ng-file-upload/ng-file-upload.min.js" type="text/javascript"></script>
+  <script src="../js/checklist-model.js"></script>
+  <script src="../js/angular-cookies.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
+
+  <script src="../js/app/app.js"></script>
+
+  <script src="../js/controller/CheckoutController.js"></script>
+
+  <script src="../js/controller/CartController.js"></script>
+  <script src="../js/service/CartService.js"></script>
+
+  <script src="../js/service/AccountService.js"></script>
+  <script src="../js/service/LoginService.js"></script>
+  <script src="../js/service/AdminService.js"></script>
+  <script src="../js/service/SearchService.js"></script>
+  <script src="../js/service/ShopItemService.js"></script>
+    <script src="../js/service/MailService.js"></script>
+  
+  <script src="../js/controller/PreheaderController.js"></script>
+
+  <meta charset="utf-8">
+  <title>Checkout | LaMaceta</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+  <!-- Fonts START -->
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css"> 
+  <!-- Fonts END -->
+
+  <!-- Global styles START -->          
+  <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
+  <link href="assets/plugins/owl.carousel/assets/owl.carousel.css" rel="stylesheet">
+  <link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link href="assets/pages/css/components.css" rel="stylesheet">
+  <link href="assets/corporate/css/style.css" rel="stylesheet">
+  <link href="assets/pages/css/style-shop.css" rel="stylesheet" type="text/css">
+  <link href="assets/corporate/css/style-responsive.css" rel="stylesheet">
+  <link href="assets/corporate/css/themes/red.css" rel="stylesheet" id="style-color">
+  <link href="assets/corporate/css/custom.css" rel="stylesheet">
+  <!-- Theme styles END -->
+</head>
+<!-- Head END -->
+
+<!-- VISTA HEADER -->
+  <div ng-include="'header.html'">
+   </div>
+   <!-- FIN VISTA HEADER -->
+
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+  </style>
+
+<!-- Body BEGIN -->
+<body class="ecommerce" ng-controller="CheckoutController">
+    <div class="main">
+      <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="">Tienda</a></li>
+            <li class="active">Checkout</li>
+        </ul>
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-40">
+          <!-- BEGIN CONTENT -->
+          <div class="col-md-12 col-sm-12">
+            <h1>Checkout</h1>
+            <!-- BEGIN CHECKOUT PAGE -->
+            <div class="panel-group checkout-page accordion scrollable" id="checkout-page">
+
+              <!-- BEGIN CHECKOUT -->
+              <div id="checkout" class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#checkout-page" href="#checkout-content" class="accordion-toggle">
+                      Paso 1: Usuario
+                    </a>
+                  </h2>
+                </div>
+                <div id="checkout-content" class="panel-collapse collapse in">
+            
+                  <div class="panel-body row">  
+                  <div ng-show="user!==undefined">
+                      <h1>Usted se encuentra logueado con el usuario: {{user.name}}</h1>
+                  </div>
+
+                    <div class="col-md-6 col-sm-6" ng-show="user===undefined" >
+
+                        <div class="form-group">
+                          <form id="LoginModal" enctype="multipart/form-data" name="loginForm">
+                                  <div class="form-group">
+                                    <label for="email">E-mail <span class="require">*</span></label>
+                                    <input type="email" id="email" class="form-control" ng-model="login.email" required/>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="password">Contraseña<span class="require">*</span></label>
+                                    <input type="password" id="password" class="form-control" ng-model="login.password" required/>
+                              </div>
+                          </form>
+                          <div align="right"> 
+                              <button class="btn btn-primary " type="submit" id="login-confirm" ng-click="tryLogin(login)" ng-disabled="loginForm.$invalid">Login</button>
+                              <button type="submit" class="btn btn-primary" ng-click="openUserModal()">Registrarse</button>
+                          </div>
+                        </div> 
+
+                    </div>
+
+                    <div class="col-md-12" ng-show="user!==undefined">                      
+                      <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse" data-parent="#checkout-page" data-target="#payment-address-content" id="button-payment-address">Continuar</button>                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END CHECKOUT -->
+
+              <!-- BEGIN PAYMENT ADDRESS -->
+              <div id="payment-address" class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#checkout-page" href="#payment-address-content" class="accordion-toggle">
+                      Paso 2: Domicilio Envio
+                    </a>
+                  </h2>
+                </div>
+                <div id="payment-address-content" class="panel-collapse collapse">
+                  <div class="panel-body row">
+                    <div class="col-md-6 col-sm-6">
+                      <h3>Domicilio</h3>
+                        <div class="form-group">
+
+                      <div class="col-md-12">                      
+                        <button class="btn btn-primary  pull-right" type="submit"  id="newAddress" ng-click="newAddress()">Nueva Dirección</button>                   
+                      </div>
+
+                        <label for="country">Libreta de direcciones <span class="require">*</span></label>
+                       <select class="form-control" id="address" ng-model="address" name="address" 
+                        ng-options="address as address.street for address in addresses track by address.id"    
+                         required>
+                         <option value="">--Seleccione una dirección--</option>
+                       </select>
+                      </div>
+                               <style type="text/css">
+
+                                  .messages {
+                                    color: #FA787E;
+                                  }
+                                  form.ng-submitted input.ng-invalid{
+                                    border-color: #FA787E;
+                                  }
+                                  form input.ng-invalid.ng-touched {
+                                    border-color: #FA787E;
+                                  }
+
+                                  form input.ng-valid.ng-touched {
+                                    border-color: #78FA89;
+                                  }
+
+                                </style>
+
+                                <form id="AddressModal"  enctype="multipart/form-data" name="addressForm" novalidate>
+                                  <div layout="column" layout-align="space-around center">
+                                    <div class="row">
+                                      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                              <label for="street">Calle<span class="require"> *</span></label>
+                                              <input type="text" id="street" name="street" class="form-control" ng-model="address.street"
+                                              ng-minlength="2" ng-disabled="checkEnabledAddress()" required/>
+                                              <span class="messages" ng-show="addressForm.$submitted || addressForm.street.$touched">
+                                              <span ng-show="addressForm.street.$error.required">El campo es obligatorio.</span>
+                                              </span>
+                                      </div>
+                                    </div>
+                                      <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4">
+                                        <div class="form-group">  
+                                          <label for="number">Numero<span class="require"> *</span></label>
+                                            <input type="text" class="form-control" ng-pattern="/^[0-9]+$/" id="number"
+                                                  ng-model="address.number" name="number" ng-minlength="1" ng-maxlength="5" ng-disabled="checkEnabledAddress()" required/>
+                                            <span class="messages" ng-show="addressForm.$submitted || addressForm.number.$touched">
+                                            <span ng-show="addressForm.number.$error.required">El campo es obligatorio.</span>
+                                          </span>
+                                        </div><!-- /input-group -->
+                                      </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+
+                                    </div><!--row-->
+
+                                    <div class="row">
+                                        <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4">
+                                          <label for="apartment">Piso/Depto</label>
+                                          <div class="form-group">
+                                            <input type="text" class="form-control" ng-model="address.apartment" name="apartment" ng-disabled="checkEnabledAddress()"/>
+                                        </div><!-- /input-group -->
+                                      </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+                                    </div><!--row-->   
+
+                                    <div class="row">
+                                      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="number">Localidad<span class="require"> *</span></label>
+                                            <input type="text" class="form-control" ng-model="address.city" name="city" ng-disabled="checkEnabledAddress()" required/>
+                                            <span class="messages" ng-show="addressForm.$submitted || addressForm.city.$touched">
+                                            <span ng-show="addressForm.city.$error.required">El campo es obligatorio.</span>
+                                          </span>
+                                        </div><!-- /input-group -->
+                                      </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+
+                                      <div class="col-xs-2 col-sm-3 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="number">C.P.<span class="require"> *</span></label>
+                                              <input type="text" class="form-control" ng-pattern="/^[0-9]/"
+                                               ng-maxlength="4"  ng-minlength="4" ng-model="address.zipCode" name="zipCode" ng-disabled="checkEnabledAddress()" required/>
+                                              <span class="messages" ng-show="addressForm.$submitted || addressForm.zipCode.$touched">
+                                              <span ng-show="addressForm.zipCode.$error.required">El campo es obligatorio.</span>
+                                            </span>
+
+                                        </div><!-- /input-group -->
+                                      </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+                                    </div><!-- /.row -->
+                                  <br/>  
+                                    <div class="row">
+                                      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+                                          <div class="form-group">
+                                            <label for="province">Provincia<span class="require"> *</span></label>
+                                            <select class="form-control" id="province" ng-model="address.idProvince" name="province" 
+                                            ng-options="province as province.name for province in provinces track by province.id" ng-disabled="checkEnabledAddress()"          
+                                             required>
+                                            </select>
+                                            <span class="messages" ng-show="addressForm.$submitted || addressForm.province.$touched">
+                                              <span ng-show="addressForm.province.$error.required">El campo es obligatorio.</span>
+                                            </span>
+                                          </div>
+                                      </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+                                    </div><!-- /.row -->
+
+                                <br/>
+                                    <div class="row">
+                                      <div class="col-xs-5 col-sm-6 col-md-7 col-lg-7">
+                                        <div class="form-group">
+                                          <label for="mobilePhone">Teléfono Celular<span class="require"> *</span></label>
+                                            <input type="text" class="form-control" ng-pattern="/^[0-9]+$/"
+                                            ng-model="address.mobilePhone" name="mobilePhone" ng-minlength="8" ng-disabled="checkEnabledAddress()" required/>
+                                            <span class="messages" ng-show="addressForm.$submitted || addressForm.mobilePhone.$touched">
+                                            <span ng-show="addressForm.mobilePhone.$error.required">El campo es obligatorio.</span>
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div><!--row-->
+                                  <br/>
+
+                                    <div class="row">
+                                      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                          <label for="phone">Teléfono</label>
+                                            <input type="text" class="form-control" ng-pattern="/^[0-9]+$/"
+                                            ng-model="address.phone" name="phone" ng-minlength="8" ng-disabled="checkEnabledAddress()"/>
+                                        </div>
+                                      </div>
+                                    </div><!--row-->
+
+                                  </div>    
+                                </form>
+
+                    </div>
+                    <hr>
+                    <div class="col-md-12">                      
+                      <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse" data-parent="#checkout-page" data-target="#shipping-method-content" id="button-payment-address">Continuar</button>                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END PAYMENT ADDRESS -->            
+              <!-- BEGIN SHIPPING METHOD -->
+              <div id="shipping-method" class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#checkout-page" href="#shipping-method-content" class="accordion-toggle">
+                      Paso 3: Metodo de pago
+                    </a>
+                  </h2>
+                </div>
+                <div id="shipping-method-content" class="panel-collapse collapse">
+                  <div class="panel-body row">
+                    <div class="col-md-6 col-sm-6">
+
+                   <h3>Seleccione Metodo de Pago</h3>
+
+                      <div class="form-group">
+                          <select class="form-control" id="paymentMethod" ng-model="paymentMethod" name="paymentMethod" ng-click="updatePaymentMethod()"
+                           required>
+                            <option value="CreditCard">Tarjeta de Credito</option>
+                            <option value="ContraReembolso">Contra Reembolso</option>
+                          </select>
+                          </span>
+                      </div>
+
+                      <h3>Tarjeta</h3>
+                    <form id="cardId"  enctype="multipart/form-data" name="cardForm" novalidate>
+                      <div class="form-group">
+
+                      <div class="col-md-12">                      
+                        <button class="btn btn-primary  pull-right" type="submit"  id="newAddress" ng-click="newCreditCard()">Nueva Tarjeta</button>                   
+                      </div>
+
+                        <label for="country">Seleccione Tarjeta <span class="require">*</span></label>
+                         <select class="form-control" id="card" ng-model="card" name="card" 
+                        ng-options="creditCard as creditCard.number for creditCard in myCreditCards track by creditCard.id"  ng-click="calcTotalAmount();checkEnabledCreditCard();"  
+                        ng-change="getAssociatedCardsFixed(card)" ng-disabled="allowSelectCreditCard"
+                         required>
+                          <option value="">--Seleccione una tarjeta--</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="bank">Seleccione Banco <span class="require">*</span></label>
+                          <select class="form-control" id="card.bank" ng-model="card.idBankCard.idBank" name="bank" 
+                          ng-options="bank as bank.name for bank in banks track by bank.id" ng-disabled="allowCreditCard"  
+                          ng-change="getAssociatedCards(card.idBankCard.idBank)" required>
+                            <option value="">--Seleccione una Banco--</option>
+                          </select>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.bank.$touched">
+                          <span ng-show="cardForm.bank.$error.required">El campo es obligatorio.</span>
+                          </span>
+                      </div>
+                      <div class="form-group">
+                        <label for="creditCard">Seleccione Tarjeta <span class="require">*</span></label>
+                          <select class="form-control" id="creditCard" ng-model="card.idBankCard.idCard" name="creditCard" 
+                          ng-options="card.idCard as card.idCard.name for card in associatedCards track by card.idCard.id" ng-disabled="allowCreditCard" 
+                          required>
+                            <option value="">--Seleccione una tarjeta--</option>
+                          </select>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.creditCard.$touched">
+                          <span ng-show="cardForm.creditCard.$error.required">El campo es obligatorio.</span>
+                          </span>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="number">Numero<span class="require"> *</span></label>
+                          <input type="text" class="form-control" ng-pattern="/^[0-9]+$/" id="number" ng-disabled="allowCreditCard"
+                                ng-model="card.number" name="number" ng-minlength="16" ng-maxlength="16" required/>
+                            <span class="messages" ng-show="cardForm.$submitted || cardForm.number.$touched">
+                              <div ng-show="cardForm.number.$error.pattern">Solo números</div>
+                              <div ng-show="cardForm.number.$error.minlength">16 números</div>
+                              <div ng-show="cardForm.number.$error.maxlength">16 números</div>
+                              <div ng-show="cardForm.number.$error.required">Requerido</div>
+                            </span>
+                      </div>
+
+                      <!--<div class="form-group">
+                        <label for="number">Numero de Tarjeta <span class="require">*</span></label>
+                        <input type="text" id="number" name="number" class="form-control" ng-model="card.number" ng-minlength="16" ng-maxlength="16"   required>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.number.$touched">
+                          <span ng-show="cardForm.number.$error.required">El campo es obligatorio.</span>
+                          </span>
+                      </div>-->
+
+                      <div class="form-group">
+                          <label for="number">Nombre del Titular<span class="require"> *</span></label>
+                          <input type="text" class="form-control" ng-model="card.name" name="name" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" ng-disabled="allowCreditCard"  required/>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.name.$touched">
+                              <div ng-show="cardForm.name.$error.pattern">Solo letras y espacios</div>
+                              <div ng-show="cardForm.name.$error.maxlength">Mínimo tres letras</div>
+                              <div ng-show="cardForm.name.$error.required">Requerido</div>
+                          </span>
+                      </div><!-- /input-group -->
+
+                      <!--<div class="form-group">
+                        <label for="name">Nombre del Titular <span class="require">*</span></label>
+                        <input type="text" id="name" name="name" class="form-control" ng-model="card.name" ng-disabled="allowCreditCard" required>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.name.$touched">
+                          <span ng-show="cardForm.name.$error.required">El campo es obligatorio.</span>
+                          </span>
+                      </div>-->
+
+                      <div class="form-group">
+                          <label for="number">CVV<span class="require"> *</span></label>
+                            <input type="text" class="form-control" ng-pattern="/^[0-9/]/"
+                             ng-maxlength="3"  ng-minlength="3" ng-model="card.cvv" name="cvv" ng-disabled="allowCreditCard" required/>
+                            <span class="messages" ng-show="cardForm.$submitted || cardForm.cvv.$touched">
+                              <div ng-show="cardForm.cvv.$error.pattern">Solo números</div>
+                              <div ng-show="cardForm.cvv.$error.minlength">3 números</div>
+                              <div ng-show="cardForm.cvv.$error.maxlength">3 números</div>
+                              <div ng-show="cardForm.cvv.$error.required">Requerido</div>
+                          </span>
+                      </div><!-- /input-group -->
+
+                      <div class="form-group">
+                        <label for="number">Vencimiento<span class="require"> *</span></label><br>
+                          <select ng-model="card.expirationDateMonth" name="expirationDateMonth" ng-disabled="allowCreditCard" required>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                          </select> / <select ng-model="card.expirationDateYear" name="expirationDateYear" ng-disabled="allowCreditCard" required>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                      </select>
+                      </div>
+
+                      <!--<div class="form-group">
+                        <label for="expireDate">Vencimiento <span class="require">*</span></label>
+                        <input type="date" id="expireDate" name="expireDate" class="form-control" ng-model="card.expireDate" ng-disabled="allowCreditCard" required>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.expireDate.$touched">
+                          <span ng-show="cardForm.expireDate.$error.required">El campo es obligatorio.</span>
+                          </span>
+                      </div>-->
+
+                      <div class="form-group">
+                        <label for="quota">Seleccione Cuotas <span class="require">*</span></label>
+                          <select class="form-control" id="quota" ng-model="quota" name="quota"
+                          required>
+                            <option value="1"> 1 </option>
+                            <option value="3"> 3 </option>
+                            <option value="6"> 6 </option>
+                            <option value="12"> 12 </option>
+                          </select>
+                          <span class="messages" ng-show="cardForm.$submitted || cardForm.quota.$touched">
+                          <span ng-show="cardForm.quota.$error.required">El campo es obligatorio.</span>
+                          </span>
+                      </div>
+                    </form>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">                      
+                      <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse" data-parent="#checkout-page" data-target="#confirm-content" id="button-payment-address">Continuar</button>                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END SHIPPING METHOD -->      
+              <!-- BEGIN CONFIRM -->
+              <div id="confirm" class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#checkout-page" href="#confirm-content" class="accordion-toggle">
+                      Paso 4: Confirmar Compra
+                    </a>
+                  </h2>
+                </div>
+                <div id="confirm-content" class="panel-collapse collapse">
+                  <div class="panel-body row">
+                    <div class="col-md-12 clearfix">
+                      <div class="table-wrapper-responsive">
+                      <table >
+                        <tr>
+                          <th class="checkout-image">Imagen</th>
+                          <th class="checkout-description">Descripcion</th>
+                          <th class="checkout-quantity">Cantidad</th>
+                          <th class="checkout-price">Precio</th>
+                          <th class="checkout-total">Total</th>
+                        </tr>
+                        <tr ng-repeat="article in articles track by $index">
+                          <td class="checkout-image">
+                            <a><img src="../images/producto/{{article.img}}" alt="IMAGEN"></a>
+                          </td>
+                          <td class="checkout-description">
+                            <h3><a href="javascript:;">{{article.idProd.description}}</a></h3>
+                            <p><strong>{{article.idProd.name}}</strong> - Color: {{article.idColor.color}}; Talle: {{article.idSize.size}}</p>
+                          </td>
+                          <td class="checkout-quantity">
+                            <div class="product-quantity">
+                                <input id="product-quantity{{$index}}" type="text" ng-model="article.quantity" readonly class="form-control input-sm" >
+                                <div class="btn quantity-up">
+                                  <i class='fa fa-angle-up' ng-click="upQuantity(article.id);"></i>
+                                </div>
+                                <div class="btn quantity-down">
+                                <i class='fa fa-angle-down' ng-click="downQuantity(article.id)"></i>
+                                </div>
+                            </div>
+                          </td>
+                          <td class="checkout-price"><strong><span>$</span>{{article.price}}</strong></td>
+                          <td class="checkout-total"><strong><span>$</span>{{article.price*article.quantity}}</strong></td>
+                        </tr>
+                      </table>
+                      </div>
+                      <div class="checkout-total-block">
+                        <ul>
+                          <li>
+                            <em>Sub total</em>
+                            <strong class="price"><span>$</span>{{totalAmount}}</strong>
+                          </li>
+                          <li>
+                            <em>Descuentos</em>
+                            <strong class="price"><span>$</span>{{promotion}}</strong>
+                          </li>
+                          <li>
+                            <em>Costo de envio</em>
+                            <strong class="price"><span>$</span>{{shippingCost}}</strong>
+                          </li>
+                          <li class="checkout-total-price">
+                            <em>Total</em>
+                            <strong class="price"><span>$</span>{{totalAmount-promotion+shippingCost}}</strong>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                      <button class="btn btn-primary pull-right" type="submit" ng-click="confirmCheckout()" id="button-confirm"
+                      ng-disabled="checkToConfirm();"
+                      >Confirmar Compra</button>
+                      <button type="button" class="btn btn-default pull-right margin-right-20" ng-click="cancelCheckout()">Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END CONFIRM -->
+            </div>
+            <!-- END CHECKOUT PAGE -->
+          </div>
+          <!-- END CONTENT -->
+        </div>
+        <!-- END SIDEBAR & CONTENT -->
+      </div>
+    </div>
+
+      <!-- VISTA FOOTER -->
+    <div ng-include="'footer.html'"></div>
+    <!-- FIN VISTA FOOTER -->
+   
+
+    <!-- Load javascripts at bottom, this will reduce page load time -->
+    <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
+    <!--[if lt IE 9]>
+    <script src="assets/plugins/respond.min.js"></script>  
+    <![endif]-->
+    <script src="assets/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>      
+    <script src="assets/corporate/scripts/back-to-top.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
+    <script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
+    <script src="assets/plugins/owl.carousel/owl.carousel.min.js" type="text/javascript"></script><!-- slider for products -->
+    <script src='assets/plugins/zoom/jquery.zoom.min.js' type="text/javascript"></script><!-- product zoom -->
+    <script src="assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
+    <script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+
+    <script src="assets/corporate/scripts/layout.js" type="text/javascript"></script>
+    <script src="assets/pages/scripts/checkout.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            Layout.init();    
+            Layout.initOWL();
+            Layout.initTwitter();
+            Layout.initImageZoom();
+            Layout.initTouchspin();
+            Layout.initUniform();
+            Checkout.init();
+        });
+    </script>
+    <!-- END PAGE LEVEL JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

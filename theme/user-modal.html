@@ -17,7 +17,6 @@
     form input.ng-valid.ng-touched {
       border-color: #78FA89;
     }
-
   </style>
 
   <form id="userModal"  enctype="multipart/form-data" name="userForm" novalidate>
@@ -26,68 +25,58 @@
         <div class="col-md-6 col-sm-6">
                   <div class="form-group">
                     <label for="name">Nombre <span class="require">*</span></label>
-                    <input type="text" id="name" name="name" class="form-control" ng-model="user.name" required>
+                    <input type="text" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" id="name" name="name" class="form-control" ng-model="user.name" required>
                       <span class="messages" ng-show="userForm.$submitted || userForm.name.$touched">
-                      <span ng-show="userForm.name.$error.required">El campo es obligatorio.</span>
+                        <div ng-show="userForm.name.$error.pattern">Solo letras y espacios</div>
+                        <div ng-show="userForm.name.$error.minlength">Mínimo tres letras</div>
+                        <div ng-show="userForm.name.$error.required">Requerido</div>
                       </span>
                   </div>
                   <div class="form-group">
                     <label for="surname">Apellido <span class="require">*</span></label>
-                    <input type="text" id="surname" name="surname" class="form-control" ng-model="user.surname" required>
+                    <input type="text" ng-pattern="/^[a-zA-Z\_\- ]*$/" ng-minlength="3" id="surname" name="surname" class="form-control" ng-model="user.surname" required>
                       <span class="messages" ng-show="userForm.$submitted || userForm.surname.$touched">
-                      <span ng-show="userForm.surname.$error.required">El campo es obligatorio.</span>
+                        <div ng-show="userForm.surname.$error.pattern">Solo letras y espacios</div>
+                        <div ng-show="userForm.surname.$error.minlength">Mínimo tres letras</div>
+                        <div ng-show="userForm.surname.$error.required">Requerido</div>
                       </span>
                   </div>
                   <div class="form-group">
                     <label for="email">E-Mail <span class="require">*</span></label>
-                    <input type="text" id="email" name="email" class="form-control" ng-model="user.email" required>
+                    <input type="email" id="email" name="email" class="form-control" ng-model="user.email" required>
                       <span class="messages" ng-show="userForm.$submitted || userForm.email.$touched">
-                      <span ng-show="userForm.email.$error.required">El campo es obligatorio.</span>
+                        <div ng-show="userForm.email.$error.email">Debe ser formato mail</div>
+                        <div ng-show="userForm.email.$error.required">Requerido</div>
                       </span>
                   </div>
                 <h3>Contraseña</h3>
                     <div class="form-group">
                       <label for="password">Contraseña <span class="require">*</span></label>
-                      <input type="password" id="password" name="password" class="form-control" ng-model="user.password" required>
+                      <input type="password" id="password" name="password" class="form-control" ng-minlength="6" ng-model="user.password" required>
                         <span class="messages" ng-show="userForm.$submitted || userForm.password.$touched">
-                        <span ng-show="userForm.password.$error.required">El campo es obligatorio.</span>
+                          <div ng-show="userForm.password.$error.minlength">Mínimo seis letras</div>
+                          <div ng-show="userForm.password.$error.required">Requerido</div>
                         </span>
                     </div>
                     <div class="form-group">
-                      <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
-                      <input type="password" id="password-confirm" name="password" class="form-control" ng-model="user.password" required>
-                        <span class="messages" ng-show="userForm.$submitted || userForm.password.$touched">
-                        <span ng-show="userForm.password.$error.required">El campo es obligatorio.</span>
-                        </span>
+                        <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
+                        <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" ng-minlength="6" data-password-verify="user.password" 
+                                ng-init="user.passwordConfirm = user.password" ng-model="user.passwordConfirm" required>
+                        <div ng-show="userForm.passwordConfirm.$error.passwordVerify">Fields are not equal!</div>
                     </div>
             </div>
 
-              <div class="col-md-6 col-sm-6">
-                 <!-- <div class="form-group">
-                    <label for="birthdate">Fecha de Nacimiento</label>
-                    <input type="date" id="company" name="birthdate" class="form-control" ng-model="user.birthDate">
-                  </div>-->
-                  <div class="form-group">
-                    <label for="gender">Genero</label> </br>                    
-                    <label>
-                      <input type="radio" ng-model="user.gender" value="Masculino">
-                      Masculino
-                    </label>
-                    <label>
-                      <input type="radio" ng-model="user.gender" value="Femenino">
-                      Femenino
-                    </label>
-                  </div>
-                  <div class="form-group">
-                    <label for="idUserType">Tipo de Usuario<span class="require"> *</span></label>
-                    <select class="form-control" id="idUserType" ng-model="user.idUserType" name="idUserType" 
-                    ng-options="userType as userType.type for userType in userTypes track by userType.id"    
-                     required>
-                    </select>
-                      <span class="messages" ng-show="userForm.$submitted || userForm.idUserType.$touched">
-                      <span ng-show="userForm.idUserType.$error.required">El campo es obligatorio.</span>
-                      </span>
-                  </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                  <label for="birthdate">Fecha de Nacimiento</label>
+                  <input type="date" id="birthdate" name="birthdate" ng-model="user.birthDate" class="form-control" max="{{hace18 | date:'yyyy-MM-dd'}}" required>
+                  <div ng-show="userForm.birthdate.$error.required">Requerido</div>
+                </div>
+                <label for="gender">Genero</label>      
+                <div ng-init="user.gender='Masculino'" />          
+                    <label><input type="radio" id="gender" ng-model="user.gender" value="Masculino"> Masculino</label>
+                    <label><input type="radio" id="gender" ng-model="user.gender" value="Femenino"> Femenino</label>
+                </div>              
             </div>
         </div>
       </div>  

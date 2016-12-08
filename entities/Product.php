@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Product
  *
- * @ORM\Table(name="product")
+ * @ORM\Table(name="product", indexes={@ORM\Index(name="idx_season", columns={"id_season"})})
  * @ORM\Entity
  */
 class Product
@@ -42,6 +42,39 @@ class Product
      */
     public $description;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="target", type="string", length=100, nullable=false)
+     */
+    public $target;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prod_type", type="string", length=100, nullable=false)
+     */
+    public $prodType;
+
+    /**
+     * @var \Season
+     *
+     * @ORM\ManyToOne(targetEntity="Season", fetch="EAGER")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_season", referencedColumnName="id")
+     * })
+     */
+    public $idSeason;
+
+    /**
+     * @var \Provider
+     *
+     * @ORM\ManyToOne(targetEntity="Provider", fetch="EAGER")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_provider", referencedColumnName="id")
+     * })
+     */
+    public $idProvider;
 
     /**
      * Set id
@@ -133,5 +166,97 @@ class Product
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set target
+     *
+     * @param string $target
+     * @return Product
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+
+        return $this;
+    }
+
+    /**
+     * Get target
+     *
+     * @return string 
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * Set prodType
+     *
+     * @param string $prodType
+     * @return Product
+     */
+    public function setProdType($prodType)
+    {
+        $this->prodType = $prodType;
+
+        return $this;
+    }
+
+    /**
+     * Get prodType
+     *
+     * @return string 
+     */
+    public function getProdType()
+    {
+        return $this->prodType;
+    }
+
+    /**
+     * Set idSeason
+     *
+     * @param \Season $idSeason
+     * @return Product
+     */
+    public function setIdSeason(\Season $idSeason = null)
+    {
+        $this->idSeason = $idSeason;
+
+        return $this;
+    }
+
+    /**
+     * Get idSeason
+     *
+     * @return \Season 
+     */
+    public function getIdSeason()
+    {
+        return $this->idSeason;
+    }
+
+    /**
+     * Set idProvider
+     *
+     * @param \Provider $idProvider
+     * @return Product
+     */
+    public function setIdProvider(\Provider $idProvider = null)
+    {
+        $this->idProvider = $idProvider;
+
+        return $this;
+    }
+
+    /**
+     * Get idProvider
+     *
+     * @return \Provider 
+     */
+    public function getIdProvider()
+    {
+        return $this->idProvider;
     }
 }

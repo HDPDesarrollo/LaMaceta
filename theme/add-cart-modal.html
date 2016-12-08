@@ -1,0 +1,72 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Agregar al Carrito</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+
+  <form id="AddToCartModal"  enctype="multipart/form-data" name="AddToCartForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3">
+            <div class="form-group">
+              <label for="size">Talle<span class="require"> *</span></label>
+                    <select class="form-control" id="size" ng-model="article.size" name="size" 
+                    ng-options="size.size for size in sizes | unique:'size' track by size.id"   
+                     required>
+                    </select>
+              <span class="messages" ng-show="AddToCartForm.$submitted || AddToCartForm.size.$touched">
+                <span ng-show="AddToCartForm.size.$error.required">El campo es obligatorio.</span>
+              </span>
+            </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3">
+            <div class="form-group">
+              <label for="size">Color<span class="require"> *</span></label>
+                    <select class="form-control" id="color" ng-model="article.color" name="color" 
+                    ng-options="color.color for color in colors | unique:'color'  track by color.id"
+                     required>
+                    </select>
+              <span class="messages" ng-show="AddToCartForm.$submitted || AddToCartForm.color.$touched">
+                <span ng-show="AddToCartForm.color.$error.required">El campo es obligatorio.</span>
+              </span>
+            </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+        <div class="col-xs-3 col-sm-4 col-md-5 col-lg-5">
+         <label for="quantity">Cantidad<span class="require"> *</span></label>
+            <div class="form-group">           
+                <div class="product-quantity">
+                    <input id="product-quantity{{$index}}" type="text" ng-model="article.quantity" readonly class="form-control input-sm" >
+                    <div class="btn quantity-up">
+                      <i class='fa fa-angle-up' ng-click="upQuantity();"></i>
+                    </div>
+                    <div class="btn quantity-down">
+                    <i class='fa fa-angle-down' ng-click="downQuantity()"></i>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+    </div>    
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="addToCart(article)" ng-disabled="AddToCartForm.$invalid">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

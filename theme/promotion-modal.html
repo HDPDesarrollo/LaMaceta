@@ -1,0 +1,121 @@
+  <div class="modal-header">
+    <center><h3 class="modal-title">Promaaociones</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+  </style>
+
+  <form id="promotionModal"  enctype="multipart/form-data" name="promotionForm" novalidate>
+
+    <div layout="column" layout-align="space-around end">
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="bank">Banco<span class="require">*</span></label>
+            <select class="form-control" id="bank" ng-model="promotion.bank" name="bank" 
+            ng-options="bank.name for bank in banks track by bank.id" ng-change="getAssociatedCards(promotion.bank)" required>
+            </select>
+            <span class="messages" ng-show="promotionForm.$submitted || promotionForm.bank.$touched">
+              <span ng-show="promotionForm.bank.$error.required">El campo es obligatorio.</span>
+            </span>
+          </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="card">Tarjeta<span class="require">*</span></label>
+            <select class="form-control" id="card" ng-model="promotion.card" name="card" ng-options="card.idCard as card.idCard.name for card in associatedCards"        
+             required>
+            </select>
+            <span class="messages" ng-show="promotionForm.$submitted || promotionForm.card.$touched">
+              <div ng-show="promotionForm.card.$error.required">El campo es obligatorio.</span>
+            </span>
+          </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="dateFrom">Desde<span class="require">*</span></label>
+              <input type="date" id="dateFrom" ng-model="promotion.dateFrom" name="dateFrom" min="{{today | date:'yyyy-MM-dd'}}"      
+             required>
+            <span class="messages" ng-show="promotionForm.$submitted || promotionForm.dateFrom.$touched">
+              <span ng-show="promotionForm.dateFrom.$error.required">El campo es obligatorio.</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="dateTo">Hasta<span class="require">*</span></label>
+              <input type="date" id="dateTo" ng-model="promotion.dateTo" name="dateTo" ng-change="checkErr(promotion.dateFrom,promotion.dateTo)"    
+             required>
+            <span class="messages" ng-show="promotionForm.$submitted || promotionForm.dateTo.$touched">
+              <span ng-show="promotionForm.dateTo.$error.required">El campo es obligatorio.</span>
+              <span ng-show="checkErr(promotion.dateFrom,promotion.dateTo)"></br>La promoción no puede terminar antes que empiece</span>
+            </span>
+          </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <label for="days">Días<span class="require">*</span></label>                     
+          <div class="checkbox">
+            <label for="sunday">
+              <input type="checkbox" id="sunday" ng-model="promotion.sunday" name="sunday" ng-click="checkWeekDays()">Domingo
+            </label></br>
+            <label for="monday">
+              <input type="checkbox" id="monday" ng-model="promotion.monday" name="monday" ng-click="checkWeekDays()">Lunes
+            </label></br>
+            <label for="tuesday">
+              <input type="checkbox" id="tuesday" ng-model="promotion.tuesday" name="tuesday" ng-click="checkWeekDays()">Martes
+            </label></br>
+            <label for="wednesday">
+              <input type="checkbox" id="wednesday" ng-model="promotion.wednesday" name="wednesday" ng-click="checkWeekDays()">Miércoles
+            </label></br>
+            <label for="thursday">
+              <input type="checkbox" id="thursday" ng-model="promotion.thursday" name="thursday" ng-click="checkWeekDays()">Jueves
+            </label></br>
+            <label for="friday">
+              <input type="checkbox" id="friday" ng-model="promotion.friday" name="friday" ng-click="checkWeekDays()">Viernes
+            </label></br>
+            <label for="saturday">
+              <input type="checkbox" id="saturday" ng-model="promotion.saturday" name="saturday" ng-click="checkWeekDays()">Sabado
+            </label>
+
+          </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="percentage">Porcentaje<span class="require">*</span></label>
+              <input type="number" id="percentage" ng-model="promotion.percentage" name="percentage" min="1" max="99"            
+             required>
+            <span class="messages" ng-show="promotionForm.$submitted || promotionForm.percentage.$touched">
+              <span ng-show="promotionForm.percentage.$error.required">El campo es obligatorio.</span>
+            </span>
+          </div>
+        </div><!-- /.col-xs-4 col-sm-5 col-md-6 col-lg-6 -->
+      </div><!-- /.row -->
+    </div>
+    
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(promotion)" ng-disabled="promotionForm.$invalid || checkErr(promotion.dateFrom,promotion.dateTo) || !checkWeekDays()">Guardar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+

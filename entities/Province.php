@@ -35,6 +35,13 @@ class Province
      */
     public $name;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="cost", type="float", precision=15, scale=4, nullable=false)
+     */
+    public $cost;
+
 
     /**
      * Set id
@@ -103,5 +110,28 @@ class Province
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set cost
+     *
+     * @param float $cost
+     * @return Province
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * Get cost
+     *
+     * @return float 
+     */
+    public function getCost()
+    {
+        return $this->cost;
     }
 }

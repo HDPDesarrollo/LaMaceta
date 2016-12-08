@@ -1,0 +1,8 @@
+cli-config.php
+cofig.php
+doctrine-cfg.php
+
+*.sln
+*.phpproj
+*.suo
+.vs/*

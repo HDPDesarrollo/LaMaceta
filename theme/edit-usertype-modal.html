@@ -27,7 +27,7 @@
             <div class="form-group">
               <label for="idUserType">Tipo de Usuario<span class="require"> *</span></label>
                     <select class="form-control" id="idUserType" ng-model="user.idUserType" name="idUserType" 
-                    ng-options="userType as userType.type for userType in userTypes track by userType.id"    
+                    ng-options="userType as userType.type disable when userType.type=='ADMIN' for userType in userTypes track by userType.id"    
                      required>
                     </select>
               <span class="messages" ng-show="UserTypeForm.$submitted || UserTypeForm.idUserType.$touched">
@@ -40,7 +40,7 @@
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save(user)" ng-disabled="addressForm.$invalid">Guardar</button>
+    <button class="btn btn-primary" type="button" ng-click="save(user)" ng-disabled="UserTypeForm.$invalid">Guardar</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>
 

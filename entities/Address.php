@@ -80,7 +80,7 @@ class Address
     /**
      * @var \Province
      *
-     * @ORM\ManyToOne(targetEntity="Province")
+     * @ORM\ManyToOne(targetEntity="Province", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_province", referencedColumnName="id")
      * })

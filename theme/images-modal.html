@@ -1,0 +1,64 @@
+ <div class="modal-header">
+    <center><h3 class="modal-title">Imágenes</h3></center>
+</div>
+<div class="modal-body">
+  <style type="text/css">
+
+    .messages {
+      color: #FA787E;
+    }
+    form.ng-submitted input.ng-invalid{
+      border-color: #FA787E;
+    }
+    form input.ng-invalid.ng-touched {
+      border-color: #FA787E;
+    }
+
+    form input.ng-valid.ng-touched {
+      border-color: #78FA89;
+    }
+
+  </style>
+  <form id="BankModal"  enctype="multipart/form-data" name="bankForm" novalidate>
+    <div layout="column" layout-align="space-around center">
+      <div class="row">
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <label>Tipo:</label>
+          <select class="form-control" id="type" ng-model="images.type" name="type" ng-change="images.product=products[0]" required>
+            <option value="producto">Producto</option>
+            <option value="slider1">Slider 1</option>
+            <option value="slider2">Slider 2</option>
+          </select>
+            <div ng-show="images.type == 'producto'">
+              <br><label>Producto:</label>
+              <select class="form-control" id="product" ng-model="images.product" name="product" 
+                ng-options="product.name for product in products | filter:{active:'true'} track by product.id">
+                </select>
+            </div>
+          <br><button class="btn btn-primary" type="button" ng-click="search(images)" ng-disabled="bankForm.$invalid">Buscar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-body">
+    <table summary="Shopping cart" width="100%">
+      <tr>
+        <th>¿Borrar?</th>
+        <th>Preview</th>
+        <th>Link</th>
+      </tr>
+      <tr ng-repeat="image in theImages | filter:{active:true}">
+        <td><input type="checkbox" checklist-model="checklistToDelete" checklist-value="image.id"/></td>
+        <td><img width="50" heigth="50" ng-src="../images/{{image.path}}/{{image.rutaImg}}"/></td>
+        <td><a href="../images/{{image.path}}/{{image.rutaImg}}" target="_blank">{{image.rutaImg}}</a></td>
+      </tr>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="borrar(checklistToDelete)" ng-disabled="checklistToDelete.length==0">Borrar</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+
