@@ -80,32 +80,14 @@ class User
     /**
      * @var \UserType
      *
-     * @ORM\ManyToOne(targetEntity="UserType", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="UserType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user_type", referencedColumnName="id")
      * })
      */
     public $idUserType;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="blacklist", type="boolean", nullable=false)
-     */
-    public $blacklist;
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return User
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get id
@@ -129,7 +111,6 @@ class User
 
         return $this;
     }
-
 
     /**
      * Get active
@@ -323,29 +304,5 @@ class User
     public function getIdUserType()
     {
         return $this->idUserType;
-    }
-
-    /**
-     * Set blacklist
-     *
-     * @param boolean $blacklist
-     * @return User
-     */
-    public function setBlacklist($blacklist)
-    {
-        $this->blacklist = $blacklist;
-
-        return $this;
-    }
-
-
-    /**
-     * Get blacklist
-     *
-     * @return boolean 
-     */
-    public function getBlacklist()
-    {
-        return $this->blacklist;
     }
 }

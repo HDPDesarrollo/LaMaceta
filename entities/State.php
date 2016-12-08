@@ -36,18 +36,6 @@ class State
     public $description;
 
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return State
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get id

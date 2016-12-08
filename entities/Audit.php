@@ -85,18 +85,6 @@ class Audit
     public $newValue;
 
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Audit
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get id

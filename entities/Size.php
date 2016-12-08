@@ -35,25 +35,7 @@ class Size
      */
     public $size;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="large", type="float", precision=15, scale=4, nullable=false)
-     */
-    public $large;
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Size
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get id
@@ -109,28 +91,5 @@ class Size
     public function getSize()
     {
         return $this->size;
-    }
-
-    /**
-     * Set large
-     *
-     * @param float $large
-     * @return Sale
-     */
-    public function setLarge($large)
-    {
-        $this->large = $large;
-
-        return $this;
-    }
-
-    /**
-     * Get large
-     *
-     * @return float 
-     */
-    public function getLarge()
-    {
-        return $this->large;
     }
 }

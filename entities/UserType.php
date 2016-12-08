@@ -35,18 +35,6 @@ class UserType
      */
     public $type;
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return UserType
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
 
     /**

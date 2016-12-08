@@ -1,21 +1,69 @@
-var ModuleCarro = angular.module('LaMaceta');
+var ModuleCarro = angular.module('LaMaceta',[]);
 
 ModuleCarro.run(function($rootScope){
 	$rootScope.acumulador = 0;
 });
 
-ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$location){
+ModuleCarro.factory('compartirObj', function(){
+	var obj = {};
+	var prendas;
+	var unaPrenda = '';
 
-	$scope.ContentCArt = [{
+	obj.ingresarPrendas = function(NuevoElemento){
+		prendas = NuevoElemento;
+	}
+
+	obj.ingresarUnaPrenda = function(NuevoElemento){
+		unaPrenda = NuevoElemento;
+	}
+
+	obj.BorrarTodo = function(){
+		prenda = '';
+	}
+
+	obj.obtenerPrendas = function(){
+		return prendas;
+	}
+
+	obj.obtenerUnaPrenda = function(){
+		return unaPrenda;
+	}
+	return obj;
+
+});
+
+ModuleCarro.controller('SearchResult', function($rootScope,$scope,$location,ServicioBuscar,compartirObj){
+
+	$scope.StrSearch = $location.search().strbs;
+	
+	ServicioBuscar.EnviarCadena($scope.StrSearch).then(function(resp){
+		if(resp != "false")
+			{
+				compartirObj.ingresarPrendas(resp);
+				$scope.prendas = compartirObj.obtenerPrendas();
+				
+			}else{
+				$scope.prendas = resp;
+			}
+	});
+
+	$scope.currentPage = 0;
+    $scope.pageSize = 3;
+    $scope.numberOfPages=function(){
+        return Math.ceil($scope.prendas.length/$scope.pageSize);                
+    }
+});
+
+ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$location){
+	$scope.quantity = 1;
+	/*$scope.ContentCArt = [{
 		name:"pantalon",
 		quantity: 1,
 		price: 102,
 		id:754,
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
 		description: "soy una descripcion de la prenda",
-		priceT: 123
-	},
-	{
+		priceT: 123 },{
 		name:"Campera roja",
 		quantity: 2,
 		price: 154.6,
@@ -23,15 +71,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$loc
 		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
 		description: "soy otra descripcion de la prenda",
 		precioT: 309.2
-	}/*,
-	{
-		name:"Campera roja",
-		quantity: 2,
-		price: 345.12,
-		id:789,
-		img:"https://mcgroup.files.wordpress.com/2009/02/campera-roja.jpg",
-		precioT: 309.2
-	}*/];
+	}];*/
 
 	$scope.Shipping = [{
 		name:"Pepito",
@@ -142,7 +182,7 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$loc
 
 	$scope.GetCart = function(){
 		ServiceCart.GetAll().then(function(rst){
-			$scope.ContentCArt.push(rst);
+			return rst;
 		});
 	}
 
@@ -159,6 +199,19 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$loc
 		window.open(url);
 	}
 
+	$scope.saveInCart = function(prenda,quantity){
+		if(prenda.quantity < quantity)
+		{
+			//Lanzar ERROR!
+			$scope.alerta("No se pudo agregar el producto al carro","danger");
+		}else{
+			prenda.quantity = quantity;
+			ServiceCart.Add(prenda);
+			$scope.alerta("Producto agregado al carro","success");
+		}
+	}
+
+	$scope.ContentCArt = $scope.GetCart();
 
 	/*$scope.ViewModal = function () {
     var modalInstance = $modal.open({
@@ -166,12 +219,22 @@ ModuleCarro.controller('CtrlCarrito',function($scope,ServiceCart,$rootScope,$loc
      	 controller: 'ModalInstanceCtrl'
     	});
 
-  	};*/
-
-  	
+  	};*/ 	
 });
 
+ModuleCarro.config(function($locationProvider) {
+	$locationProvider.html5Mode({
+  						enabled: true,
+  						requireBase: false
+					});
+});
 
+ModuleCarro.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
 
 /*angular.module('Lamaceta').controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
  

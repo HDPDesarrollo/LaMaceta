@@ -63,18 +63,6 @@ class DetailSale
     public $idSale;
 
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return DetailSale
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get id

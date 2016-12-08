@@ -62,18 +62,6 @@ class SaleState
      */
     public $idState;
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return SaleState
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
 
     /**

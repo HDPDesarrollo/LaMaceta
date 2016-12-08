@@ -1,0 +1,1 @@
+<?phpinclude_once("./lib/Carrito.class.php");$carro = new Carrito();$DatosPorPost = file_get_contents("php://input");$idObtenido = json_decode($DatosPorPost);return json_encode($carro->remove_producto($idObtenido)); ?>

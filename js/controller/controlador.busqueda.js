@@ -5,6 +5,12 @@ ModuloBusqueda.run(function($rootScope){
 
 });
 
+ModuloBusqueda.config(function($locationProvider) {
+	$locationProvider.html5Mode({
+  						enabled: true,
+  						requireBase: false
+					});
+});
 
 
 ModuloBusqueda.factory('compartirObj', function(){
@@ -68,14 +74,6 @@ ModuloBusqueda.controller('RtaBusqueda',function($scope,compartirObj){
 	$scope.datosTraidos = compartirObj.obtenerPrendas();
 });
 
-			
-
-ModuloBusqueda.config(function($locationProvider) {
-	$locationProvider.html5Mode({
-  						enabled: true,
-  						requireBase: false
-					});
-});
 
 ModuloBusqueda.controller('VerProducto',function($scope,$location,ServicioBuscarId,compartirObj){
 	$scope.prenda;
@@ -92,109 +90,25 @@ ModuloBusqueda.controller('VerProducto',function($scope,$location,ServicioBuscar
 	
 });
 
-ModuloBusqueda.controller('CtrlCarrito',function($rootScope,$scope,ServiceCart,$modal,compartirObj){
-	$scope.del = function(){
-		alert("holaa");
-	};
-
-	$scope.ContentCArt = [{
-		nombre:"pantalos",
-		cantidad: 4,
-		precio: 154.6,
-		id:12
-	},
-	{
-		nombre:"pantalos",
-		cantidad: 4,
-		precio: 154.6,
-		id:12
-	}];
-
-	$rootScope.alerts = [];
-
-	$scope.alerta = function(){
-		$rootScope.alerts.push({type:'success',msg:'El producto fue agregado correctamente'});
-		console.log($scope.alerts);
-		
-	};
-
-	$scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
-  		};
-
-	$scope.AddToCart = function(prenda,cantidad){
-		
-		if($scope.GetStockById(id) <= cantidad)
-			{
-				prenda.cantidad = cantidad;
-				ServiceCart.Add(prenda).then(function(rst){
-					return rst;
-				})
-				.catch(function(error){
-					return error;
-				})
-				.finally(function(){
-				});
-			}else{
-				return false;
-			}
-	};
-
-	$scope.GetStockById = function(id){
-		ServiceCart.GetStock(id).then(function(rst){
-			return rst;
-		})
-		.catch(function(error){
-			return error;
-		})
-		.finally();
-	};
-
-	$scope.DeleteId = function(id){
-		
-		var rstDel = ServiceCart.DeletePerId(id).then(function(rst){
-			return rst;
-		})
-		.catch(function(error){
-			return error;
-		})
-		.finally(function(){
-			if(rstDel){
-				return rstDel;
-			}else{
-				return false;
-			}
-		});
-	};
-
-	$scope.EmptyCart = function(){
-		ServiceCart.DeleteAll().then(function(rst){
-			return rst;
-		})
-	};
-
-	$scope.abrir = function(id,cantidad)
-	{
-		if(this.AddToCart(id,cantidad)){
-			this.ViewModal();
-		}
-	};
-
-	$scope.GetCart = function()
-	{
-		ServiceCart.GetAll().then(function(rst){
-			$scope.ContentCArt.push(rst);
-		});
-	}
-
-	$scope.ViewModal = function () {
-    var modalInstance = $modal.open({
-     	 templateUrl: 'myModalContent.html',
-     	 controller: 'ModalInstanceCtrl'
-    	});
-
+ModuloBusqueda.controller('SearchResult', function($scope,$location,ServicioBuscar,compartirObj){
+	$scope.numPerPage = 6;
+	$scope.numPages = function () {
+    return Math.ceil($scope.prendas.length / $scope.numPerPage);
   	};
-
-  	
+	$scope.StrSearch = $location.search().strbs;
+	ServicioBuscar.EnviarCadena($scope.StrSearch).then(function(resp){
+		console.log(resp);
+		if(resp != "false")
+			{
+				compartirObj.ingresarPrendas(resp);
+				$scope.prendas = compartirObj.obtenerUnaPrenda();
+			}else{
+				$scope.prendas = resp;
+			}
+	});
+	$scope.$watch('currentPage + numPerPage', function() {
+    var begin = (($scope.currentPage - 1) * $scope.numPerPage) , end = begin + $scope.numPerPage;
+    
+    //$scope.filteredTodos = $scope.prendas.slice(begin, end);
+  	});
 });
-

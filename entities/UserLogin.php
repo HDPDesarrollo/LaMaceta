@@ -45,18 +45,7 @@ class UserLogin
      */
     public $idUser;
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return UserLogin
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
 
-        return $this;
-    }
 
     /**
      * Get id
