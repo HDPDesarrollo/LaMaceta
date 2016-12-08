@@ -8,7 +8,7 @@ $dato = json_decode($DatosPorPost);
 
 function ItemsToArray($dato){
 	$arrayItem = array();
-	for ($i=0; $i < count($dato->art); $i++){
+	for ($i=0; $i <= count($dato->art)-1; $i++){
 				$arrayItem += array(
 					"id" => $dato->art[$i]->id,
 					"currency_id" => "ARG",

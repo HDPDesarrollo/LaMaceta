@@ -66,7 +66,7 @@ class Article
     /**
      * @var \Product
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="Product", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_prod", referencedColumnName="id")
      * })
@@ -76,7 +76,7 @@ class Article
     /**
      * @var \Color
      *
-     * @ORM\ManyToOne(targetEntity="Color")
+     * @ORM\ManyToOne(targetEntity="Color", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_color", referencedColumnName="id")
      * })
@@ -86,7 +86,7 @@ class Article
     /**
      * @var \Size
      *
-     * @ORM\ManyToOne(targetEntity="Size")
+     * @ORM\ManyToOne(targetEntity="Size", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_size", referencedColumnName="id")
      * })
@@ -94,6 +94,18 @@ class Article
     public $idSize;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Article
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

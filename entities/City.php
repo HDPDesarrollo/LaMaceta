@@ -53,6 +53,18 @@ class City
     public $idProvince;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return City
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

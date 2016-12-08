@@ -36,6 +36,18 @@ class Discount
     public $percentage;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Discount
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

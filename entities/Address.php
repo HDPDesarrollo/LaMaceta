@@ -80,7 +80,7 @@ class Address
     /**
      * @var \Province
      *
-     * @ORM\ManyToOne(targetEntity="Province")
+     * @ORM\ManyToOne(targetEntity="Province", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_province", referencedColumnName="id")
      * })
@@ -98,6 +98,18 @@ class Address
     public $idUser;
 
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Address
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id

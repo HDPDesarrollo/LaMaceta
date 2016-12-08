@@ -43,6 +43,13 @@ class Picture
     public $rutaImg;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="string", length=100, nullable=false)
+     */
+    public $link;
+
+    /**
      * @var \Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
@@ -52,7 +59,18 @@ class Picture
      */
     public $idProd;
 
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Picture
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
+        return $this;
+    }
 
     /**
      * Get id
@@ -131,6 +149,29 @@ class Picture
     public function getRutaImg()
     {
         return $this->rutaImg;
+    }
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return Picture
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string 
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 
     /**

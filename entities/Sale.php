@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sale
  *
- * @ORM\Table(name="sale", indexes={@ORM\Index(name="idx_sale_user", columns={"id_user"})})
+ * @ORM\Table(name="sale", indexes={@ORM\Index(name="idx_sale_user", columns={"id_user"}), @ORM\Index(name="idx_sale_address", columns={"id_address"})})
  * @ORM\Entity
  */
 class Sale
@@ -45,13 +45,6 @@ class Sale
     /**
      * @var integer
      *
-     * @ORM\Column(name="discount", type="integer", nullable=true)
-     */
-    public $discount;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="sale_number", type="integer", nullable=false)
      */
     public $saleNumber;
@@ -66,7 +59,64 @@ class Sale
      */
     public $idUser;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="shipping_cost", type="float", precision=15, scale=4, nullable=true)
+     */
+    public $shippingCost;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="promotion", type="float", precision=15, scale=4, nullable=true)
+     */
+    public $promotion;
+
+    /**
+     * @var \Address
+     *
+     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_address", referencedColumnName="id")
+     * })
+     */
+    public $idAddress;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_card", type="integer", nullable=true)
+     */
+    public $idCard;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="payment_method", type="string", length=100, nullable=false)
+     */
+    public $paymentMethod;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quota", type="integer", nullable=true)
+     */
+    public $quota;
+
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Sale
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id
@@ -147,28 +197,6 @@ class Sale
         return $this->price;
     }
 
-    /**
-     * Set discount
-     *
-     * @param integer $discount
-     * @return Sale
-     */
-    public function setDiscount($discount)
-    {
-        $this->discount = $discount;
-
-        return $this;
-    }
-
-    /**
-     * Get discount
-     *
-     * @return integer 
-     */
-    public function getDiscount()
-    {
-        return $this->discount;
-    }
 
     /**
      * Set saleNumber
@@ -214,5 +242,144 @@ class Sale
     public function getIdUser()
     {
         return $this->idUser;
+    }
+
+
+    /**
+     * Set shippingCost
+     *
+     * @param float $shippingCost
+     * @return Sale
+     */
+    public function setShippingCost($shippingCost)
+    {
+        $this->shippingCost = $shippingCost;
+
+        return $this;
+    }
+
+    /**
+     * Get shippingCost
+     *
+     * @return float 
+     */
+    public function getShippingCost()
+    {
+        return $this->shippingCost;
+    }
+
+    /**
+     * Set promotion
+     *
+     * @param float $promotion
+     * @return Sale
+     */
+    public function setPromotion($promotion)
+    {
+        $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Get promotion
+     *
+     * @return float 
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
+
+    /**
+     * Set idAddress
+     *
+     * @param \Address $idAddress
+     * @return Sale
+     */
+    public function setIdAddress(\Address $idAddress = null)
+    {
+        $this->idAddress = $idAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get idAddress
+     *
+     * @return \Address 
+     */
+    public function getIdAddress()
+    {
+        return $this->idAddress;
+    }
+
+    /**
+     * Set idCard
+     *
+     * @param \CreditCard $idCard
+     * @return Sale
+     */
+    public function setIdCard(\CreditCard $idCard = null)
+    {
+        $this->idCard = $idCard;
+
+        return $this;
+    }
+
+    /**
+     * Get idCard
+     *
+     * @return \CreditCard 
+     */
+    public function getIdCard()
+    {
+        return $this->idCard;
+    }
+
+    /**
+     * Set paymentMethod
+     *
+     * @param string $paymentMethod
+     * @return Sale
+     */
+    public function setPaymentMethod($paymentMethod)
+    {
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get paymentMethod
+     *
+     * @return string 
+     */
+    public function getPaymentMethod()
+    {
+        return $this->paymentMethod;
+    }
+
+    /**
+     * Set quota
+     *
+     * @param integer $quota
+     * @return Sale
+     */
+    public function setQuota($quota)
+    {
+        $this->quota = $quota;
+
+        return $this;
+    }
+
+    /**
+     * Get quota
+     *
+     * @return integer 
+     */
+    public function getQuota()
+    {
+        return $this->quota;
     }
 }
