@@ -1,12 +1,12 @@
 <?php
 
-include __DIR__ ."..\..\doctrine_config/doctrine-cfg.php";
-include __DIR__ . '..\..\entities\Article.php';
-include __DIR__ . '..\..\entities\Color.php';
-include __DIR__ . '..\..\entities\Size.php';
-include __DIR__ . '..\..\entities\Product.php';
-include __DIR__ . '..\..\entities\Season.php';
-include __DIR__ . '..\..\entities\Provider.php';
+include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __DIR__ . '../../entities/Article.php';
+include __DIR__ . '../../entities/Color.php';
+include __DIR__ . '../../entities/Size.php';
+include __DIR__ . '../../entities/Product.php';
+include __DIR__ . '../../entities/Season.php';
+include __DIR__ . '../../entities/Provider.php';
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
 
@@ -45,10 +45,10 @@ switch($request->data->action){
 							  P.NAME, S.SIZE, C.COLOR, C.RGB,
 							  PIC.RUTA_IMG as picture
 							FROM ARTICLE A 
-							INNER JOIN PRODUCT P ON P.ID = A.ID_PROD
-							INNER JOIN COLOR C ON C.ID = A.ID_COLOR
-							INNER JOIN SIZE S ON S.ID = A.ID_SIZE
-							INNER JOIN PICTURE PIC ON PIC.ID_PROD = P.ID
+							INNER JOIN product P ON P.ID = A.ID_PROD
+							INNER JOIN color C ON C.ID = A.ID_COLOR
+							INNER JOIN size S ON S.ID = A.ID_SIZE
+							INNER JOIN picture PIC ON PIC.ID_PROD = P.ID
 							WHERE UPPER(P.NAME) LIKE UPPER('%".$request->data->word."%' ) 
 							".$filterPriceFrom."
 							".$filterPriceTo."
@@ -74,7 +74,7 @@ switch($request->data->action){
 			$connection = $entityManager->getConnection();
 			$statement = $connection->prepare("SELECT TARGET AS target, 
 													  PROD_TYPE as prodType
-												FROM PRODUCT 
+												FROM product 
 												GROUP BY TARGET, PROD_TYPE
 												ORDER BY TARGET, PROD_TYPE");
 
