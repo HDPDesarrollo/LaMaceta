@@ -725,10 +725,10 @@ body.page-header-fixed {
 	top: 100%;
 	padding: 15px;
 	display: none;
-	background: #fcfafb;
+	/*background: #fcfafb;*/
 	position: absolute;
-	border-top: solid 2px #ea4c1d;
-	box-shadow: 5px 5px rgba(91, 91, 91, 0.2);
+	/*border-top: solid 2px #ea4c1d;
+	box-shadow: 5px 5px rgba(91, 91, 91, 0.2);*/
 	width: 274px;
 	margin-top: 0;
 	z-index: 22;
@@ -743,8 +743,8 @@ body.page-header-fixed {
 	display: block; 
 	position: absolute;
 	border-bottom: 8px solid #e6400c;
-	border-right: 8px solid transparent;
-	border-left: 8px solid transparent;
+	/*border-right: 8px solid transparent;
+	border-left: 8px solid transparent;*/
 }
 .header-navigation .search-box button {
 	margin-left: 0 !important;
