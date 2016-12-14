@@ -154,11 +154,12 @@ angular.module("LaMaceta")
 
 	$scope.target = getQueryParam("target"); 
 	$scope.prodType = getQueryParam("prodType"); 
+	$scope.wordS = getQueryParam("word");
 
 	if($scope.target==false){
 		$scope.target = null;
 		$scope.prodType = null;
-		$scope.search("", $scope.sorting, null, null, null, null, null);
+		$scope.search($scope.wordS, $scope.sorting, null, null, null, null, null);
 	}else if($scope.target!=false && $scope.prodType=='Todos'){
 		$scope.prodType = null;
 		$scope.search("", $scope.sorting, null, null, null, $scope.target, null);
