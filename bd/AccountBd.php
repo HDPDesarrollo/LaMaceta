@@ -21,6 +21,7 @@ include __DIR__ . '../../entities/Bank.php';
 include __DIR__ . '../../entities/Card.php';
 include __DIR__ . '../../entities/BankCard.php';
 include __DIR__ . '../../entities/Province.php';
+include __DIR__ . '../../entities/Payment.php';
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
