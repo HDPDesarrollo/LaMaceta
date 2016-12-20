@@ -1,50 +1,67 @@
 <?php 
-require_once "../clases/MP/mercadopago.php";
+
+/**
+* Clase mPay con funciones referidas a los estado de pagos,
+* seguimiento de envios(si corresponde), etc
+*/
+class mPay
+{
+	require_once "../clases/MP/mercadopago.php";
  
-$mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
+	$mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
 
-$DatosPorPost = file_get_contents("php://input");
-$dato = json_decode($DatosPorPost);
-
-function ItemsToArray($dato){
-	$arrayItem = array();
-	for ($i=0; $i <= count($dato->art)-1; $i++){
+	private function ItemsToArray($dato){
+		$arrayItem = array();
+		for ($i=0; $i <= count($dato)-1; $i++){
 				$arrayItem += array(
-					"id" => $dato->art[$i]->id,
+					"id" => $dato[$i]->id,
 					"currency_id" => "ARG",
-					"picture_url" => $dato->art[$i]->img,
-					"description" =>$dato->art[$i]->description,
-					"quantity" => $dato->art[$i]->quantity,
-					"unit_price" =>  $dato->art[$i]->price
+					"picture_url" => $dato[$i]->img,
+					"description" =>$dato[$i]->description,
+					"quantity" => $dato[$i]->quantity,
+					"unit_price" =>  $dato[$i]->price
 					);
 			}
-	return $arrayItem;
+		return $arrayItem;
+	}
+	
+	public static function  makePay($articles,$address,$shippingCost,$user){
+		$preference_data = array(
+						"items" => array(ItemsToArray($articles)),
+						"payer" => array(
+								"name" => $user->name,
+								"surname" => $user->surname,
+								"email" => $user->email,
+								"phone" => array(
+										"area_code" => "11",
+										"number" => $address->phone,
+										),
+								"address" => array(
+											"street_name" => $address->street,
+											"street_number" => $address->number,
+											"zip_code" => $address->zip_code
+											)
+								),
+						);
+		$preference = $mp->create_preference($preference_data);
+		echo $preference["response"]["sandbox_init_point"];
+
+	}
+
+	/**
+	 *funcion que buscar los pagos hechos por un usuario con su external_reference (id que vincula MercadoPago y el sistema propio)
+	 * @param $sale recibe una venta para obtener el 'external_reference'
+	 */
+	public static function SearchPayment($sale){
+		$filtro = array(
+			"site_id" => "MLA",
+			"external_reference" => $sale->external_reference);
+		$searchResult = $mp->search_payment($filtro);
+		return echo $searchResult;
+	}
+
+	
 }
 
-$preference_data = array(
-		"items" => array(ItemsToArray($dato)),
-		"payer" => array(
-			"name" => $dato->ShipInf[0]->name,
-			"surname" => $dato->ShipInf[0]->surname,
-			"email" => $dato->ShipInf[0]->email,
-			"phone" => array(
-				"area_code" => "11",
-				"number" => "4444-4444"
-				),
-			"identification" => array(
-				"type" => "DNI",
-				"number" => $dato->ShipInf[0]->dni,
-				),
-			"address" => array(
-				"street_name" => $dato->ShipInf[0]->address->street,
-				"street_number" => $dato->ShipInf[0]->address->number,
-				"zip_code" => $dato->ShipInf[0]->address->zipCode
-				)
-			)
-	);
-
-$preference = $mp->create_preference($preference_data);
-
-echo $preference["response"]["sandbox_init_point"];
 
  ?>
