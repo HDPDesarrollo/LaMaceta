@@ -1,13 +1,13 @@
 <?php
 
-include __DIR__ ."..\..\FPDF/PDF.php";
+include __DIR__ ."../../FPDF/PDF.php";
 
-include __DIR__ ."..\..\doctrine_config/doctrine-cfg.php";
+include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
 
 
-include __DIR__ . '..\..\entities\Article.php';
-include __DIR__ . '..\..\entities\User.php';
-include __DIR__ . '..\..\entities\UserType.php';
+include __DIR__ . '../../entities/Article.php';
+include __DIR__ . '../../entities/User.php';
+include __DIR__ . '../../entities/UserType.php';
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
@@ -48,7 +48,7 @@ switch($request->data->report->type){
 		 
 		$pdf->tablaHorizontal($miCabecera, $articles, $request->data->report);
 		 
-		$pdf->Output(__DIR__ ."..\..\\reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
+		$pdf->Output(__DIR__ ."../..//reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
 
 		echo "reportes/".$request->data->report->type.".pdf";
 
@@ -79,7 +79,7 @@ switch($request->data->report->type){
 		 
 		$pdf->tablaHorizontal($miCabecera, $sales, $request->data->report);
 		 
-		$pdf->Output(__DIR__ ."..\..\\reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
+		$pdf->Output(__DIR__ ."../../reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
 
 		echo "reportes/".$request->data->report->type.".pdf";
 
@@ -97,7 +97,7 @@ switch($request->data->report->type){
 		 
 		$pdf->tablaHorizontal($miCabecera, $users, $request->data->report);
 		 
-		$pdf->Output(__DIR__ ."..\..\\reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
+		$pdf->Output(__DIR__ ."../../reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
 
 		echo "reportes/".$request->data->report->type.".pdf";
 

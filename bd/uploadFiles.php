@@ -1,11 +1,11 @@
 <?php
 
-include __DIR__ ."..\..\doctrine_config/doctrine-cfg.php";
-include __DIR__ . '..\..\entities\Product.php';
+include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __DIR__ . '../../entities/Product.php';
 
-include __DIR__ . '..\..\entities\Provider.php';
-include __DIR__ . '..\..\entities\Season.php';
-include __DIR__ . '..\..\entities\Picture.php';
+include __DIR__ . '../../entities/Provider.php';
+include __DIR__ . '../../entities/Season.php';
+include __DIR__ . '../../entities/Picture.php';
 
 
 if(isset($_FILES['files'])){

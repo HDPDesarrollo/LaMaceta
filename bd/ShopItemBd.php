@@ -1,13 +1,13 @@
 <?php
 
-include __DIR__ ."..\..\doctrine_config/doctrine-cfg.php";
-include __DIR__ . '..\..\entities\Article.php';
-include __DIR__ . '..\..\entities\Color.php';
-include __DIR__ . '..\..\entities\Size.php';
-include __DIR__ . '..\..\entities\Product.php';
-include __DIR__ . '..\..\entities\Provider.php';
-include __DIR__ . '..\..\entities\Picture.php';
-include __DIR__ . '..\..\entities\Season.php';
+include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __DIR__ . '../../entities/Article.php';
+include __DIR__ . '../../entities/Color.php';
+include __DIR__ . '../../entities/Size.php';
+include __DIR__ . '../../entities/Product.php';
+include __DIR__ . '../../entities/Provider.php';
+include __DIR__ . '../../entities/Picture.php';
+include __DIR__ . '../../entities/Season.php';
 
 
 $dataPost = file_get_contents("php://input");

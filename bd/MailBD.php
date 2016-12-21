@@ -2,18 +2,18 @@
 
 require '../PHPMailer/PHPMailerAutoload.php';
 
-include __DIR__ ."..\..\doctrine_config/doctrine-cfg.php";
-include __DIR__ . '..\..\entities\Article.php';
-include __DIR__ . '..\..\entities\Color.php';
-include __DIR__ . '..\..\entities\Product.php';
-include __DIR__ . '..\..\entities\Size.php';
-include __DIR__ . '..\..\entities\User.php';
-include __DIR__ . '..\..\entities\UserType.php';
-include __DIR__ . '..\..\entities\Season.php';
-include __DIR__ . '..\..\entities\Provider.php';
+include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __DIR__ . '../../entities/Article.php';
+include __DIR__ . '../../entities/Color.php';
+include __DIR__ . '../../entities/Product.php';
+include __DIR__ . '../../entities/Size.php';
+include __DIR__ . '../../entities/User.php';
+include __DIR__ . '../../entities/UserType.php';
+include __DIR__ . '../../entities/Season.php';
+include __DIR__ . '../../entities/Provider.php';
 
-include __DIR__ . '..\..\entities\Sale.php';
-include __DIR__ . '..\..\entities\DetailSale.php';
+include __DIR__ . '../../entities/Sale.php';
+include __DIR__ . '../../entities/DetailSale.php';
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);

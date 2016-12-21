@@ -1,33 +1,33 @@
 <?php
 
-include __DIR__ ."..\..\doctrine_config/doctrine-cfg.php";
-include __DIR__ . '..\..\entities\User.php';
-include __DIR__ . '..\..\entities\UserType.php';
-include __DIR__ . '..\..\entities\Article.php';
-include __DIR__ . '..\..\entities\Color.php';
-include __DIR__ . '..\..\entities\Product.php';
-include __DIR__ . '..\..\entities\Picture.php';
+include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __DIR__ . '../../entities/User.php';
+include __DIR__ . '../../entities/UserType.php';
+include __DIR__ . '../../entities/Article.php';
+include __DIR__ . '../../entities/Color.php';
+include __DIR__ . '../../entities/Product.php';
+include __DIR__ . '../../entities/Picture.php';
 
 
-include __DIR__ . '..\..\entities\BlacklistDetail.php';
-include __DIR__ . '..\..\entities\Provider.php';
+include __DIR__ . '../../entities/BlacklistDetail.php';
+include __DIR__ . '../../entities/Provider.php';
 
-include __DIR__ . '..\..\entities\Promotion.php';
-include __DIR__ . '..\..\entities\Province.php';
-include __DIR__ . '..\..\entities\Sale.php';
+include __DIR__ . '../../entities/Promotion.php';
+include __DIR__ . '../../entities/Province.php';
+include __DIR__ . '../../entities/Sale.php';
 
-include __DIR__ . '..\..\entities\Season.php';
-include __DIR__ . '..\..\entities\SaleState.php';
-include __DIR__ . '..\..\entities\State.php';
-include __DIR__ . '..\..\entities\Size.php';
-include __DIR__ . '..\..\entities\CreditCard.php';
-include __DIR__ . '..\..\entities\Bank.php';
-include __DIR__ . '..\..\entities\Card.php';
-include __DIR__ . '..\..\entities\BankCard.php';
-include __DIR__ . '..\..\entities\Address.php';
+include __DIR__ . '../../entities/Season.php';
+include __DIR__ . '../../entities/SaleState.php';
+include __DIR__ . '../../entities/State.php';
+include __DIR__ . '../../entities/Size.php';
+include __DIR__ . '../../entities/CreditCard.php';
+include __DIR__ . '../../entities/Bank.php';
+include __DIR__ . '../../entities/Card.php';
+include __DIR__ . '../../entities/BankCard.php';
+include __DIR__ . '../../entities/Address.php';
 
-include __DIR__ . '..\..\entities\ProductDiscount.php';
-include __DIR__ . '..\..\entities\Discount.php';
+include __DIR__ . '../../entities/ProductDiscount.php';
+include __DIR__ . '../../entities/Discount.php';
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
