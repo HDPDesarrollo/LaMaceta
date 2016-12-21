@@ -8,8 +8,8 @@ $dbParams = [
 	'driver' => 'pdo_mysql',
 	'host' => '127.0.0.1',
 	'dbname' => 'db_lamaceta',
-	'user' =>'matias',
-	'password' => '1234'
+	'user' =>'root',
+	'password' => ''
 ];
 //Estamos en modo desarrollo?
 $dev = true;

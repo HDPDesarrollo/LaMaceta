@@ -37,13 +37,13 @@ input::-moz-focus-inner {
 @media (max-width: 768px)
 {
     .fix-body{
-        padding-top: 10%;
+        /*padding-top: 10%;*/
     }
 }
 
 @media (min-width: 768px){
     .fix-body{
-    padding-top: 3%;
+    /*padding-top: 3%;*/
 }
 }
 
