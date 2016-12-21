@@ -7,18 +7,22 @@ include_once 'BeforeValidException.php';
 include_once 'SignatureInvalidException.php';
 
 
+$dataPost = file_get_contents("php://input");
+$request = json_decode($dataPost);
+
 $objDatos=json_decode(file_get_contents("php://input"));
 
 
 try {
 	//$elUsuario = new usuario();
-	$elUsuario=usuario::fijateSiEstaElUser($objDatos->nombre,$objDatos->mail);
+	$elUsuario=$user::fijateSiEstaElUser($objDatos->nombre,$objDatos->mail);
 
 } catch (Exception $e) {
 					echo $e->getMessage();
 }
 
 
+//
 //echo json_encode($elUsuario);
 //1-tomo datos del http
 //2-verifico con un metodo de la clase usuario si son datos validos
@@ -28,108 +32,57 @@ try {
 //if ($objDatos->nombre=="pepito" && $objDatos->mail=="pepito@pepito.com") {
 
 
-if(isset($elUsuario)){
+if(isset($elUsuario))
+{
 
-		//echo json_encode($elUsuario);
-			 //      $idUsuario=1;
+	try 
+	{
+			$token=array(
+			"id"=> $elUsuario->id,
+			"nombre"=> $elUsuario->nombre,
+			"mail"=> $elUsuario->mail,
 
-			try {
+			"exp"=>time()+9600
+			);
 
-				  $token=array(
-				  "id"=> $elUsuario->id,
-				  "nombre"=> $elUsuario->nombre,
-				  "mail"=> $elUsuario->mail,
+			$token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
+			//token ya terminado
+			$array['tokenMascota2016']=$token;
 
-				  "exp"=>time()+9600
-				   );
+			echo json_encode($array);
 
-				   $token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
-				   //token ya terminado
-				   $array['tokenMascota2016']=$token;
-
-				   echo json_encode($array);
-				
-			} catch (Exception $e) {
-
-				echo json_encode($e->getMessage());
-				
-			}
+	} 
+	catch (Exception $e) 
+	{
+		echo json_encode($e->getMessage());
+	}
 
 
+}
+else
+{
+	try 
+	{
+				$token=array(
+				"id"=>"natalia",
+				"nombre"=>"natalia",
+				"perfil"=>"trucho",
+				"exp"=>time()-9600
+				);
 
-		   
+				$token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
+				//token ya terminado
+				$array['tokenMascota2016']=$token;
 
-}else{
-
-	/*$nada = array(
-		"nombre"=>"nada"
-		);
-
-	echo json_encode($nada);
-
-		*/
-
-	 //  $idUsuario=false;
-
-			try {
-					  $token=array(
-					  "id"=>"natalia",
-					  "nombre"=>"natalia",
-					  "perfil"=>"trucho",
-					  "exp"=>time()-9600
-					   );
-
-					   $token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
-					   //token ya terminado
-					   $array['tokenMascota2016']=$token;
-
-					   echo json_encode($array);
-
-			} catch (Exception $e) {
-				
-				echo json_encode($e->getMessage());
-			}
-
-		   
-
+				echo json_encode($array);
+	} 
+	catch (Exception $e) 
+	{
+		echo json_encode($e->getMessage());
+	}
+	
 }
 
 
-
-
-
-//valido segun lo que me devuelve la funcion php que me dice que si existe el usuario o no
-/*if ($idUsuario==false) {
-
-	   $token=array(
-		  "id"=>"natalia",
-		  "nombre"=>"natalia",
-		  "perfil"=>"trucho",
-		  "exp"=>time()-9600
-		   );
-
-	   $token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
-	   //token ya terminado
-	   $array['tokenMascota2016']=$token;
-
-	   echo json_encode($array);
-
-}else{
-
-	   $token=array(
-		  "nombre"=>"pepito",
-		  "mail"=>"pepito@pepito.com",
-
-		  "exp"=>time()+9600
-		   );
-
-	   $token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
-	   //token ya terminado
-	   $array['tokenMascota2016']=$token;
-
-	   echo json_encode($array);
-
-}
-*/
 
 ?>

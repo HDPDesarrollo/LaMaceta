@@ -17,3 +17,5 @@ switch($request->data->action){
 		echo(json_encode($pictures));
 		break;
 }
+
+?>
