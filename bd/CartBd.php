@@ -1,4 +1,4 @@
-<?php
+<?php//Ver si sirve
 
 include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
 include __DIR__ . '../../entities/Article.php';
@@ -18,7 +18,6 @@ switch($request->data->action){
 
 	case 'getOneArticle':
 		$article= $entityManager->find('Article', $request->data->id);
-		//var_dump($addresses);
 
 		$connection = $entityManager->getConnection();
 		$statement = $connection->prepare("SELECT ruta_img FROM picture WHERE id_prod = ".$article->idProd->id." LIMIT 1");

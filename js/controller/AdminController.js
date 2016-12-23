@@ -63,7 +63,7 @@ angular.module("LaMaceta")
         $window.location.href = dir+"/shop-index.html";
     }
 
-	$scope.selectedTab = "configureDiscounts";
+	$scope.selectedTab = "products";
 
 	$scope.selectTab = function (tab) {
 		$scope.selectedTab=tab;

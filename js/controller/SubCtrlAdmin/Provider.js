@@ -1,11 +1,12 @@
+//Ver si se deja
+
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_Provider", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_Provider", function($window, $scope, AdminService, $modal, factoryData, NgTableParams){
 
 	$scope.providers = [];
 
 	AdminService.getAllProviders()
 		.then(function(res){
-			//console.log(res); 
 			$scope.providers = res;  
 		});
 
@@ -30,9 +31,7 @@ angular.module("LaMaceta")
 	      	controller: 'EditProviderModalCtrl',
 	      	scope: $scope,
 	      	resolve: {
-		        provider: function () {
-		        	//ver si se pueden usar los getters
-		        	
+		        provider: function () {		        
 		        	factoryData.data.id = provider.id;
 		        	factoryData.data.name = provider.name;
 		        	factoryData.data.email = provider.email;

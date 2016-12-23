@@ -29,35 +29,6 @@ $request = json_decode($dataPost);
 
 switch($request->data->action){
 
-	case 'getRejectedSales':
-
-		$blacklistSales = $entityManager->getRepository('BlacklistDetail')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
-		echo(json_encode($blacklistSales));
-		break;
-
-	case 'pagarBlacklist':
-
-		$blacklistSales = $entityManager->getRepository('BlacklistDetail')->findBy(array('idUser' => $request->data->user->id));
-		//echo(json_encode($blacklistSales));
-
-		foreach ($blacklistSales as $item) {
-			$item->setActive(false);
-			$entityManager->merge($item);
-		}
-
-		$user = $entityManager->find('User', $request->data->user->id);
-		$user = $user->setBlacklist(false);
-		$entityManager->merge($user);
-		$entityManager->flush();
-
-		echo(json_encode($user));
-
-		break;
-	case 'getCreditCards':
-		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
-		echo(json_encode($creditCards));
-		break;
-
 	//Address
 	case 'getAllAddresses':
 		$addresses = $entityManager->getRepository('Address')->findBy(array('idUser' => $request->data->user->id));
@@ -142,70 +113,6 @@ switch($request->data->action){
 		echo(json_encode($addresses));
 		break;
 
-	case 'createCreditCard':
-		$newCreditCard = new CreditCard();
-		$newCreditCard->setActive(true);
-		$newCreditCard->setNumber($request->data->creditCard->number);
-
-		$bankCard =  $entityManager->getRepository("BankCard")->findOneBy(array("idBank" => $request->data->creditCard->bank->id, "idCard" => $request->data->creditCard->card->id));
-		$newCreditCard->setIdBankCard($bankCard);
-
-		$newCreditCard->setCvv($request->data->creditCard->cvv);
-
-		$newCreditCard->setName($request->data->creditCard->name);
-
-		$user= $entityManager->find('User', $request->data->user->id);
-		$newCreditCard->setIdUser($user);
-
-		$vencimiento = "01/".$request->data->creditCard->expirationDateMonth."/".$request->data->creditCard->expirationDateYear;
-		$date = date_create_from_format('d/m/y', $vencimiento); 
-
-		$newCreditCard->setExpirationDate($date);
-
-		$entityManager->persist($newCreditCard);
-		$entityManager->flush();
-
-		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
-		echo(json_encode($creditCards));
-		break;
-
-	case 'updateCreditCard':
-		$newCreditCard= $entityManager->find('CreditCard', $request->data->creditCard->id);
-		$newCreditCard->setActive(true);
-		$newCreditCard->setNumber($request->data->creditCard->number);
-
-		$bankCard =  $entityManager->getRepository("BankCard")->findOneBy(array("idBank" => $request->data->creditCard->bank->id, "idCard" => $request->data->creditCard->card->id));
-		$newCreditCard->setIdBankCard($bankCard);
-
-		$newCreditCard->setCvv($request->data->creditCard->cvv);
-
-		$newCreditCard->setName($request->data->creditCard->name);
-
-		$user= $entityManager->find('User', $request->data->user->id);
-		$newCreditCard->setIdUser($user);
-
-		$vencimiento = "01/".$request->data->creditCard->expirationDateMonth."/".$request->data->creditCard->expirationDateYear;
-		$date = date_create_from_format('d/m/y', $vencimiento); 
-
-		$newCreditCard->setExpirationDate($date);
-
-		$entityManager->persist($newCreditCard);
-		$entityManager->flush();
-
-		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
-		echo(json_encode($creditCards));
-		break;
-
-	case 'deleteCreditCard':
-		$creditCardToDelete = $request->data->creditCard;
-		$creditCard= $entityManager->find('CreditCard', $creditCardToDelete->id);
-		$creditCard->setActive(false);
-		$entityManager->merge($creditCard);
-		$entityManager->flush();
-
-		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
-		echo(json_encode($creditCards));
-		break;
 
 	//User
 
@@ -279,17 +186,7 @@ switch($request->data->action){
 		$statement->execute();
 		break;
 		
-	case 'sendAgain':
 
-		$saleId = $request->data->purchase->id;
-
-		$dia = new DateTime();
-		$dia = $dia->format('Y-m-d H:i:s');
-
-		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare("INSERT INTO sale_state (active, id_sale, id_state, last_update, motive) VALUES (1,".$saleId.",1,'".$dia."','Pedido de envio nuevo')");
-		$statement->execute();
-		break;
 
 	case 'getAllActiveCreditCards':
 
@@ -425,7 +322,114 @@ switch($request->data->action){
 			}
 		}
 		break;
+
+
+	case 'sendAgain'://VER
+
+		$saleId = $request->data->purchase->id;
+
+		$dia = new DateTime();
+		$dia = $dia->format('Y-m-d H:i:s');
+
+		$connection = $entityManager->getConnection();
+		$statement = $connection->prepare("INSERT INTO sale_state (active, id_sale, id_state, last_update, motive) VALUES (1,".$saleId.",1,'".$dia."','Pedido de envio nuevo')");
+		$statement->execute();
+		break;
 		
+	/*case 'getRejectedSales':
+
+		$blacklistSales = $entityManager->getRepository('BlacklistDetail')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
+		echo(json_encode($blacklistSales));
+		break;
+
+	case 'pagarBlacklist':
+
+		$blacklistSales = $entityManager->getRepository('BlacklistDetail')->findBy(array('idUser' => $request->data->user->id));
+		//echo(json_encode($blacklistSales));
+
+		foreach ($blacklistSales as $item) {
+			$item->setActive(false);
+			$entityManager->merge($item);
+		}
+
+		$user = $entityManager->find('User', $request->data->user->id);
+		$user = $user->setBlacklist(false);
+		$entityManager->merge($user);
+		$entityManager->flush();
+
+		echo(json_encode($user));
+
+		break;
+	case 'getCreditCards':
+		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
+		echo(json_encode($creditCards));
+		break;
+
+	case 'createCreditCard':
+		$newCreditCard = new CreditCard();
+		$newCreditCard->setActive(true);
+		$newCreditCard->setNumber($request->data->creditCard->number);
+
+		$bankCard =  $entityManager->getRepository("BankCard")->findOneBy(array("idBank" => $request->data->creditCard->bank->id, "idCard" => $request->data->creditCard->card->id));
+		$newCreditCard->setIdBankCard($bankCard);
+
+		$newCreditCard->setCvv($request->data->creditCard->cvv);
+
+		$newCreditCard->setName($request->data->creditCard->name);
+
+		$user= $entityManager->find('User', $request->data->user->id);
+		$newCreditCard->setIdUser($user);
+
+		$vencimiento = "01/".$request->data->creditCard->expirationDateMonth."/".$request->data->creditCard->expirationDateYear;
+		$date = date_create_from_format('d/m/y', $vencimiento); 
+
+		$newCreditCard->setExpirationDate($date);
+
+		$entityManager->persist($newCreditCard);
+		$entityManager->flush();
+
+		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
+		echo(json_encode($creditCards));
+		break;
+
+	case 'updateCreditCard':
+		$newCreditCard= $entityManager->find('CreditCard', $request->data->creditCard->id);
+		$newCreditCard->setActive(true);
+		$newCreditCard->setNumber($request->data->creditCard->number);
+
+		$bankCard =  $entityManager->getRepository("BankCard")->findOneBy(array("idBank" => $request->data->creditCard->bank->id, "idCard" => $request->data->creditCard->card->id));
+		$newCreditCard->setIdBankCard($bankCard);
+
+		$newCreditCard->setCvv($request->data->creditCard->cvv);
+
+		$newCreditCard->setName($request->data->creditCard->name);
+
+		$user= $entityManager->find('User', $request->data->user->id);
+		$newCreditCard->setIdUser($user);
+
+		$vencimiento = "01/".$request->data->creditCard->expirationDateMonth."/".$request->data->creditCard->expirationDateYear;
+		$date = date_create_from_format('d/m/y', $vencimiento); 
+
+		$newCreditCard->setExpirationDate($date);
+
+		$entityManager->persist($newCreditCard);
+		$entityManager->flush();
+
+		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
+		echo(json_encode($creditCards));
+		break;
+
+	case 'deleteCreditCard':
+		$creditCardToDelete = $request->data->creditCard;
+		$creditCard= $entityManager->find('CreditCard', $creditCardToDelete->id);
+		$creditCard->setActive(false);
+		$entityManager->merge($creditCard);
+		$entityManager->flush();
+
+		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
+		echo(json_encode($creditCards));
+		break;
+		*/
 
 }		
 

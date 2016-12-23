@@ -1,5 +1,7 @@
+//ver que se pueda editar todo
+
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_EditProfile", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_EditProfile", function($window, $scope, AdminService, $cookies){
 
 	$scope.user = $cookies.getObject("loginCredentials");
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
@@ -10,12 +12,10 @@ angular.module("LaMaceta")
     dia.setFullYear(1998);
 
     $scope.hace18 = dia;
-   // console.log($scope.hace18);
 
     $scope.updateProfile = function (user) {
 		AdminService.updateProfile(user)
 			.then(function(res){
-				//console.log(res);
 				$cookies.putObject("loginCredentials", res);
 				$scope.user = res;
 				$scope.user.birthDate = new Date($scope.user.birthDate.date);

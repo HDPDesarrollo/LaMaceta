@@ -1,3 +1,5 @@
+//Verlo de Cero
+
 angular.module('LaMaceta')
 	.controller('CartController',function($interval,$cookies,$scope,CartService,SearchService){
 
@@ -26,8 +28,6 @@ angular.module('LaMaceta')
 	});
 
 	modifyContentCart = function(newVal,oldVal){
-		//console.log(newVal);
-		//console.log(oldVal);
 		if(oldVal==null || newVal.length>oldVal.length){
 			CartService.getOneArticle(newVal[newVal.length-1].id)
 				.then(function(res){

@@ -1,5 +1,6 @@
+//Verlo (ok)
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_Image", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_Image", function($window, $scope, AdminService, $modal, Upload){
 
 	$scope.products = [];
 
@@ -7,7 +8,6 @@ angular.module("LaMaceta")
 
 	AdminService.getAllProducts()
 		.then(function(res){
-			//console.log(res);
 			$scope.products = res;  
 		});
 
@@ -61,20 +61,17 @@ angular.module('LaMaceta').controller('ImagesModalCtrl', function ($scope, $moda
 		if(images.type == "producto"){
 			AdminService.getProductImages(images.product)
 			.then(function(res){
-				console.log(res);
 				$scope.theImages = res;
 			});
 		}else{
 			AdminService.getSliderImages(images.type)
 			.then(function(res){
-				console.log(res);
 				$scope.theImages = res;
 			});
 		}
 	}
 
 	$scope.borrar = function (images) {
-	    //console.log($scope.checklistToDelete);
 	    AdminService.deleteImages(images)
 			.then(function(res){
 				$scope.theImages = [];

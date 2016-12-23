@@ -6,7 +6,7 @@ angular.module("LaMaceta")
 });
 
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_Sale", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_Sale", function($scope, AdminService, $modal, factoryData, NgTableParams){
 
 	AdminService.getAllSales()
 		.then(function(res){
@@ -16,17 +16,14 @@ angular.module("LaMaceta")
 				$obj = res[i];
 				$scope.sales[i].state = {description: $obj.state, id: $obj.idState};				
 			}
-			//console.log($scope.sales);
 			$scope.salesConfigTableParams = new NgTableParams({}, { dataset: $scope.sales});
 		});    
 
 	AdminService.getAllSaleStates()
 		.then(function(res){
 			$scope.states = res;
-			//console.log(res);
 		});   
 
-	//$scope.states = [{value:"FINALIZADO", id: 1}];
 
 	$scope.openDetailSaleModal = function (saleNumber) {
 	    var modalInstance = $modal.open({

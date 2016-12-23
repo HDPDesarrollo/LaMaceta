@@ -1,4 +1,4 @@
-<?php
+<?php//Ver
 
 include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
 include __DIR__ . '../../entities/User.php';

@@ -1,3 +1,5 @@
+//Ver si se queda lo de prmotions lo otro se va
+
 angular.module("LaMaceta")
 	.controller("SubCtrlAdmin_Triple", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
 

@@ -1,19 +1,17 @@
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_SizeAndColor", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_SizeAndColor", function($scope, AdminService, $modal, factoryData){
 
 	$scope.colors = [];
 	$scope.sizes = [];
 
 	AdminService.getAllColors()
 		.then(function(res){
-			//console.log(res); 
 			$scope.colors = res;  
 		});
 
 	AdminService.getAllSizes()
 		.then(function(res){
 			$scope.sizes = res;
-			//console.log(res);  
 		});
 
 	$scope.openColorModal = function () {
@@ -37,8 +35,6 @@ angular.module("LaMaceta")
 	      	scope: $scope,
 	      	resolve: {
 		        color: function () {
-		        	//ver si se pueden usar los getters
-		        	
 		        	factoryData.data.id = color.id;
 		        	factoryData.data.color = color.color;
 		        	factoryData.data.rgb = color.rgb;
@@ -78,7 +74,6 @@ angular.module("LaMaceta")
 	      	scope: $scope,
 	      	resolve: {
 		        size: function () {
-		        	//ver si se pueden usar los getters
 		        	
 		        	factoryData.data.id = size.id;
 		        	factoryData.data.size = size.size;
@@ -102,12 +97,11 @@ angular.module("LaMaceta")
 angular.module('LaMaceta').controller('ColorModalCtrl', function ($scope, $modalInstance, AdminService) {
 	
 	$scope.save = function (color) {
-		//console.log(color);
 		AdminService.saveColor(color)
 			.then(function(res){
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -125,14 +119,12 @@ angular.module('LaMaceta').controller('EditColorModalCtrl', function ($scope, $m
 				color: factoryData.data.color,
 				rgb: factoryData.data.rgb};
 
-				//console.log($scope.address);
-
   	$scope.save = function (color) {
 		AdminService.saveColor(color)
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -148,7 +140,7 @@ angular.module('LaMaceta').controller('SizeModalCtrl', function ($scope, $modalI
 			.then(function(res){
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -163,14 +155,12 @@ angular.module('LaMaceta').controller('EditSizeModalCtrl', function ($scope, $mo
 				size: factoryData.data.size,
 				large: factoryData.data.large};
 
-				//console.log($scope.address);
-
   	$scope.save = function (size) {
 		AdminService.saveSize(size)
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 

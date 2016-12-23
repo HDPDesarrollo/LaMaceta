@@ -57,9 +57,6 @@ switch($request->data->action){
 							".$filterTarget."
 							ORDER BY ".$request->data->sorting);
 
-			/*echo($query);
-			break;*/
-
 			$connection = $entityManager->getConnection();
 			$statement = $connection->prepare($query);
 

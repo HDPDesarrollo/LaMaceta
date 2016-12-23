@@ -1,5 +1,5 @@
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_Province", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_Province", function($scope, AdminService, $modal, factoryData){
 
 	$scope.provinces = [];
 
@@ -13,7 +13,6 @@ angular.module("LaMaceta")
 	      animation: true,
 	      templateUrl: '../theme/province-modal.html',
 	      controller: 'ProvinceModalCtrl',
-	      //scope: $scope,
 	      resolve: { }
 
 	    }).result.then(function(res) {
@@ -29,8 +28,6 @@ angular.module("LaMaceta")
 	      	scope: $scope,
 	      	resolve: {
 		        province: function () {
-		        	//ver si se pueden usar los getters
-		        	
 		        	factoryData.data.id = province.id;
 		        	factoryData.data.name = province.name;
 		        	factoryData.data.cost = province.cost;
@@ -58,7 +55,7 @@ angular.module('LaMaceta').controller('ProvinceModalCtrl', function ($scope, $mo
 			.then(function(res){
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -73,14 +70,12 @@ angular.module('LaMaceta').controller('EditProvinceModalCtrl', function ($scope,
 				name: factoryData.data.name,
 				cost: factoryData.data.cost};
 
-				//console.log($scope.address);
-
   	$scope.save = function (province) {
 		AdminService.saveProvince(province)
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 

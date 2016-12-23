@@ -45,7 +45,7 @@ switch($request->data->action){
 		echo(json_encode($idArticle));
 		break;
 
-	case 'getPromotions': 
+	/*case 'getPromotions': 
 
 		if(isset($request->data->idBankCard)){		
 			$connection = $entityManager->getConnection();
@@ -67,7 +67,7 @@ switch($request->data->action){
 			$percentage = $statement->fetchAll();
 			echo(json_encode($percentage));
 		}
-		break;
+		break;*/
 }		
 
 

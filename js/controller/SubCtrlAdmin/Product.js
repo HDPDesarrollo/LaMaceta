@@ -6,7 +6,7 @@ angular.module("LaMaceta")
 });
 
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_Product", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_Product", function($scope, AdminService, $modal, factoryData, NgTableParams){
 
 	$scope.products = [];
 	$scope.colors = [];
@@ -14,49 +14,40 @@ angular.module("LaMaceta")
 	$scope.providers = [];
 	$scope.seasons = [];
 
+	$scope.productStatus = [{id: "1", title: "ACTIVO"},
+							{id: "0", title: "INACTIVO"}];
+
 	AdminService.getAllArticles()
 		.then(function(res){
-			//console.log(res);
-			//$scope.articles = res;
 			$scope.buildArticles(res);
 			$scope.productsConfigTableParams = new NgTableParams({}, { dataset: $scope.products});
 		});
 
-	AdminService.getAllSales()
+	/*AdminService.getAllSales()
 		.then(function(res){
-			//console.log(res);
 			$scope.sales = res;
-			//console.log($scope.sales);
-			//$scope.buildSales(res);
 			$scope.salesConfigTableParams = new NgTableParams({}, { dataset: $scope.sales});
-		});
+		});*/
 
 	AdminService.getAllColors()
 		.then(function(res){
-			//console.log(res); 
 			$scope.colors = res;  
 		});
 
 	AdminService.getAllSizes()
 		.then(function(res){
 			$scope.sizes = res;
-			//console.log(res);  
 		});
 
 	AdminService.getAllProviders()
 		.then(function(res){
 			$scope.providers = res;
-			//console.log(res);  
 		});
 
 	AdminService.getAllSeasons()
 		.then(function(res){
 			$scope.seasons = res;
-			//console.log(res);  
 		});
-
-	$scope.productStatus = [{id: "1", title: "ACTIVO"},
-							{id: "0", title: "INACTIVO"}];
 
 
 	$scope.openArticleModal = function (product) {
@@ -89,7 +80,6 @@ angular.module("LaMaceta")
 	        products: function () {	 
 	      		factoryData.data.product = product;  
 	        }
-
 	      }
 
 	    });
@@ -105,8 +95,7 @@ angular.module("LaMaceta")
 			.then(function(res){
 			$scope.buildArticles(res);
 			$scope.productsConfigTableParams = new NgTableParams({}, { dataset: $scope.products});
-				//console.log(res);  
-			});
+		});
     }
 
     $scope.buildArticles = function (res) {
@@ -135,7 +124,6 @@ angular.module("LaMaceta")
 				}	
 			}
 		}	
-		//console.log($scope.products);
 	};
 
 	$scope.openDetailProductModal = function (detail, idProd) {
@@ -188,7 +176,7 @@ angular.module('LaMaceta').controller('DetailProductModalCtrl', function ($scope
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
   	};
 
@@ -203,14 +191,12 @@ angular.module('LaMaceta').controller('DetailProductModalCtrl', function ($scope
 
 angular.module('LaMaceta').controller('ProductModalCtrl', function ($scope, AdminService, $modalInstance) {
 
-	//$scope.product = {};
-
   	$scope.save = function (product) {
 	AdminService.saveProduct(product)
 		.then(function(res){	
 			$modalInstance.close(res);
 		}, function(error){
-			 $modalInstance.close();////////
+			 $modalInstance.close();
 		})		    
   	};
 
@@ -228,7 +214,6 @@ angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, 
 			$scope.product = res;
 			$scope.product.provider = res.idProvider;
 			$scope.product.season = res.idSeason;
-			console.log(res);
 		}); 
 
   	$scope.save = function (product) {
@@ -236,7 +221,7 @@ angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, 
 		.then(function(res){	
 			$modalInstance.close(res);
 		}, function(error){
-			 $modalInstance.close();////////
+			 $modalInstance.close();
 		})		    
   	};
 

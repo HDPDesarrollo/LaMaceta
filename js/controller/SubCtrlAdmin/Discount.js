@@ -1,3 +1,5 @@
+//Modificar completo
+
 angular.module("LaMaceta")
 	.controller("SubCtrlAdmin_Discount", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
 
@@ -8,7 +10,6 @@ angular.module("LaMaceta")
 			for (var i = 0; i < $scope.discounts.length; i++) {
 				$scope.discounts[i].active = {active: $scope.discounts[i].active};
 			}
-			console.log(res);
 		}, function(error){
 	});	
 
@@ -66,7 +67,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 
 	AdminService.getAllProductDiscounts()
 		.then(function(res){
-			//console.log(res);
+			
 			$scope.products = res;  
 			for (var i = 0; i < $scope.products.length; i++) {
 				$scope.products[i].active = {active: $scope.products[i].active};
@@ -86,9 +87,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 	};
 
 	$scope.changeStatusPercentage = function (percentage, status) {
-		console.log(status);
 	    var txt;
-	    console.log(percentage);
 	    if(percentage.percentage == 0){
 	    	alert("No se puede eliminar el descuento por default!");
 	    	return;
@@ -118,7 +117,6 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 				}, function(error){
 			})		    
 		}
-		console.log(txt);
 	};
 
 	$scope.changeStatusProductDiscount = function (prodId, status) {

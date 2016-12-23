@@ -21,15 +21,12 @@ angular.module("LaMaceta")
  	$scope.target = null;
  	$scope.prodType = null;
 
-	//$scope.cart  = $cookies.remove("cookieCart");//sacar
-
 	$scope.wordSearched = "";
 	$scope.wordSearch = "";
 	
 
 	$scope.searchPrice = function (wordSearch, sorting, minAmount, maxAmount){		
 		this.search(wordSearch, sorting, $scope.color, minAmount, maxAmount, $scope.target, $scope.prodType);
-		//console.log($scope.color);
 	}
 
 	$scope.search = function (wordSearch, sorting, color, minAmount, maxAmount, target, prodType){	
@@ -63,8 +60,6 @@ angular.module("LaMaceta")
 
 
 	$scope.pageChanged = function() {
-	  //console.log('Page changed to: ' + $scope.currentPage);
-	  //console.log($scope.prodType);
 
   	if($scope.target==false){
 		this.search("", $scope.sorting, null, null, null, null, null);
@@ -73,8 +68,6 @@ angular.module("LaMaceta")
 	}else if($scope.target!=false && $scope.prodType!='Todos'){
 		this.search("", $scope.sorting, null, null, null, $scope.target, $scope.prodType);
 	}
-
-	  //this.search($scope.wordSearched, $scope.sorting, $scope.color, $scope.minAmount, $scope.maxAmount, $scope.target, $scope.prodType);
 	};
 
 
@@ -114,20 +107,14 @@ angular.module("LaMaceta")
 					$scope.totalProductsSearch[$lastObj].color.push(
 					{color: $obj.COLOR, rgb: $obj.RGB});
 
-					//console.log(1);
-					/*$scope.totalProductsSearch[$lastObj].size.push(
-					{size: $obj.SIZE});*/
-
 					this.addColorFilter({color: $obj.COLOR, rgb: $obj.RGB});
 				}	
 			}
 		}	
-		//console.log($scope.totalProductsSearch);
 	};
 
 	$scope.addColorFilter = function(color){
 		for (var i = 0; i < $scope.filterColor.length; i++) {
-			//console.log($scope.filterColor[i].color);
 			if($scope.filterColor[i].color == color.color){			
 				return;
 			}						
@@ -210,7 +197,6 @@ angular.module('LaMaceta').controller('AddCartModalCtrl', function ($scope, $uib
 			$scope.article.size.id, 
 			$scope.article.color.id, $scope.article.quantity)
 		.then(function(res){
-			//console.log(res);
 			$scope.idArticle = res[0].ID;//deberia ser solo uno
 			
 			if($scope.idArticle!=null){
@@ -221,7 +207,7 @@ angular.module('LaMaceta').controller('AddCartModalCtrl', function ($scope, $uib
 			}
 
 			}, function(error){
-				 $uibModalInstance.close();////////
+				 $uibModalInstance.close();
 			});	
 	}
 
@@ -232,7 +218,6 @@ angular.module('LaMaceta').controller('AddCartModalCtrl', function ($scope, $uib
 		if($scope.colors.length>0){
 			$scope.article.color = res[0];
 		}
-		//console.log(res);
 		});
 
 	SearchService.getAllSizesByProdId($scope.article.prodId)
@@ -242,12 +227,10 @@ angular.module('LaMaceta').controller('AddCartModalCtrl', function ($scope, $uib
 		if($scope.sizes.length>0){
 			$scope.article.size = res[0];
 		}
-		//console.log(res);
 		});
 
 	$scope.cancel = function () {
 	    $uibModalInstance.dismiss('cancel');
-	    //console.log($scope.article);
 	};
 
 });

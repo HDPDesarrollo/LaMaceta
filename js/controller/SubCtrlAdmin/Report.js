@@ -1,3 +1,5 @@
+//Ver si se deja
+
 angular.module("LaMaceta")
 	.controller("SubCtrlAdmin_Report", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
 

@@ -35,7 +35,7 @@ $request = json_decode($dataPost);
 
 switch($request->data->action){
 
-	case 'removeBlacklist':
+/*	case 'removeBlacklist':
 
 		$blacklistSales = $entityManager->getRepository('BlacklistDetail')->findBy(array('idUser' => $request->data->user->id));
 
@@ -57,12 +57,10 @@ switch($request->data->action){
 		$users =  $entityManager->getRepository("User")->findAll();
 		echo(json_encode($users));
 
-		break;
+		break;*/
 
 	case 'getAllProducts':
 		$products =  $entityManager->getRepository("Product")->findAll();
-		//var_dump($products);
-
 		echo(json_encode($products));
 		break;
 
@@ -90,21 +88,16 @@ switch($request->data->action){
 
 	case 'getAllUsers':
 		$users =  $entityManager->getRepository("User")->findAll();
-		//var_dump($addresses);
-
 		echo(json_encode($users));
 		break;
 
 	case 'getAllSeasons':
 		$seasons =  $entityManager->getRepository("Season")->findAll();
-		//var_dump($addresses);
-
 		echo(json_encode($seasons));
 		break;
+
 	case 'getAllUserTypes':
 		$userTypes =  $entityManager->getRepository("UserType")->findAll();
-		//var_dump($addresses);
-
 		echo(json_encode($userTypes));
 		break;
 
@@ -507,7 +500,7 @@ switch($request->data->action){
 		echo(json_encode($provinces));
 		break;
 
-	case 'getAllPromotions':
+	/*case 'getAllPromotions':
 		$promotions =  $entityManager->getRepository("Promotion")->findAll();
 		//var_dump($addresses);
 
@@ -760,7 +753,7 @@ switch($request->data->action){
 		}
 
 		$entityManager->flush();
-		break;
+		break;*/
 
 	case 'getAllSales':
 		$connection = $entityManager->getConnection();

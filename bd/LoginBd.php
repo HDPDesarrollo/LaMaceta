@@ -1,4 +1,4 @@
-<?php
+<?php//Ver mati!
 
 require '../PHPMailer/PHPMailerAutoload.php';
 

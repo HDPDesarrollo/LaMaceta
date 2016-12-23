@@ -1,15 +1,27 @@
+//Ver que dejar y que sacar, ver entity Payment
+
 angular.module("LaMaceta").factory("factoryData", function() {
   return {
     data: {}
   };
 });
 
-angular.module('LaMaceta').filter('dateFilter', function($filter){
+angular.module('LaMaceta').filter('dateFilter', function($filter){/////////ver para que se usa, y si sirve
     return function(input)
     {
         if(input == null)
         	return "";
         return $filter('date')(new Date(input), 'MM/yy');
+    };
+});
+
+//FILTRO PARA QUE SE VEA BIEN LA FECHA EN LA QUE SE REALIZO LA COMPRA
+angular.module('LaMaceta').filter('dateFilter2', function($filter){
+    return function(input)
+    {
+        if(input == null)
+        	return "";
+        return $filter('date')(new Date(input), 'dd/MM/yyyy');
     };
 });
 
@@ -31,36 +43,13 @@ angular.module("LaMaceta")
 	var dia = new Date();
 	dia.setFullYear(1998);	
 	$scope.hace18 = dia;                      
- 
 
-	/*Menu
-	addressesBook
-	changeProfile
-	myPurchases
-	logout	
-	*/
-	
 	$scope.addToCart = function (artId) {
 		CartService.addToCart(artId);
 	}
 
-	/*$scope.pruebaMandarMail = function (artId) {
-		MailService.mailMinStock(artId)
-			.then(function(res){
-				console.log(res);		
-		})
-	}
-
-	$scope.pruebaMailDetalleCompra = function (saleId) {
-		MailService.mailDetailCheckout(saleId)
-			.then(function(res){
-				console.log(res);		
-		})
-	}*/
-
 	$scope.addresses = [];
 	$scope.provinces = [];
-	//$scope.user = [];
 	$scope.myPurchases = [];
 	$scope.selectedTab = "myPurchases";
 	$scope.myCreditCards = [];
@@ -74,7 +63,6 @@ angular.module("LaMaceta")
 	AccountService.getAllAddresses($scope.user)
 		.then(function(res){
 			$scope.addresses = res;
-			//console.log(res);
 		});
 
 	AccountService.getAllProvinces()
@@ -84,13 +72,12 @@ angular.module("LaMaceta")
 
 	AccountService.getCreditCards($scope.user)
 		.then(function(res){
-			//console.log(res);
 			$scope.myCreditCards = res;
 		});
 	$scope.shippingCostTotal = 0;
 	$scope.impuestosTotal = 0;
 	
-	AccountService.getRejectedSales($scope.user)
+	/*AccountService.getRejectedSales($scope.user)
 		.then(function(res){
 			console.log(res);
 			$scope.blacklistSales = res;
@@ -110,7 +97,7 @@ angular.module("LaMaceta")
 				$cookies.putObject("loginCredentials",res); //se actualiza la cookie porque se le saca el blacklist=1 al user y se lo pone en 0
 				$window.location.href = dir+"/my-account.html";
 		})
-	};
+	};*/
 
 	$scope.openAddressModal = function (user) {
 	    var modalInstance = $modal.open({
@@ -183,7 +170,6 @@ angular.module("LaMaceta")
 	});
 
 	$scope.buildPurchase = function (res) {
-		console.log(res);
 		$scope.myPurchases = [];
 		for (i = 0; i < res.length; i++) { 	
 			if(i>0 && res[i].id == res[i-1].id){
@@ -199,7 +185,6 @@ angular.module("LaMaceta")
 					description:[{name: $obj.name, color: $obj.color, size: $obj.size, quantity: $obj.quantity, unitPrice: $obj.unit_Price}]};
 			}
 		}	
-		//console.log($scope.myPurchases);
 	};
 
 	$scope.cancelPurchase = function (purchase) {
@@ -293,7 +278,7 @@ angular.module('LaMaceta').controller('AddressModalCtrl', function ($scope, $mod
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -319,7 +304,7 @@ angular.module('LaMaceta').controller('EditModalAddressCtrl', function ($scope, 
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -329,6 +314,8 @@ angular.module('LaMaceta').controller('EditModalAddressCtrl', function ($scope, 
 
 });
 
+
+/*
 angular.module('LaMaceta').controller('CreditCardModal', function ($scope, $modalInstance, AccountService, AdminService) {
 
 	$scope.cards = [];
@@ -338,13 +325,11 @@ angular.module('LaMaceta').controller('CreditCardModal', function ($scope, $moda
 	AdminService.getAllCards()
 		.then(function(res){
 		$scope.cards = res;
-		//console.log(res);
 		});
 
 	AdminService.getAllBanks()
 		.then(function(res){
 		$scope.banks = res;
-		//console.log(res);
 		});
 
 	$scope.getAssociatedCards = function(bank){
@@ -362,7 +347,7 @@ angular.module('LaMaceta').controller('CreditCardModal', function ($scope, $moda
 				console.log(res);	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -370,9 +355,9 @@ angular.module('LaMaceta').controller('CreditCardModal', function ($scope, $moda
 	    $modalInstance.dismiss('cancel');
 	};
 });
+*/
 
-
-angular.module('LaMaceta').controller('EditModalCreditCardCtrl', function ($scope, $modalInstance, AccountService, AdminService, factoryData) {
+/*angular.module('LaMaceta').controller('EditModalCreditCardCtrl', function ($scope, $modalInstance, AccountService, AdminService, factoryData) {
 
 
 	var vencimiento = factoryData.data.expirationDate.date;
@@ -382,19 +367,16 @@ angular.module('LaMaceta').controller('EditModalCreditCardCtrl', function ($scop
 	AdminService.getAllCards()
 		.then(function(res){
 		$scope.cards = res;
-		//console.log(res);
 		});
 
 	AdminService.getAllBanks()
 		.then(function(res){
 		$scope.banks = res;
-		//console.log(res);
 		});
 
 	$scope.getAssociatedCards = function(bank){
 		AdminService.getAllAssociatedCards(bank)
 		.then(function(res){
-			//console.log(res);
 			$scope.associatedCards = res;
 		});
 	}
@@ -407,13 +389,12 @@ angular.module('LaMaceta').controller('EditModalCreditCardCtrl', function ($scop
 				expirationDateMonth: expDateMonth};
 
   	$scope.save = function (creditCard) {
-  		//console.log(creditCard);
 		AccountService.saveCreditCard(creditCard, $scope.user)
 			.then(function(res){
 				console.log(res);	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -421,24 +402,15 @@ angular.module('LaMaceta').controller('EditModalCreditCardCtrl', function ($scop
 	    $modalInstance.dismiss('cancel');
   };
 
-});
+});*/
 
 //FILTRO PARA QUE SE VEA BIEN EL VENCIMIENTO DE LA TARJETA
-angular.module('LaMaceta').filter('dateFilter', function($filter){
+/*angular.module('LaMaceta').filter('dateFilter', function($filter){
     return function(input)
     {
         if(input == null)
         	return "";
         return $filter('date')(new Date(input), 'MM/yy');
     };
-});
+});*/
 
-//FILTRO PARA QUE SE VEA BIEN LA FECHA EN LA QUE SE REALIZO LA COMPRA
-angular.module('LaMaceta').filter('dateFilter2', function($filter){
-    return function(input)
-    {
-        if(input == null)
-        	return "";
-        return $filter('date')(new Date(input), 'dd/MM/yyyy');
-    };
-});

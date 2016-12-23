@@ -1,3 +1,5 @@
+//Ver q no sirve
+
 angular.module("LaMaceta")
 .factory("factoryData", function() {
   return {
@@ -6,7 +8,7 @@ angular.module("LaMaceta")
 });
 
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_User", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("SubCtrlAdmin_User", function($window, $scope, AdminService, $modal, factoryData, $cookies){
 
 	$scope.users = [];
 	$scope.userTypes = [];
@@ -38,14 +40,12 @@ angular.module("LaMaceta")
 
 	AdminService.getAllUsers()
 		.then(function(res){
-			$scope.users = res;
-			//console.log(res);  
+			$scope.users = res; 
 		});
 
 	AdminService.getAllUserTypes()
 		.then(function(res){
 			$scope.userTypes = res;
-			//console.log(res);  
 		});
 
 	$scope.openUserModal = function (user) {
@@ -73,7 +73,7 @@ angular.module("LaMaceta")
 	      resolve: {
 	        users: function () {	 
 
-		        	factoryData.data.id = user.id;/////////// probar factoryData.data.user = user;
+		        	factoryData.data.id = user.id;
 		        	factoryData.data.name = user.name;
 		        	factoryData.data.surname = user.surname;
 		        	factoryData.data.email = user.email;
@@ -93,7 +93,6 @@ angular.module("LaMaceta")
 		AdminService.removeUser(user)
 			.then(function(res){
 				$scope.users = res;
-				//console.log(res);  
 			});
     }
 
@@ -101,7 +100,6 @@ angular.module("LaMaceta")
 		AdminService.removeBlacklist(user)
 			.then(function(res){
 				$scope.users = res;
-				//console.log(res);  
 			});
     }
     
@@ -178,13 +176,12 @@ angular.module('LaMaceta').controller('UserModalCtrl', function ($scope, $modalI
 
 	  $scope.save = function (user) {
 
-	  	//console.log(user);
 		AdminService.saveUser(user)
 			.then(function(res){	
 				console.log(res);
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -211,7 +208,7 @@ angular.module('LaMaceta').controller('EditUserModalCtrl', function ($scope, $mo
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){
-				 $modalInstance.close();////////
+				 $modalInstance.close();
 			})		    
 	  	};
 
@@ -231,7 +228,7 @@ angular.module('LaMaceta').controller('EditUserTypeModalCtrl', function ($scope,
 		.then(function(res){	
 			$modalInstance.close(res);
 		}, function(error){
-			 $modalInstance.close();////////
+			 $modalInstance.close();
 		})		    
   	};
 
