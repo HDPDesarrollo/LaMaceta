@@ -34,18 +34,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <!--<meta content="Metronic Shop UI description" name="description">
-  <meta content="Metronic Shop UI keywords" name="keywords">
-  <meta content="keenthemes" name="author">
-
-  <meta property="og:site_name" content="-CUSTOMER VALUE-">
-  <meta property="og:title" content="-CUSTOMER VALUE-">
-  <meta property="og:description" content="-CUSTOMER VALUE-">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
-  <!--<meta property="og:url" content="-CUSTOMER VALUE-">-->
-
-  <!--<link rel="shortcut icon" href="favicon.ico">-->
 
   <!-- Fonts START -->
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css"> 
@@ -156,56 +144,21 @@
                     </div>
                   </div>
                   <div class="product-page-cart">
-                    <div>
-                            <input id="product-quantity" type="text" ng-model="quantityBuy" readonly >
-                              <input type="button" class='fa fa-angle-up' ng-click="upQuantity()" value="+"></input>
-                            <input type="button" class='fa fa-angle-down' ng-click="downQuantity()" value="-"></input>
-                    </div>
+                    <div class="goods-page-quantity">
+                        <div class="product-quantity">
+                            <input id="product-quantity0" type="text" ng-model="quantityBuy" readonly class="form-control input-sm">
+                            <div class="btn quantity-up">
+                              <i class='fa fa-angle-up' ng-click="upQuantity()"></i>
+                            </div>
+                            <div class="btn quantity-down">
+                            <i class='fa fa-angle-down' ng-click="downQuantity()"></i>
+                            </div>
+                            </div>
+                      </div>
                             <br>
                     <button class="btn btn-primary" type="submit" ng-click="validateAndAddToCart();refreshCart()">Agregar al Carrito</button>
                   </div>
-                  <div class="review">
-                    <!--<input type="range" value="4" step="0.25" id="backing4">
-                    <div class="rateit" data-rateit-backingfld="#backing4" data-rateit-resetable="false"  data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">
-                    </div>
-                    <a href="javascript:;">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;">Write a review</a>-->
-                  </div>
                 </div>
-
-                <!--<div class="product-page-content">
-                  <ul id="myTab" class="nav nav-tabs">
-                    <li class="active"><a href="#Information" data-toggle="tab">Medidas</a></li>
-                  </ul>
-                  <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade in active" id="Information">
-                      <table class="datasheet">
-                        <tr>
-                          <th colspan="2">Additional features</th>
-                        </tr>
-                        <tr>
-                          <td class="datasheet-features-type">Value 1</td>
-                          <td>21 cm</td>
-                        </tr>
-                        <tr>
-                          <td class="datasheet-features-type">Value 2</td>
-                          <td>700 gr.</td>
-                        </tr>
-                        <tr>
-                          <td class="datasheet-features-type">Value 3</td>
-                          <td>10 person</td>
-                        </tr>
-                        <tr>
-                          <td class="datasheet-features-type">Value 4</td>
-                          <td>14 cm</td>
-                        </tr>
-                        <tr>
-                          <td class="datasheet-features-type">Value 5</td>
-                          <td>plastic</td>
-                        </tr>
-                      </table>
-                    </div>
-                    </div>
-                  </div>-->
 
 
                 </div>

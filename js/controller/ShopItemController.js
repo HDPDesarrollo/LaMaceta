@@ -27,15 +27,15 @@ angular.module("LaMaceta")
 	$scope.downQuantity = function(){
 		if($scope.quantityBuy>1){
 			$scope.quantityBuy = $scope.quantityBuy - 1; 
-			console.log($scope.quantityBuy);
 		}
+		console.log($scope.quantityBuy);
 	};
 
 	//$scope.cart  = $cookies.remove("cookieCart");//sacar	
 
 	$scope.validateAndAddToCart = function () {
 
-		//console.log($scope.quantityBuy);
+		console.log($scope.quantityBuy);
 
 		ShopItemService.validateStockByArticle($scope.itemBuy.idProd, 
 			$scope.itemBuy.size.id, 
