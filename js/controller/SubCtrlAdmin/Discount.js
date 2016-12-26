@@ -96,7 +96,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 		if (r == true) {
 			AdminService.changeStatusPercentage(percentage, status.active)//actualizar los productos tambien asociados a los descuentos
 				.then(function(res){
-					//console.log(res);
+					
 					$scope.percentages = res;
 						for (var i = 0; i < $scope.percentages.length; i++) {
 							$scope.percentages[i].active = {active: $scope.percentages[i].active};
@@ -104,7 +104,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 							
 								AdminService.getAllProductDiscounts()
 									.then(function(res){
-										//console.log(res);
+										
 										$scope.products = res;  
 										for (var i = 0; i < $scope.products.length; i++) {
 											$scope.products[i].active = {active: $scope.products[i].active};
@@ -112,7 +112,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 											$scope.tableParams = new NgTableParams({        
 										    }, {dataset: $scope.products});
 
-										    //console.log($scope.products);	
+										    
 								});
 				}, function(error){
 			})		    
@@ -177,7 +177,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 		}
 		AdminService.saveDiscount($scope.discount)
 			.then(function(res){
-				//$scope.percentages = res;
+				
 				$scope.discount = null;
 			}, function(error){
 			});		    

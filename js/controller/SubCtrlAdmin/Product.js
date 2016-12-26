@@ -23,11 +23,6 @@ angular.module("LaMaceta")
 			$scope.productsConfigTableParams = new NgTableParams({}, { dataset: $scope.products});
 		});
 
-	/*AdminService.getAllSales()
-		.then(function(res){
-			$scope.sales = res;
-			$scope.salesConfigTableParams = new NgTableParams({}, { dataset: $scope.sales});
-		});*/
 
 	AdminService.getAllColors()
 		.then(function(res){

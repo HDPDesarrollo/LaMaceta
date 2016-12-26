@@ -153,9 +153,7 @@ angular.module('LaMaceta')
 
 	SearchService.getMenu()
 	.then(function(res){
-		//console.log(res);
 		$scope.buildMenu(res);
-		//$scope.item = res;
 	});
 
 	$scope.buildMenu = function(res){
@@ -170,6 +168,5 @@ angular.module('LaMaceta')
 				$scope.menu[$lastObj] = {target: $obj.target, prodType:[{type: $obj.prodType}]};
 			}
 		}	
-		//console.log($scope.menu);
 	}
 });

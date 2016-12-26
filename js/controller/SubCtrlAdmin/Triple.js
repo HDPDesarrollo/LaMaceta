@@ -17,19 +17,19 @@ angular.module("LaMaceta")
 	AdminService.getAllPromotions()
 		.then(function(res){
 			$scope.promotions = res;
-			//console.log($scope.promotions);
+			
 		});
 
 	AdminService.getAllCards()
 		.then(function(res){
 		$scope.cards = res;
-		//console.log(res);
+		
 		});
 
 	AdminService.getAllBanks()
 		.then(function(res){
 		$scope.banks = res;
-		//console.log(res);
+		
 		});
 
     $scope.openPromotionModal = function () {
@@ -174,7 +174,7 @@ angular.module('LaMaceta').controller('PromotionModalCtrl', function ($scope, $m
 	$scope.getAssociatedCards = function(bank){
 		AdminService.getAllAssociatedCards(bank)
 		.then(function(res){
-			//console.log(res);
+			
 			$scope.associatedCards = res;
 		});
 	}
@@ -320,7 +320,7 @@ angular.module('LaMaceta').controller('EditCardModalCtrl', function ($scope, $mo
 	$scope.card={id: factoryData.data.id, 
 				name: factoryData.data.name};
 
-				//console.log($scope.address);
+				
 
   	$scope.save = function (card) {
 		AdminService.saveCard(card)
@@ -343,7 +343,7 @@ angular.module('LaMaceta').controller('BankModalCtrl', function ($scope, $modalI
 		.then(function(res){
 		$scope.cards = res;
 		$scope.associatedCards = [];
-		//console.log(res);
+	
 		});
 
 
