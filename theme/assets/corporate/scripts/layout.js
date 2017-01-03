@@ -337,7 +337,7 @@ var Layout = function () {
                 buttondown_class: "btn quantity-down",
                 buttonup_class: "btn quantity-up"
             });
-            $(".quantity-down").html("<i class='fa fa-angle-down' value="1"></i>");
+            $(".quantity-down").html("<i class='fa fa-angle-down'></i>");
             $(".quantity-up").html("<i class='fa fa-angle-up'></i>");
         },
 
