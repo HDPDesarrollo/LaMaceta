@@ -1,4 +1,4 @@
-angular.module("LaMaceta")
+angular.module("LaMaceta", ["angular-loading-bar", "ngAnimate"])
 	.controller("ShopIndexController", function($scope, ShopIndexService){
 
     $scope.myInterval = 5000;
