@@ -1,7 +1,6 @@
-angular.module("LaMaceta").factory("factoryData", function() {
-  return {
-    data: {}
-  };
+angular.module("LaMaceta")
+    .factory("factoryData", function () {
+            return {  data: {}  };
 });
 
 angular.module("LaMaceta")

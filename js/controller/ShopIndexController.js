@@ -1,8 +1,8 @@
-angular.module("LaMaceta", ["angular-loading-bar", "ngAnimate"])
-      .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
-          cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
-          cfpLoadingBarProvider.spinnerTemplate = '<div class="text-center"><span class="fa fa-spinner">CARGANDO...</div>';
-      }])
+angular.module("LaMaceta", ["ngAnimate"])
+      //.config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
+      //    cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+      //    cfpLoadingBarProvider.spinnerTemplate = '<div class="text-center"><span class="fa fa-spinner">CARGANDO...</div>';
+      //}])
 	.controller("ShopIndexController", function($scope, ShopIndexService){
 
     $scope.myInterval = 5000;
