@@ -6,7 +6,7 @@
 */
 class mPay
 {
-	require_once "../clases/MP/mercadopago.php";
+	require_once "../PHP/clases/MP/mercadopago.php";
  
 	$mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
 

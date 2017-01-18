@@ -197,6 +197,7 @@ switch($request->data->action){
 		break;
 
 	case 'confirmCheckout'://hacerlo atomico
+		$pay = new mPay();
 
 		$checkout = $request->data->checkout;
 		$address = null;
@@ -305,8 +306,8 @@ switch($request->data->action){
 			$entityManager->persist($article);
 			$entityManager->flush();
 		}
-
-		echo($sale->id);
+		echo $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user);
+		//echo($sale->id);
 
 		break;
 
