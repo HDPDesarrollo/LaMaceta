@@ -1,4 +1,4 @@
-angular.module("LaMaceta", ["ngAnimate"])
+angular.module("LaMaceta")
       //.config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
       //    cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
       //    cfpLoadingBarProvider.spinnerTemplate = '<div class="text-center"><span class="fa fa-spinner">CARGANDO...</div>';
