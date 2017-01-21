@@ -1,6 +1,6 @@
-<?php//Ver si sirve
+<?php
 
-include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __DIR__ . '../../doctrine_config/doctrine-cfg.php';
 include __DIR__ . '../../entities/Article.php';
 include __DIR__ . '../../entities/Color.php';
 include __DIR__ . '../../entities/Product.php';
