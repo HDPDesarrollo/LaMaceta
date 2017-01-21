@@ -81,7 +81,7 @@ angular.module("LaMaceta")
 		if(flag==0){
 			LoginService.saveUser(register)
 				.then(function(res){
-					console.log(res);
+					//console.log(res);
 					$scope.selectedTab = "tryLoginInstead";
 					$scope.tryLoginInsteadLegend = "Bienvenido, ¿desea logearse?";
 					users = res;
@@ -91,7 +91,7 @@ angular.module("LaMaceta")
 		}
 	}
 
-	$scope.tryLogin = function(login){
+	/*$scope.tryLogin = function(login){
 		for(i = 0; i < users.length; i++) {
 			if(users[i].email==login.email && users[i].password==login.password){
 				$cookies.putObject("loginCredentials", users[i]);
@@ -102,6 +102,19 @@ angular.module("LaMaceta")
 
 		$scope.selectedTab="tryLoginInstead";
 		$scope.tryLoginInsteadLegend = "No existe ningún usuario con esa combinación de mail y contraseña";
+	}*/
+
+	$scope.tryLogin = function(user){
+		//user.password = md5.createHash(user.password);
+		console.log(user.email);
+		if(LoginService.doLogin(user)){
+			$cookies.putObject("loginCredentials", user);
+				$window.location.href = dir+"/shop-index.html";
+				return true;
+		}else{
+			$scope.selectedTab="tryLoginInstead";
+			$scope.tryLoginInsteadLegend = "No existe ningún usuario con esa combinación de mail y contraseña";
+		}
 	}
 
 	$scope.resetPassword = function(email){

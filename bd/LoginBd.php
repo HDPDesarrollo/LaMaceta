@@ -1,11 +1,11 @@
-<?php//Ver mati!
+<?php
 
 require '../PHPMailer/PHPMailerAutoload.php';
 
-include __DIR__ . '..\..\doctrine_config/doctrine-cfg.php';
-include __DIR__ . '..\..\entities\User.php';
-include __DIR__ . '..\..\entities\UserType.php';
-include __DIR__ . '..\..\entities\ResetPassword.php';
+include __DIR__ . '../../doctrine_config/doctrine-cfg.php';
+include __DIR__ . '../../entities/User.php';
+include __DIR__ . '../../entities/UserType.php';
+include __DIR__ . '../../entities/ResetPassword.php';
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
@@ -111,5 +111,16 @@ switch($request->data->action){
 		$entityManager->remove($reset);
 
 		$entityManager->flush();
+		break;
+
+	case 'doLogin':
+		$user = $entityManager->find('User', $request->data->email);
+		if(isset($user->email) && isset($user->password)){
+			if($user->email === $request->data->email && $user->password === $request->data->password){
+				echo(json_encode("true"));
+			}
+		}else{
+			echo(json_encode("false"));
+		}
 		break;
 }		

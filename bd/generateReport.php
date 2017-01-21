@@ -1,4 +1,4 @@
-<?php //Ver si queda
+<?php
 
 include __DIR__ ."../../FPDF/PDF.php";
 

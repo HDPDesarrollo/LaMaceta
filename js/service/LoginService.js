@@ -82,4 +82,13 @@ angular.module("LaMaceta")
                           console.log( response);           
                       });
     };
+
+    this.doLogin = function(userLogin){
+      return $http.post('../bd/LoginBd.php',{data:{email: userLogin.email, password: userLogin.password, action:'doLogin'}})
+                  .then(function(response){
+                    return response.data;
+                  },function errorCallback(response){
+                    console.log( response);
+                  });
+    };
 });		
