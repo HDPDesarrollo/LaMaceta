@@ -1,14 +1,17 @@
 <?php 
-
+include("../PHP/clases/MP/mercadopago.php");
 /**
 * Clase mPay con funciones referidas a los estado de pagos,
 * seguimiento de envios(si corresponde), etc
 */
+
 class mPay
 {
-	require_once "../PHP/clases/MP/mercadopago.php";
- 
-	$mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
+	private $mp;
+
+ 	function __construct(){
+ 		$this->mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
+ 	}
 
 	private function ItemsToArray($dato){
 		$arrayItem = array();
@@ -43,7 +46,7 @@ class mPay
 											)
 								),
 						);
-		$preference = $mp->create_preference($preference_data);
+		$preference = $this->mp->create_preference($preference_data);
 		echo $preference["response"]["sandbox_init_point"];
 
 	}
@@ -56,8 +59,8 @@ class mPay
 		$filtro = array(
 			"site_id" => "MLA",
 			"external_reference" => $sale->external_reference);
-		$searchResult = $mp->search_payment($filtro);
-		return echo $searchResult;
+		$searchResult = $this->mp->search_payment($filtro);
+		echo $searchResult;
 	}
 
 	
