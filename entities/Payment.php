@@ -27,8 +27,31 @@ class mPay
 			}
 		return $arrayItem;
 	}
+
+	private function shipingToArray($dato){
+		$array = array("mode" => "me2",
+										"dimensions" => $dato->dimensions,
+										"local_pickup" => $dato->localPickup,
+										"default_shipping_method" => $dato->method,
+										"zip_code" => $dato->cp
+						);
+		if($dato->freeShipping != null)
+		{
+			$array["free_methods"] = array(array("id" => $dato->method));
+		}
+
+		return $array;
+	}
 	
-	public static function  makePay($articles,$address,$shippingCost,$user){
+	/**
+	* Realiza el pago tomando todos los datos (obligatorios) 
+	* que se pasen por parametro
+	*@param  $articles
+	*@param $address
+	*@param $shipping (dimension(alto,largo,ancho) + peso(gramos), retiro por local oca(true, false), costo de envio, tipo de envio (Estándar, Prioritario),CP)
+	*@param $user
+	*/
+	public function  makePay($articles,$address,$shipping,$user){
 		$preference_data = array(
 						"items" => array(ItemsToArray($articles)),
 						"payer" => array(
@@ -44,25 +67,51 @@ class mPay
 											"street_number" => $address->number,
 											"zip_code" => $address->zip_code
 											)
-								),
+						),
+						"shipments" => shipingToArray($shipping)
 						);
-		$preference = $this->mp->create_preference($preference_data);
-		echo $preference["response"]["sandbox_init_point"];
 
+		$preference = $this->mp->create_preference($preference_data);
+		return $preference["response"]["sandbox_init_point"];
 	}
 
 	/**
 	 *funcion que buscar los pagos hechos por un usuario con su external_reference (id que vincula MercadoPago y el sistema propio)
 	 * @param $sale recibe una venta para obtener el 'external_reference'
 	 */
-	public static function SearchPayment($sale){
+	public function SearchPayment($sale){
 		$filtro = array(
 			"site_id" => "MLA",
 			"external_reference" => $sale->external_reference);
 		$searchResult = $this->mp->search_payment($filtro);
-		echo $searchResult;
+		return $searchResult;
 	}
 
+	/**
+	*Busca pagos hechos por $email que se pase como parametro
+	*@param $email
+	*/
+	public function SearchEmail($email){
+		$filtro = array("site_id" => "MLA",
+						"" => $email);
+		$searchResult = $this->mp->search_payment($filtro);
+		return $searchResult;
+	}
+
+	/**
+	* Devolucion de pago por ID
+	*@param $id (id del usuario)
+	*/
+	
+	public function RefoundPay($id){
+
+		$respuesta = $this->mp->refund_payment($id);
+
+		if($respuesta["status"] != 200){
+			return false;
+		}
+		return true;
+	}
 	
 }
 

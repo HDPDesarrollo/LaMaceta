@@ -100,6 +100,7 @@ angular.module("LaMaceta")
 		AccountService.getAllActiveAddresses($scope.user)
 			.then(function(res){
 				$scope.addresses = res;
+				console.log(res);
 				if($scope.addresses.length>0){
 					$scope.address = $scope.addresses[0];
 
@@ -121,7 +122,7 @@ angular.module("LaMaceta")
 			});
 
 
-		AccountService.getAllActiveCreditCards($scope.user)
+		/*AccountService.getAllActiveCreditCards($scope.user)
 			.then(function(res){
 				$scope.myCreditCards = res;
 
@@ -131,7 +132,7 @@ angular.module("LaMaceta")
 					$scope.myCreditCards[i].expirationDateYear = $scope.myCreditCards[i].expirationDate.date.substring(2, 4);
 				}
 				//console.log($scope.myCreditCards);
-			});
+			});*/
 
 		if($scope.cart!=null){
 
