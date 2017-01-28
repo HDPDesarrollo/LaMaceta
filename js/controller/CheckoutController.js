@@ -100,7 +100,6 @@ angular.module("LaMaceta")
 		AccountService.getAllActiveAddresses($scope.user)
 			.then(function(res){
 				$scope.addresses = res;
-				console.log(res);
 				if($scope.addresses.length>0){
 					$scope.address = $scope.addresses[0];
 

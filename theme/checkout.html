@@ -359,7 +359,7 @@
                         </tr>
                         <tr ng-repeat="article in articles track by $index">
                           <td class="checkout-image">
-                            <a><img src="../images/producto/{{article.img}}" alt="IMAGEN"></a>
+                            <a><img ng-src="../images/producto/{{article.img}}" alt="IMAGEN"></a>
                           </td>
                           <td class="checkout-description">
                             <h3><a href="javascript:;">{{article.idProd.description}}</a></h3>
