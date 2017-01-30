@@ -112,6 +112,24 @@ class mPay
 		}
 		return true;
 	}
+
+	public function costShipping($cp_from=null,$param){
+		if($param != null){
+			return $cost = $this->mp->get("/shipping_options",$param);
+		}else{
+			return false;
+		}
+
+	}
+
+	public function get($url,$dato=null){
+		return $this->mp->get($url,$dato);
+	}
+
+	public function post($url,$dato=null){
+		return $this->mp->post($url,$dato);
+	}
+
 	
 }
 

@@ -91,7 +91,7 @@
 
 <!-- Body BEGIN -->
 <body class="ecommerce" ng-controller="CheckoutController">
-    <div class="main">
+    <div class="main" ng-init="loadPage()">
       <div class="container">
         <ul class="breadcrumb">
             <li><a href="index.html">Inicio</a></li>
@@ -299,6 +299,22 @@
 
                     </div>
                     <hr>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-3 col-md-2 col-lg-2">
+                                  <div class="form-group">
+                                      <label for="number">Calcular costo de envio</span></label>
+                                      <input type="text" class="form-control" ng-pattern="/^[0-9]/"
+                                               ng-maxlength="4"  ng-minlength="4" ng-model="zcode" name="zcodeCost"/>
+                                      <span ng-show="shippingCost != 0">
+                                      Costo del envio:
+                                      <span class="messages"><strong> ${{shippingCost | number:2}}</strong></span>
+                                      </span>
+
+                                  </div><!-- /input-group -->      
+                            </div>
+                        </div><!-- /.col-xs-2 col-sm-3 col-md-4 col-lg-4 -->
+                        <button class="btn btn-primary" ng-click="getCostShipping()">Calcular</button>
+                    <hr>
                     <div class="col-md-12">                      
                       <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse" data-parent="#checkout-page" data-target="#shipping-method-content" id="button-payment-address">Continuar</button>                     
                     </div>
@@ -322,10 +338,9 @@
                      <h3>Seleccione Metodo de Pago</h3>
 
                         <div class="form-group">
-                            <select class="form-control" id="paymentMethod" ng-model="paymentMethod" name="paymentMethod" ng-click="updatePaymentMethod()"
-                             required>
-                              <option value="CreditCard">Tarjeta de Credito</option>
-                              <option value="ContraReembolso">Contra Reembolso</option>
+                            <select class="form-control" id="payMethod" name="paymentmethod" required>
+                            <option value="mercadoPago">Mercado Pago (Visa, MasterCard, Pago Facil,Rapipago,etc )</option>
+                            <option value="pagoLocal">Pago al retirar por el local</option> 
                             </select>
                             </span>
                         </div>

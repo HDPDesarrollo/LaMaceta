@@ -16,7 +16,7 @@ angular.module("LaMaceta")
 		alert("SALGA DE LA BLACKLIST PRIMERO");
 		$window.location.href = dir+"/my-account.html";
 	}
-	
+
 
     $scope.totalAmount = 0;
     $scope.shippingCost = 0;
@@ -24,13 +24,14 @@ angular.module("LaMaceta")
     $scope.address = null;
     $scope.card = null;
     $scope.quota = "12";
-	$scope.paymentMethod = "CreditCard";
+	$scope.paymentMethod = null;
 	$scope.allowCreditCard = false;
 	$scope.allowSelectCreditCard = false;
 	$scope.creditCardVto = false;
 	$scope.emptyDataCreditCard = false;
 	$scope.emptyDataAddress = false;
 	$scope.oddCreditCard = false;
+	$scope.zcode = null;
 
 	var users = [];
 
@@ -90,7 +91,7 @@ angular.module("LaMaceta")
 		}
 	}
 
-	if($scope.user!=null){
+	$scope.loadPage = function(){
 
 		AccountService.getAllProvinces()
 		.then(function(res){
@@ -164,7 +165,9 @@ angular.module("LaMaceta")
 					}
 				});
 		}		
+	
 	}
+
 
 	AdminService.getAllCards()
 		.then(function(res){
@@ -445,10 +448,6 @@ angular.module("LaMaceta")
 	}
 
 
-  	$scope.updatePaymentMethod = function() {
-  		this.checkEnabledCreditCard();
-    }
-
 	$scope.getAssociatedCardsFixed = function(creditCard){
 		if(creditCard!=null && creditCard.idBankCard!=null){
 			AdminService.getAllAssociatedCards(creditCard.idBankCard.idBank)
@@ -464,7 +463,27 @@ angular.module("LaMaceta")
 		}	
 	}
 
-});
+	$scope.getCostShipping = function(){
+		$scope.data = null;
+		$scope.alto = 0;
+		$scope.peso = 0;
+
+		for (var i = 0 ; i <= 0; i++) {
+			$scope.alto = $scope.alto + $scope.articles[i].dimension.alto;
+			$scope.peso = $scope.peso + 0.150;
+		}
+		$scope.data.dimension = $scope.alto+"x50x50,"+$scope.peso;
+		$scope.data.cp = $scope.zcode;
+		$scope.data.price = $scope.totalAmount;
+
+		AccountService.getCostShipping($scope.data)
+		.then(function(res){
+			if(res != null){
+			$scope.shippingCost = res.cost;
+		}
+	});
+
+	};
 
 angular.module('LaMaceta').controller('UserModalCtrl', function ($scope, $modalInstance, AdminService) {
 

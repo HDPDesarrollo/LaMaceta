@@ -202,5 +202,15 @@ angular.module("LaMaceta")
                 console.log(response);           
             });
     };
+
+    this.GetCostShipping = function(datos){
+      return $http.post('../bd/AccountBd.php',{data:{cost:datos,action:'getcostshipping'}})
+      .then(function(response){
+        return response.data;
+      },function errorCallback(response){
+        console.log(response);
+      });
+    }
+
     
 });		
