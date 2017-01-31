@@ -25,15 +25,10 @@
   <script src="../js/service/ShopItemService.js"></script>
   <script src="../js/service/AdminService.js"></script>
 
-
-
   <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.3.0.js"></script><!--Es para la paginacion-->
 
-
-
-
   <meta charset="utf-8">
-  <title>Mi Cuenta | LaMaceta</title>
+  <title>Resultado Busqueda | LaMaceta</title>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -100,7 +95,13 @@
           <div class="sidebar col-md-3 col-sm-5">
             <div class="sidebar-filter margin-bottom-25">
 
-            <a href=""><h2 ng-click="removeFilters()">Quitar Filtros</h2></a>
+            <div style="text-align:center;">
+                    <button type="button" class="btn btn-default add2cart" ng-click="removeFilters()" style="border: 0;">
+                      <span class="glyphicon glyphicon-remove"></span> <h4>Quitar Filtros </h4>
+                    </button>
+            </div>
+
+
             <br>
               <p>
                 <h3>Rango de precios: </h3>
@@ -110,15 +111,34 @@
                     <input type="number" placeholder="  Máx." id="maxAmount" ng-model="minAmount" style="border:1; color:#f6931f; font-weight:bold;width:75px;height:31px">
                     <button class="btn btn-primary" type="submit" ng-click="searchPrice(wordSearch, sorting, minAmount, maxAmount)">></button>
                 </div>
+
+                <h3>Temporadas: </h3>
+
+
+                <div>
+                <ul ><!--ng-repeat="season in filterSeason"-->
+                  <li><input type="radio" id="season" ng-model="season" value="verano" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Verano</li>
+                  <li><input type="radio" id="season" ng-model="season" value="otonio" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Otoño</li>
+                  <li><input type="radio" id="season" ng-model="season" value="invierno" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Invierno</li>
+                  <li><input type="radio" id="season" ng-model="season" value="primavera" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Primavera</li>
+                </ul>
+
+                 <!-- <ul >
+                    <li><input type="radio" id="season" ng-model="season" value="{{season}}" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> 
+                    {{season}}
+                    </li>
+                  </ul>-->
+                </div>
             <br>
             <br>
             <h3>Colores: </h3>
-                <div class="sidebar-products clearfix">                
+                <div class="sidebar-products clearfix">              
                 <div>
                   <ul class="social-icons" style="display: inline-block;" ng-repeat="color in filterColor">
-                    <li><a class="foo" ng-model="color" style="background:{{color.rgb}};" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType)"></a></li>
+                    <li><a class="foo" ng-model="color" style="background:{{color.rgb}};" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"></a></li>
                   </ul>   
                 </div>
+
               </p>
             </div>
 
@@ -143,7 +163,7 @@
               <div class="col-md-10 col-sm-10">
                 <div class="pull-right">
                   <label class="control-label">Show:</label>
-                  <select class="form-control input-sm" ng-model="quantityPage" ng-change="search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType)">
+                  <select class="form-control input-sm" ng-model="quantityPage" ng-change="search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -153,7 +173,7 @@
                 </div>
                 <div class="pull-right">
                   <label class="control-label">Sort&nbsp;By:</label>
-                  <select class="form-control input-sm" ng-model="sorting" ng-change="search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType)">
+                  <select class="form-control input-sm" ng-model="sorting" ng-change="search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)">
                     <option value="P.NAME ASC">Default</option>
                     <option value="P.NAME ASC">Nombre (A - Z)</option>
                     <option value="P.NAME DESC">Nombre (Z - A)</option>

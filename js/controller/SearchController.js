@@ -10,6 +10,7 @@ angular.module("LaMaceta")
     $scope.totalProductsSearch =[];
     $scope.productsPage = [];
     $scope.filterColor = [];
+    $scope.filterSeason = [];
 	$scope.quantityPage = "10";
  	$scope.currentPage = 1;
 
@@ -19,17 +20,19 @@ angular.module("LaMaceta")
  	$scope.maxAmount = null;
  	$scope.target = null;
  	$scope.prodType = null;
+ 	$scope.season = null;
 
 	$scope.wordSearched = "";
 	$scope.wordSearch = "";
 	
 
 	$scope.searchPrice = function (wordSearch, sorting, minAmount, maxAmount){		
-		this.search(wordSearch, sorting, $scope.color, minAmount, maxAmount, $scope.target, $scope.prodType);
+		this.search(wordSearch, sorting, $scope.color, minAmount, maxAmount, $scope.target, $scope.prodType, $scope.season);
 	}
 
-	$scope.search = function (wordSearch, sorting, color, minAmount, maxAmount, target, prodType){	
-		SearchService.search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType)
+	$scope.search = function (wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season){	
+		console.log(season);
+		SearchService.search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)
 				.then(function(res){
 					$scope.buildProductsAndFilters(res);
 
@@ -37,7 +40,9 @@ angular.module("LaMaceta")
 					$scope.itemsPerPage = $scope.quantityPage;
 
 					$scope.paginateSearch();
-					$scope.wordSearched = wordSearch;
+					if(wordSearch){
+						$scope.wordSearched = wordSearch;
+					}				
 				});
 	}
 
@@ -61,16 +66,17 @@ angular.module("LaMaceta")
 	$scope.pageChanged = function() {
 
   	if($scope.target==false){
-		this.search("", $scope.sorting, null, null, null, null, null);
+		this.search("", $scope.sorting, null, null, null, null, null, null);
 	}else if($scope.target!=false && $scope.prodType=='Todos'){
-		this.search("", $scope.sorting, null, null, null, $scope.target, null);
+		this.search("", $scope.sorting, null, null, null, $scope.target, null, null);
 	}else if($scope.target!=false && $scope.prodType!='Todos'){
-		this.search("", $scope.sorting, null, null, null, $scope.target, $scope.prodType);
+		this.search("", $scope.sorting, null, null, null, $scope.target, $scope.prodType, null);
 	}
 	};
 
 
 	$scope.buildProductsAndFilters = function (res) {
+		console.log(res);
 		$scope.totalProductsSearch = [];
 		$scope.filterColor = [];
 		for (i = 0; i < res.length; i++) { 	
@@ -80,33 +86,35 @@ angular.module("LaMaceta")
 
 					$scope.exists = false;
 					for (var j = 0; j < $scope.totalProductsSearch[$lastObj].color.length; j++) {
-						if($scope.totalProductsSearch[$lastObj].color[j].color ==  $obj.COLOR){														
+						if($scope.totalProductsSearch[$lastObj].color[j].color ==  $obj.color){														
 							$scope.exists = true;
 							break;
 						}						
 					}
 					if(!$scope.exists){
 						$scope.totalProductsSearch[$lastObj].color.push(
-							{color: $obj.COLOR, rgb: $obj.RGB});
+							{color: $obj.color, rgb: $obj.rgb});
 					}
 
 					/*$scope.totalProductsSearch[$lastObj].size.push(
 					{size: $obj.SIZE});*/
 
-					this.addColorFilter({color: $obj.COLOR, rgb: $obj.RGB});
+					this.addColorFilter({color: $obj.color, rgb: $obj.rgb});
+					this.addSeasonFilter($obj.season);
 				}
 			}else{				
 				$obj = res[i];
 				$lastObj = $scope.totalProductsSearch.length;
-				$scope.totalProductsSearch[$lastObj] = {id:$obj.id, name: $obj.NAME, price: $obj.price,
+				$scope.totalProductsSearch[$lastObj] = {id:$obj.id, name: $obj.name, price: $obj.price,
 				picture: $obj.picture, color:[], size:[]};
 
 				if($obj.id != null){
 
 					$scope.totalProductsSearch[$lastObj].color.push(
-					{color: $obj.COLOR, rgb: $obj.RGB});
+					{color: $obj.color, rgb: $obj.rgb});
 
-					this.addColorFilter({color: $obj.COLOR, rgb: $obj.RGB});
+					this.addColorFilter({color: $obj.color, rgb: $obj.rgb});
+					this.addSeasonFilter($obj.season);
 				}	
 			}
 		}	
@@ -121,13 +129,22 @@ angular.module("LaMaceta")
 		$scope.filterColor.push(color);
 	}
 
+	$scope.addSeasonFilter = function(season){
+		for (var i = 0; i < $scope.filterSeason.length; i++) {
+			if($scope.filterSeason[i] == season){			
+				return;
+			}						
+		}
+		$scope.filterSeason.push(season);
+	}
+
 	$scope.removeFilters = function () {
 	 	$scope.color = null;
 	 	$scope.minAmount = null;
 	 	$scope.maxAmount = null;
 	 	$scope.target = null;
 	 	$scope.prodType = null;
-		$scope.search("", $scope.sorting, null, null, null, null, null);
+		$scope.search("", $scope.sorting, null, null, null, null, null, null);
 	}
 	
 	function getQueryParam(param) {
@@ -145,12 +162,12 @@ angular.module("LaMaceta")
 	if($scope.target==false){
 		$scope.target = null;
 		$scope.prodType = null;
-		$scope.search($scope.wordS, $scope.sorting, null, null, null, null, null);
+		$scope.search($scope.wordS, $scope.sorting, null, null, null, null, null, null);
 	}else if($scope.target!=false && $scope.prodType=='Todos'){
 		$scope.prodType = null;
-		$scope.search("", $scope.sorting, null, null, null, $scope.target, null);
+		$scope.search("", $scope.sorting, null, null, null, $scope.target, null, null);
 	}else if($scope.target!=false && $scope.prodType!='Todos'){
-		$scope.search("", $scope.sorting, null, null, null, $scope.target, $scope.prodType);
+		$scope.search("", $scope.sorting, null, null, null, $scope.target, $scope.prodType, null);
 	}
 
 

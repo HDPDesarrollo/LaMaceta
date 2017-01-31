@@ -2,12 +2,13 @@ angular.module("LaMaceta")
 	.service("SearchService", function($http){
 
     
-    this.search = function(word, sorting, color, priceFrom, priceTo, target, prodType){
+    this.search = function(word, sorting, color, priceFrom, priceTo, target, prodType, season){
+      console.log(season);
       return $http.post('../bd/SearchBd.php', {data: {word: word, sorting: sorting, priceFrom: priceFrom, 
-                                                          priceTo: priceTo, color:color, target: target, prodType: prodType, 
+                                                          priceTo: priceTo, color:color, target: target, prodType: prodType, season, 
                                                             action:'search'}})
                     .then(function(response) {
-                    //console.log(response); 
+                    console.log(response); 
                     return response.data;          
                       },function errorCallback(response) {       
                           console.log( response);           
@@ -26,7 +27,7 @@ angular.module("LaMaceta")
     this.getAllColorsByProdId = function(prodId){
       return $http.post('../bd/SearchBd.php', {data: {prodId: prodId, action:'getAllColorsByProdId'}})
                     .then(function(response) {
-                    //console.log( response.data);   
+                    console.log( response.data);   
                     return response.data;          
                       },function errorCallback(response) {        
                           console.log( response);           
@@ -37,7 +38,7 @@ angular.module("LaMaceta")
     this.getAllSizesByProdId = function(prodId){
       return $http.post('../bd/SearchBd.php', {data: {prodId: prodId, action:'getAllSizesByProdId'}})
                     .then(function(response) {
-                    //console.log( response.data);   
+                    console.log( response.data);   
                     return response.data;          
                       },function errorCallback(response) {        
                           console.log( response);           

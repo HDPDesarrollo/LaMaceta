@@ -1,14 +1,14 @@
 <?php
 
-include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
+include __dir__ ."../../doctrine_config/doctrine-cfg.php";
 include __DIR__ . '../../entities/Article.php';
 include __DIR__ . '../../entities/Color.php';
 include __DIR__ . '../../entities/Size.php';
 include __DIR__ . '../../entities/Product.php';
 include __DIR__ . '../../entities/Season.php';
 include __DIR__ . '../../entities/Provider.php';
-$dataPost = file_get_contents("php://input");
-$request = json_decode($dataPost);
+$datapost = file_get_contents("php://input");
+$request = json_decode($datapost);
 
 
 switch($request->data->action){
@@ -17,45 +17,56 @@ switch($request->data->action){
 
 			$filterColor = "";
 			if(isset($request->data->color)){
-				$filterColor = " AND (C.RGB = '".$request->data->color."') ";
+				$filterColor = " and (c.rgb = '".$request->data->color."') ";
 			}
 
 			$filterPriceFrom= "";
 			if(isset($request->data->priceFrom)){
-				$filterPriceFrom = " AND (A.PRICE <= ".$request->data->priceFrom.") ";
+				$filterPriceFrom = " and (a.price <= ".$request->data->priceFrom.") ";
 			}
 
 			$filterPriceTo = "";
 			if(isset($request->data->priceTo)){
-				$filterPriceTo = " AND (A.PRICE >= ".$request->data->priceTo.") ";
+				$filterPriceto = " and (a.price >= ".$request->data->priceTo.") ";
 			}
 
 			$filterTarget = "";
 			if(isset($request->data->target)){
-				$filterTarget = " AND (P.TARGET = '".$request->data->target."') ";
+				$filterTarget = " and (p.target = '".$request->data->target."') ";
 			}
 
 			$filterProdType = "";
 			if(isset($request->data->prodType)){
-				$filterProdType = " AND (P.PROD_TYPE = '".$request->data->prodType."') ";
+				$filterProdType = " and (p.prod_type = '".$request->data->prodType."') ";
 			}
 
-			$query = ("SELECT P.ID as id,
-							  A.PRICE as price,
-							  P.NAME, S.SIZE, C.COLOR, C.RGB,
-							  PIC.RUTA_IMG as picture
-							FROM ARTICLE A 
-							INNER JOIN product P ON P.ID = A.ID_PROD
-							INNER JOIN color C ON C.ID = A.ID_COLOR
-							INNER JOIN size S ON S.ID = A.ID_SIZE
-							INNER JOIN picture PIC ON PIC.ID_PROD = P.ID
-							WHERE UPPER(P.NAME) LIKE UPPER('%".$request->data->word."%' ) 
+			$filterSeason = "";
+			if(isset($request->data->season)){
+				$filterSeason = " and (se.season = '".$request->data->season."') ";
+			}
+
+			$query = ("select p.id as id,
+							  a.price as price,
+							  p.name, s.size, c.color, c.rgb,
+							  pic.ruta_img as picture,
+							  se.season
+							from article a 
+							inner join product p on p.id = a.id_prod
+							inner join color c on c.id = a.id_color
+							inner join size s on s.id = a.id_size
+							inner join season se on se.id = p.id_season
+							inner join picture pic on pic.id_prod = p.id
+							where upper(p.name) like upper('%".$request->data->word."%' ) 
 							".$filterPriceFrom."
 							".$filterPriceTo."
 							".$filterColor."
 							".$filterProdType."
 							".$filterTarget."
-							ORDER BY ".$request->data->sorting);
+							".$filterSeason."
+							order by ".$request->data->sorting);
+
+			/*echo($query);
+			break;*/
 
 			$connection = $entityManager->getConnection();
 			$statement = $connection->prepare($query);
@@ -69,11 +80,11 @@ switch($request->data->action){
 
 	case 'getMenu':
 			$connection = $entityManager->getConnection();
-			$statement = $connection->prepare("SELECT TARGET AS target, 
-													  PROD_TYPE as prodType
-												FROM product 
-												GROUP BY TARGET, PROD_TYPE
-												ORDER BY TARGET, PROD_TYPE");
+			$statement = $connection->prepare("select target as target, 
+													  prod_type as prodtype
+												from product 
+												group by target, prod_type
+												order by target, prod_type");
 
 			$statement->execute();
 
@@ -84,9 +95,9 @@ switch($request->data->action){
 
 	case 'getAllColorsByProdId':
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT C.* FROM COLOR C
-											INNER JOIN ARTICLE A ON C.ID = A.ID_COLOR
-											WHERE A.ID_PROD ='.$request->data->prodId);
+		$statement = $connection->prepare('select c.* from color c
+											inner join article a on c.id = a.id_color
+											where a.id_prod ='.$request->data->prodId);
 		$statement->execute();
 
 		$colors = $statement->fetchAll();
@@ -96,9 +107,9 @@ switch($request->data->action){
 
 	case 'getAllSizesByProdId':
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT S.* FROM SIZE S
-											INNER JOIN ARTICLE A ON S.ID = A.ID_SIZE
-											WHERE A.ID_PROD ='.$request->data->prodId);
+		$statement = $connection->prepare('select s.* from size s
+											inner join article a on s.id = a.id_size
+											where a.id_prod ='.$request->data->prodId);
 		$statement->execute();
 
 		$sizes = $statement->fetchAll();
