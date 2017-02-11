@@ -484,6 +484,7 @@ angular.module("LaMaceta")
 	});
 
 	};
+});
 
 angular.module('LaMaceta').controller('UserModalCtrl', function ($scope, $modalInstance, AdminService) {
 
