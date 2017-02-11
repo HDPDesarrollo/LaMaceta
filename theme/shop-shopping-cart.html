@@ -151,12 +151,12 @@
                       <strong class="price">{{subTotalCalculation() | currency}}</strong>
                     </li>
                     <li>
-                      <em>Impuestos</em>
-                      <strong class="price"><span>$</span>3.00</strong>
+                      <em>Embalaje</em>
+                      <strong class="price">{{CalcCostPackaging() | currency}}</strong>
                     </li>
                     <li class="shopping-total-price">
                       <em>Total</em>
-                      <strong class="price">{{subTotalCalculation()+3 | currency}}</strong>
+                      <strong class="price">{{subTotalCalculation()+CalcCostPackaging() | currency}}</strong>
                     </li>
                   </ul>
                 </div>

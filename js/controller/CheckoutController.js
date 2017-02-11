@@ -32,6 +32,7 @@ angular.module("LaMaceta")
 	$scope.emptyDataAddress = false;
 	$scope.oddCreditCard = false;
 	$scope.zcode = null;
+	$scope.CostPackaging = 0;
 
 	var users = [];
 
@@ -89,6 +90,8 @@ angular.module("LaMaceta")
 		if($scope.card != null && $scope.card.idBankCard!=null){
 			this.getPromotions($scope.card.idBankCard.id);
 		}
+
+		$scope.CostPackaging = ( ($scope.totalAmount * 30) / 100);
 	}
 
 	$scope.loadPage = function(){

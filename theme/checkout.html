@@ -402,6 +402,10 @@
                             <strong class="price"><span>$</span>{{totalAmount}}</strong>
                           </li>
                           <li>
+                            <em>EMbalaje</em>
+                            <strong class="price"><span>$</span>{{CostPackaging}}</strong>
+                          </li>
+                          <li>
                             <em>Descuentos</em>
                             <strong class="price"><span>$</span>{{promotion}}</strong>
                           </li>
@@ -411,7 +415,7 @@
                           </li>
                           <li class="checkout-total-price">
                             <em>Total</em>
-                            <strong class="price"><span>$</span>{{totalAmount-promotion+shippingCost}}</strong>
+                            <strong class="price"><span>$</span>{{totalAmount-promotion+CostPackaging+shippingCost}}</strong>
                           </li>
                         </ul>
                       </div>

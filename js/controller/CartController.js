@@ -138,6 +138,10 @@ angular.module('LaMaceta')
 			return subTotalVariable;
 	}
 
+	$scope.CalcCostPackaging = function(){
+		return ( $scope.subTotalCalculation() * 30) / 100;
+	}
+
 	$scope.icons = [];
 
 	angular.forEach($scope.contentCart, function(value, key) {
