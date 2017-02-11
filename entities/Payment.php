@@ -52,7 +52,7 @@ class mPay
 	*@param $user
 	*/
 	public function  makePay($articles,$address,$shipping,$user){
-		$preference_data = array(
+		/*$preference_data = array(
 						"items" => array(ItemsToArray($articles)),
 						"payer" => array(
 								"name" => $user->name,
@@ -67,12 +67,26 @@ class mPay
 											"street_number" => $address->number,
 											"zip_code" => $address->zip_code
 											)
-						),
+						)/*,
 						"shipments" => shipingToArray($shipping)
 						);
 
 		$preference = $this->mp->create_preference($preference_data);
-		return $preference["response"]["sandbox_init_point"];
+		return $preference["response"]["sandbox_init_point"];*/
+		$preference_data = array(
+    					"items" => array(
+        					array(
+					            "title" => "Title of what you are paying for",
+					            "currency_id" => "ARG",
+					            "category_id" => "Category",
+					            "quantity" => 1,
+					            "unit_price" => 10.2
+        					)
+    					)
+			);
+
+	$preference = $mp->create_preference($preference_data);
+	return $preference["response"]["sandbox_init_point"];
 	}
 
 	/**
