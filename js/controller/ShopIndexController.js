@@ -3,11 +3,11 @@ angular.module("LaMaceta")
       //    cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
       //    cfpLoadingBarProvider.spinnerTemplate = '<div class="text-center"><span class="fa fa-spinner">CARGANDO...</div>';
       //}])
-	.controller("ShopIndexController", function ($scope, ShopIndexService, ngProgressFactory) {
+	.controller("ShopIndexController", function ($scope, ShopIndexService) {
 
-	    $scope.progressbar = ngProgressFactory.createInstance();
+	   /* $scope.progressbar = ngProgressFactory.createInstance();
 	    $scope.progressbar.start();
-
+      */
     $scope.myInterval = 5000;
     $scope.noWrapSlides = false;
     $scope.active = 0;
@@ -20,8 +20,8 @@ angular.module("LaMaceta")
                 
         })
 
-    angular.element(document).ready(function () {
+   /* angular.element(document).ready(function () {
         $scope.progressbar.complete();
-    });
+    });*/
 
 });

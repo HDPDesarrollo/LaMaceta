@@ -187,15 +187,6 @@ switch($request->data->action){
 		break;
 		
 
-
-	case 'getAllActiveCreditCards':
-
-		if(isset($request->data->user->id)){
-			$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id,'active' => true));
-			echo(json_encode($creditCards));
-		}
-		break;
-
 	case 'confirmCheckout'://hacerlo atomico
 		$pay = new mPay();
 
@@ -237,26 +228,6 @@ switch($request->data->action){
 			$entityManager->flush();
 		}
 
-		if($card==null && isset($checkout->card->id)){//nueva tarjeta
-			$card = new CreditCard();
-			$card->setActive(true);
-			$card->setNumber($checkout->card->number);
-
-			$bankCard =  $entityManager->getRepository("BankCard")->findOneBy(array("idBank" => $checkout->card->idBankCard->idBank->id, "idCard" => $checkout->card->idBankCard->idCard->id));
-			$card->setIdBankCard($bankCard);
-
-			$card->setCvv($checkout->card->cvv);
-			$card->setName($checkout->card->name);
-
-			$card->setIdUser($user);
-
-			$vencimiento = "01/".$checkout->card->expirationDateMonth."/".$checkout->card->expirationDateYear;
-			$date = date_create_from_format('d/m/y', $vencimiento); 
-			$card->setExpirationDate($date);
-
-			$entityManager->persist($card);
-			$entityManager->flush();
-		}
 
 		$sale = new Sale();
 		$sale->setActive(true);
@@ -307,7 +278,9 @@ switch($request->data->action){
 			$entityManager->flush();
 		}
 
+		
 		echo $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user);
+		
 		//echo($sale->id);
 
 		break;

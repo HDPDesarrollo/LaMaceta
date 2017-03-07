@@ -47,15 +47,6 @@ angular.module("LaMaceta")
 
     };
     
-    this.getCreditCards = function(user){
-      return $http.post('../bd/AccountBd.php', {data: {user: user, action:'getCreditCards'}})
-                    .then(function(response) {  
-                      //console.log(response);
-                    return response.data;          
-                      },function errorCallback(response) {        
-                          console.log( response);           
-                      });
-    };
     
     this.saveAddress = function(address, user){
       return address.id ? updateAddress(address, user) : createAddress(address, user);
@@ -81,38 +72,6 @@ angular.module("LaMaceta")
 
     this.removeAddress = function(address, user){
       return $http.post('../bd/AccountBd.php', {data: {address: address, user: user, action:'deleteAddress'}})
-                    .then(function(response) {  ;
-                    return response.data;          
-                      },function errorCallback(response) {        
-                          console.log( response);           
-                      });
-    };
-
-
-    this.saveCreditCard = function(creditCard, user){
-      return creditCard.id ? updateCreditCard(creditCard, user) : createCreditCard(creditCard, user);
-    };
-
-    var createCreditCard = function(creditCard, user){  
-      return $http.post('../bd/AccountBd.php', {data: {creditCard: creditCard, user: user, action:'createCreditCard'}})
-            .then(function(response) {      
-                return response.data;    
-            },function errorCallback(response) {        
-                console.log(response);           
-            });
-    };
-
-    var updateCreditCard = function(creditCard, user){
-      return $http.post('../bd/AccountBd.php', {data: {creditCard: creditCard, user: user, action:'updateCreditCard'}})
-            .then(function(response) {    
-                 return response.data;    
-            },function errorCallback(response) {        
-                console.log(response);           
-            });
-    };
-
-    this.removeCreditCard = function(creditCard, user){
-      return $http.post('../bd/AccountBd.php', {data: {creditCard: creditCard, user: user, action:'deleteCreditCard'}})
                     .then(function(response) {  ;
                     return response.data;          
                       },function errorCallback(response) {        
@@ -173,15 +132,6 @@ angular.module("LaMaceta")
                       });
     };
     
-    this.getAllActiveCreditCards = function(user){
-      return $http.post('../bd/AccountBd.php', {data: {user: user, action:'getAllActiveCreditCards'}})
-                    .then(function(response) {  
-                      //console.log(response);
-                    return response.data;          
-                      },function errorCallback(response) {        
-                          console.log( response);           
-                      });
-    };
 
     this.confirmCheckout = function(checkout){  
       return $http.post('../bd/AccountBd.php', {data: {checkout: checkout, action:'confirmCheckout'}})

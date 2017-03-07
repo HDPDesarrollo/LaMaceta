@@ -44,13 +44,6 @@ angular.module("LaMaceta")
 		});
 
 
-	$scope.getAssociatedCards = function(bank){
-		AdminService.getAllAssociatedCards(bank)
-		.then(function(res){
-			$scope.associatedCards = res;
-		});
-	}
-
 
 	$scope.calcShippingCost = function(){
 		$scope.shippingCost = 0;
@@ -125,18 +118,6 @@ angular.module("LaMaceta")
 			});
 
 
-		/*AccountService.getAllActiveCreditCards($scope.user)
-			.then(function(res){
-				$scope.myCreditCards = res;
-
-				for (var i = 0; i < $scope.myCreditCards.length; i++) {
-					//console.log($scope.myCreditCards[i]);
-					$scope.myCreditCards[i].expirationDateMonth = $scope.myCreditCards[i].expirationDate.date.substring(5, 7);
-					$scope.myCreditCards[i].expirationDateYear = $scope.myCreditCards[i].expirationDate.date.substring(2, 4);
-				}
-				//console.log($scope.myCreditCards);
-			});*/
-
 		if($scope.cart!=null){
 
 			$scope.ids = [];
@@ -172,15 +153,6 @@ angular.module("LaMaceta")
 	}
 
 
-	AdminService.getAllCards()
-		.then(function(res){
-			$scope.cards = res;
-		});
-
-	AdminService.getAllBanks()
-		.then(function(res){
-			$scope.banks = res;
-		});
 
 	function lastValidateCheckout(){
 		$scope.errorList = [];
@@ -201,39 +173,6 @@ angular.module("LaMaceta")
 			}
 		}		
 	};
-
-  	function validateExpirateDate() {
-  		if($scope.card!=null && $scope.card.expirationDateYear!=null && $scope.card.expirationDateMonth!=null){
-  			var today = new Date().toISOString().substring(0, 10);
-  			var month = today.substring(5, 7);
-  			var year =  today.substring(2, 4);
-  			if($scope.card.expirationDateMonth<=month && $scope.card.expirationDateYear<=year){
-				$scope.creditCardVto = true;
-				alert("La tarjeta seleccionada se encuentra vencida!");
-  			}else{
-  				$scope.creditCardVto = false;
-  			}
-  		}
-    }
-
-	function validateEmptyDataCreditCard(){
-		if($scope.paymentMethod == "CreditCard" &&
-			($scope.card == null ||
-			$scope.card.idBankCard == null ||
-			$scope.card.idBankCard.idBank == null ||
-			$scope.card.idBankCard.idCard == null ||
-			$scope.card.number == null ||
-			$scope.card.name == null ||
-			$scope.card.cvv == null ||
-			$scope.card.expirationDateMonth == null ||
-			$scope.card.expirationDateYear == null ||
-			$scope.quota == null)
-			){
-			$scope.emptyDataCreditCard = true;
-		}else{
-			$scope.emptyDataCreditCard = false;
-		}
-	}
 	
 	function validateEmptyDataAddress(){
 		console.log($scope.address);
@@ -255,14 +194,6 @@ angular.module("LaMaceta")
 		}
 	}
 
-	function validateOddCreditCard(){
-		if($scope.card != null && $scope.card.number!=null && ($scope.card.number % 2)!=0){
-			$scope.oddCreditCard = true;
-		}else{
-			$scope.oddCreditCard = false;
-		}
-	}
-
 
 	function Promise(){
 
@@ -271,10 +202,7 @@ angular.module("LaMaceta")
 
 	    self.then = function(callback){
 	    	lastValidateCheckout();
-	    	validateExpirateDate();
-	    	validateEmptyDataCreditCard();
 	    	validateEmptyDataAddress();
-	    	validateOddCreditCard();
 	        thenCallback = callback;     
 	    };
 
@@ -293,25 +221,11 @@ angular.module("LaMaceta")
 	$scope.confirmCheckout = function(){
 		var promise = myFunction()
 		promise.then(function(res){
-			if($scope.emptyDataAddress == true){
-				alert("Debe completar todos los campos obligatorios en Domicilio de Envio.");				
-			}
-			if($scope.emptyDataCreditCard == true){
-				alert("Debe completar todos los campos obligatorios en Metodo de Pago.");				
-			}
-			if($scope.errorList.length>0){
+			if($scope.emptyDataAddress != true){
+				if($scope.errorList.length>0){
 				alert("No hay en stock para los productos: "+$scope.errorList);				
-			}
-
-			if($scope.emptyDataAddress == false && $scope.emptyDataCreditCard == false && $scope.errorList.length==0 && $scope.creditCardVto == false && $scope.oddCreditCard == true){
-				alert("La transaccion fue rechazada por el Banco emisor de la tarjeta.");	
-				return;			
-			}
-
-			if($scope.creditCardVto == true || $scope.errorList.length>0 || $scope.emptyDataAddress == true || $scope.emptyDataCreditCard == true || $scope.oddCreditCard == true){
-				return;
-			}else{
-				$checkout = {articles: $scope.articles, address: $scope.address, card: $scope.card, paymentMethod: $scope.paymentMethod, 
+					}else{
+						$checkout = {articles: $scope.articles, address: $scope.address, paymentMethod: $scope.paymentMethod, 
 									idUser: $scope.user.id, shippingCost: $scope.shippingCost, promotion: $scope.promotion, quota: $scope.quota, 
 									totalAmount: ($scope.totalAmount-$scope.promotion+$scope.shippingCost)};
 				AccountService.confirmCheckout($checkout)
@@ -345,14 +259,17 @@ angular.module("LaMaceta")
 		    			$window.location.href = dir2+"/shop-index.html";
 					});
 				return;
-			}	
+
+					}
+			}else{
+				alert("Debe completar todos los campos obligatorios en Domicilio de Envio.");				
+				}	
 		});
 
 	}
 
 
 	$scope.cancelCheckout = function(){
-		$scope.card = {};
 		$scope.address = {};
 		$cookies.remove("cookieCart");
 	}
@@ -410,9 +327,7 @@ angular.module("LaMaceta")
 
 
 	$scope.checkToConfirm = function(){
-		if(($scope.card == null && $scope.paymentMethod == "CreditCard") 
-			|| $scope.address == null 
-			|| $scope.user == null){
+		if($scope.address == null || $scope.user == null){
 			this.calcTotalAmount();
 			return true;
 		}
@@ -426,45 +341,11 @@ angular.module("LaMaceta")
 		return false;
 	}
 
-	$scope.checkEnabledCreditCard = function(){
-  		if($scope.paymentMethod!="CreditCard"){
-  			$scope.card = null;  
-			$scope.allowSelectCreditCard = true;
-			$scope.allowCreditCard = true;
-  			return	
-  		}
-
-		if($scope.card != null && $scope.card.idBankCard!=null && $scope.card.idBankCard.idCard != null){			
-			$scope.allowCreditCard =  true;
-			return;
-		}
-		$scope.allowSelectCreditCard = false;
-		$scope.allowCreditCard = false;
-	}
 	
 	$scope.newAddress = function(){
 		$scope.address = null;
 	}
 
-	$scope.newCreditCard = function(){
-		$scope.card = null;
-	}
-
-
-	$scope.getAssociatedCardsFixed = function(creditCard){
-		if(creditCard!=null && creditCard.idBankCard!=null){
-			AdminService.getAllAssociatedCards(creditCard.idBankCard.idBank)
-			.then(function(res){
-				$scope.associatedCards = res;
-
-				for (var i = 0; i < res.length; i++) {
-					if(res[i].idCard.id == creditCard.idBankCard.idCard.id){
-						$scope.card.idBankCard.idCard = res[i];
-					}
-				}
-			});
-		}	
-	}
 
 	$scope.getCostShipping = function(){
 		$scope.data = null;
