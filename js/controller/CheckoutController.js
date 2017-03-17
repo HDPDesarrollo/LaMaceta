@@ -19,7 +19,7 @@ angular.module("LaMaceta")
 
 
     $scope.totalAmount = 0;
-    $scope.shippingCost = 0;
+    $scope.shippingCost = {};
     $scope.promotion = 0;
     $scope.address = null;
     $scope.card = null;
@@ -348,23 +348,24 @@ angular.module("LaMaceta")
 
 
 	$scope.getCostShipping = function(){
-		$scope.data = null;
-		$scope.alto = 0;
-		$scope.peso = 0;
 
-		for (var i = 0 ; i <= 0; i++) {
-			$scope.alto = $scope.alto + $scope.articles[i].dimension.alto;
-			$scope.peso = $scope.peso + 0.150;
-		}
-		$scope.data.dimension = $scope.alto+"x50x50,"+$scope.peso;
-		$scope.data.cp = $scope.zcode;
-		$scope.data.price = $scope.totalAmount;
-
-		AccountService.getCostShipping($scope.data)
+		$scope.data = {};
+		$scope.data.dimensions = "30x30x30,500";
+		$scope.data.cp_from = 1835;
+		$scope.data.cp_to = $scope.zcode;
+		AccountService.GetCostShipping($scope.data)
 		.then(function(res){
-			if(res != null){
-			$scope.shippingCost = res.cost;
-		}
+			if(angular.isDefined(res.destination)){
+			$scope.shippingCost.agency = res.options[0].cost;
+			$scope.shippingCost.address = res.options[1].cost;
+			$scope.shippingCost.msg = '<b>Costo del envio</b>'
+                                          +'<div class="row">Retiro en Correo Argentino:'
+                                          +'<span class="messages"><strong> $'+$scope.shippingCost.agency+'</strong></span></div>'
+                                          +'<div class="row">Normal a domicilio:'
+                                          +'<span class="messages"><strong> $'+$scope.shippingCost.address+'</strong></span></div>';
+			}else{
+				$scope.shippingCost.msg = '<span class="messages"><strong>Error '+res.message+'</strong></span';
+			}
 	});
 
 	};

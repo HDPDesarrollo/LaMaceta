@@ -192,14 +192,10 @@ switch($request->data->action){
 
 		$checkout = $request->data->checkout;
 		$address = null;
-		$card = null;
 		$user= $entityManager->find('User', $checkout->idUser);
 
 		if(isset($checkout->address->id)){
 			$address= $entityManager->find('Address', $checkout->address->id);
-		}
-		if(isset($checkout->card->id)){
-			$card= $entityManager->find('CreditCard', $checkout->card->id);
 		}
 
 		$state = $entityManager->getRepository('State')->findOneBy(array('description' => 'SOLICITADO'));
@@ -278,8 +274,8 @@ switch($request->data->action){
 			$entityManager->flush();
 		}
 
-		
-		echo $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user);
+		var_dump($checkout->articles);
+		//echo $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user);
 		
 		//echo($sale->id);
 
@@ -309,15 +305,6 @@ switch($request->data->action){
 		$connection = $entityManager->getConnection();
 		$statement = $connection->prepare("INSERT INTO sale_state (active, id_sale, id_state, last_update, motive) VALUES (1,".$saleId.",1,'".$dia."','Pedido de envio nuevo')");
 		$statement->execute();
-		break;
-
-	case 'getcostshipping':
-			$mp = new mPay();
-			$param = array('dimensions' => $request->data->cost->dimension,
-							'zip_code' => $request->data->cost->cp,
-							'item_price' => $request->data->cost->price);
-			$cost = $mp->costShipping($param);
-			echo(json_encode($cost));
 		break;
 		
 	/*case 'getRejectedSales':

@@ -60,7 +60,7 @@ switch($request->data->action){
 
 		$connection = $entityManager->getConnection();
 		$statement = $connection->prepare("	SELECT *
-				FROM SALE S WHERE s.id =".$request->data->idSale);
+				FROM sale s WHERE s.id =".$request->data->idSale);
 		$statement->execute();
 
 		$theSale = $statement->fetchAll();

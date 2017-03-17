@@ -154,11 +154,13 @@ angular.module("LaMaceta")
     };
 
     this.GetCostShipping = function(datos){
-      return $http.post('../bd/AccountBd.php',{data:{cost:datos,action:'getcostshipping'}})
+     this.BASE_URL = "https://api.mercadolibre.com";
+      this.body_url = "/sites/MLA/shipping_options?zip_code_from="+datos.cp_from+"&zip_code_to="+datos.cp_to+"&dimensions="+datos.dimensions;
+      return $http.get(this.BASE_URL+this.body_url)
       .then(function(response){
         return response.data;
       },function errorCallback(response){
-        console.log(response);
+        return response.data;
       });
     }
 

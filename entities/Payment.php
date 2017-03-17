@@ -1,5 +1,6 @@
 <?php 
 include("../PHP/clases/MP/mercadopago.php");
+//include("../PHP/clases/ML/meli.php");
 /**
 * Clase mPay con funciones referidas a los estado de pagos,
 * seguimiento de envios(si corresponde), etc
@@ -8,9 +9,12 @@ include("../PHP/clases/MP/mercadopago.php");
 class mPay
 {
 	private $mp;
-
+	private $meli;
  	function __construct(){
  		$this->mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
+ 		/*$this->meli = new meli(array('appId' =>  "7946879739002924",
+ 									 'secret' => "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ"
+ 									 ));*/
  	}
 
 	private function ItemsToArray($dato){
@@ -127,14 +131,6 @@ class mPay
 		return true;
 	}
 
-	public function costShipping($cp_from=null,$param){
-		if($param != null){
-			return $cost = $this->mp->get("/shipping_options",$param);
-		}else{
-			return false;
-		}
-
-	}
 
 	public function get($url,$dato=null){
 		return $this->mp->get($url,$dato);
