@@ -32,17 +32,24 @@ class mPay
 		return $arrayItem;
 	}
 
-	private function shipingToArray($dato){
+	private function shipingToArray($dato,$address){
 		$array = array("mode" => "me2",
-										"dimensions" => $dato->dimensions,
-										"local_pickup" => $dato->localPickup,
-										"default_shipping_method" => $dato->method,
-										"zip_code" => $dato->cp
+						"dimensions" => $dato->dimensions,
+						"default_shipping_method" => $dato->method,
+						"zip_code" => $address->zip_code
 						);
 		if($dato->freeShipping != null)
 		{
-			$array["free_methods"] = array(array("id" => $dato->method));
+			$array["free_methods"] = array(array("id" => $dato->free_method));
 		}
+
+		$array["receiver_address"] = array(
+											"street_name" => $address->street,
+											"street_number" => $address->number,
+											"zip_code" => $address->zip_code,
+											"floor" => $address->apartment,
+											"apartment" => $address->apartment
+											);
 
 		return $array;
 	}
@@ -56,7 +63,7 @@ class mPay
 	*@param $user
 	*/
 	public function  makePay($articles,$address,$shipping,$user){
-		/*$preference_data = array(
+		$preference_data = array(
 						"items" => array(ItemsToArray($articles)),
 						"payer" => array(
 								"name" => $user->name,
@@ -69,28 +76,16 @@ class mPay
 								"address" => array(
 											"street_name" => $address->street,
 											"street_number" => $address->number,
-											"zip_code" => $address->zip_code
-											)
-						)/*,
-						"shipments" => shipingToArray($shipping)
+											"zip_code" => $address->zip_code,
+											"floor" => $address->apartment,
+											"apartment" => $address->apartment
+											),
+						),
+						"shipments" => shipingToArray($shipping,$address)
 						);
 
 		$preference = $this->mp->create_preference($preference_data);
-		return $preference["response"]["sandbox_init_point"];*/
-		$preference_data = array(
-    					"items" => array(
-        					array(
-					            "title" => "Title of what you are paying for",
-					            "currency_id" => "ARG",
-					            "category_id" => "Category",
-					            "quantity" => 1,
-					            "unit_price" => 10.2
-        					)
-    					)
-			);
-
-	$preference = $mp->create_preference($preference_data);
-	return $preference["response"]["sandbox_init_point"];
+		return $preference["response"]["sandbox_init_point"];
 	}
 
 	/**
@@ -110,8 +105,7 @@ class mPay
 	*@param $email
 	*/
 	public function SearchEmail($email){
-		$filtro = array("site_id" => "MLA",
-						"" => $email);
+		$filtro = array("payer_email" => $email);
 		$searchResult = $this->mp->search_payment($filtro);
 		return $searchResult;
 	}

@@ -159,8 +159,6 @@ angular.module("LaMaceta")
       return $http.get(this.BASE_URL+this.body_url)
       .then(function(response){
         return response.data;
-      },function errorCallback(response){
-        return response.data;
       });
     }
 

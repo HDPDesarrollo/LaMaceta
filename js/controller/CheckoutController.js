@@ -33,6 +33,7 @@ angular.module("LaMaceta")
 	$scope.oddCreditCard = false;
 	$scope.zcode = null;
 	$scope.CostPackaging = 0;
+	$scope.method = 0;
 
 	var users = [];
 
@@ -103,7 +104,6 @@ angular.module("LaMaceta")
 					AccountService.getAllProvinces()
 					.then(function(res){
 						$scope.provinces = res;
-
 
 						$scope.shippingCost = 0;
 						for (var k = 0; k < $scope.provinces.length; k++) {
@@ -225,16 +225,31 @@ angular.module("LaMaceta")
 				if($scope.errorList.length>0){
 				alert("No hay en stock para los productos: "+$scope.errorList);				
 					}else{
+
+						if($scope.method === 503045)
+						{
+							$scope.shipping = {
+									"method" : $scope.shippingCost.agency.method_id,
+									"cost" : $scope.shippingCost.agency.cost,
+									"free_method" : null
+								};
+						}else if($scope.method === 73328){
+							$scope.shipping = {
+									"method" : $scope.shippingCost.address.method_id,
+									"cost" : $scope.shippingCost.address.cost,
+									"free_method" : null
+								};
+						}
 						$checkout = {articles: $scope.articles, address: $scope.address, paymentMethod: $scope.paymentMethod, 
-									idUser: $scope.user.id, shippingCost: $scope.shippingCost, promotion: $scope.promotion, quota: $scope.quota, 
+									idUser: $scope.user.id, shipping: $scope.shipping, promotion: $scope.promotion, quota: $scope.quota, 
 									totalAmount: ($scope.totalAmount-$scope.promotion+$scope.shippingCost)};
 				AccountService.confirmCheckout($checkout)
 					.then(function(res){
-
-						console.log(res);
-								MailService.mailDetailCheckout(res)
-										.then(function(res){
-											console.log(res);		
+						window.open(res);
+						
+						MailService.mailDetailCheckout(res)
+							.then(function(res){
+									console.log(res);		
 									})
 
 						for (var i = 0; i < $scope.articles.length; i++) {
@@ -348,7 +363,8 @@ angular.module("LaMaceta")
 
 
 	$scope.getCostShipping = function(){
-
+		$scope.shippingCost.agency = {};
+		$scope.shippingCost.address = {};
 		$scope.data = {};
 		$scope.data.dimensions = "30x30x30,500";
 		$scope.data.cp_from = 1835;
@@ -356,17 +372,18 @@ angular.module("LaMaceta")
 		AccountService.GetCostShipping($scope.data)
 		.then(function(res){
 			if(angular.isDefined(res.destination)){
-			$scope.shippingCost.agency = res.options[0].cost;
-			$scope.shippingCost.address = res.options[1].cost;
+			$scope.shippingCost.agency.cost = res.options[0].cost;
+			$scope.shippingCost.agency.method_id = res.options[0].shipping_method_id;
+			$scope.shippingCost.address.cost = res.options[1].cost;
+			$scope.shippingCost.address.method_id = res.options[1].shipping_method_id;
 			$scope.shippingCost.msg = '<b>Costo del envio</b>'
                                           +'<div class="row">Retiro en Correo Argentino:'
-                                          +'<span class="messages"><strong> $'+$scope.shippingCost.agency+'</strong></span></div>'
+                                          +'<span class="messages"><strong> $'+$scope.shippingCost.agency.cost+'</strong></span></div>'
                                           +'<div class="row">Normal a domicilio:'
-                                          +'<span class="messages"><strong> $'+$scope.shippingCost.address+'</strong></span></div>';
-			}else{
-				$scope.shippingCost.msg = '<span class="messages"><strong>Error '+res.message+'</strong></span';
-			}
-	});
+                                          +'<span class="messages"><strong> $'+$scope.shippingCost.address.cost+'</strong></span></div>';
+			}}, function(error){
+				$scope.shippingCost.msg = '<span class="messages"><strong>Error inténtelo de nuevo! ('+error.data.message+')</strong></span';
+			});
 
 	};
 });
