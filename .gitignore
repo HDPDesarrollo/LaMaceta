@@ -2,4 +2,4 @@
 *.phpproj
 *.suo
 .vs/*
-./doctrine_config/*.php
+doctrine_config/*
