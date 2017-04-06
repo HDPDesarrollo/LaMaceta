@@ -70,10 +70,10 @@ angular.module("LaMaceta")
 			$scope.provinces = res;
 		});
 
-	AccountService.getCreditCards($scope.user)
-		.then(function(res){
-			$scope.myCreditCards = res;
-		});
+	// AccountService.getCreditCards($scope.user)
+	// 	.then(function(res){
+	// 		$scope.myCreditCards = res;
+	// 	});
 	$scope.shippingCostTotal = 0;
 	$scope.impuestosTotal = 0;
 	
