@@ -8,7 +8,7 @@ angular.module("LaMaceta")
 	.controller("CheckoutController", function($scope, $modal, MailService, AccountService, AdminService, LoginService, factoryData, $cookies, $window, ShopItemService){
 
 	$scope.user = $cookies.getObject("loginCredentials");
-
+	console.log($scope.user);
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
 

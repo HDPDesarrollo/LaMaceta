@@ -106,7 +106,7 @@ angular.module("LaMaceta")
 
 	$scope.tryLogin = function(user){
 		//user.password = md5.createHash(user.password);
-		console.log(user.email);
+		
 		if(LoginService.doLogin(user)){
 			$cookies.putObject("loginCredentials", user);
 				$window.location.href = dir+"/shop-index.html";

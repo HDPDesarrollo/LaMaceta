@@ -31,7 +31,6 @@ angular.module("LaMaceta")
 	}
 
 	$scope.search = function (wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season){	
-		console.log(season);
 		SearchService.search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)
 				.then(function(res){
 					$scope.buildProductsAndFilters(res);
@@ -76,7 +75,6 @@ angular.module("LaMaceta")
 
 
 	$scope.buildProductsAndFilters = function (res) {
-		console.log(res);
 		$scope.totalProductsSearch = [];
 		$scope.filterColor = [];
 		for (i = 0; i < res.length; i++) { 	

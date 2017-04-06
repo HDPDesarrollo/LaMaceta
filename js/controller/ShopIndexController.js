@@ -15,7 +15,6 @@ angular.module("LaMaceta")
 
     ShopIndexService.getAllSliders()
             .then(function(res){
-                console.log(res);
                 $scope.slides = res;
                 
         })

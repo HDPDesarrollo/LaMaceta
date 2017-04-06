@@ -37,6 +37,7 @@ angular.module("LaMaceta")
 
 	
 	$scope.user = $cookies.getObject("loginCredentials");
+	console.log($scope.user);
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
 	
 	
