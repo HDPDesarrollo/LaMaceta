@@ -291,6 +291,7 @@ angular.module("LaMaceta")
 
 
 	$scope.tryLogin = function(login){
+		console.log(login);
 		for(i = 0; i < users.length; i++) {
 			if(users[i].email==login.email && users[i].password==login.password){
 				$cookies.putObject("loginCredentials", users[i]);

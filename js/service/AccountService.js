@@ -103,8 +103,8 @@ angular.module("LaMaceta")
     };
 
     //Purchase
-    this.getAllPurchases = function(user){//pasar el id del user
-      return $http.post('../bd/AccountBd.php', {data: {user: user, action:'getAllPurchases'}})
+    this.getAllPurchases = function(id){//pasar el id del user
+      return $http.post('../bd/AccountBd.php', {data: {id: id, action:'getAllPurchases'}})
                     .then(function(response) {  
                       //console.log(response); 
                     return response.data;          

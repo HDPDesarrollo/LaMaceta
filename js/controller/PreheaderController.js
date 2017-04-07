@@ -5,7 +5,6 @@ angular.module('LaMaceta')
 	
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
-
 	$scope.logOut = function(){
 		$cookies.remove("cookieCart");
 		$cookies.remove("loginCredentials");

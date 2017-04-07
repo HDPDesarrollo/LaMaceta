@@ -27,7 +27,6 @@ angular.module('LaMaceta').filter('dateFilter2', function($filter){
 
 angular.module("LaMaceta")
 	.controller("AccountController", function($scope, $window, AccountService,CartService,MailService, $modal, factoryData, $cookies){
-
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
 
@@ -37,7 +36,7 @@ angular.module("LaMaceta")
 
 	
 	$scope.user = $cookies.getObject("loginCredentials");
-	console.log($scope.user);
+	
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
 	
 	
@@ -165,8 +164,9 @@ angular.module("LaMaceta")
 
 	//Purchases
 
-	AccountService.getAllPurchases($scope.user)
+	AccountService.getAllPurchases(3)
 		.then(function(res){
+			console.log(res);
 		$scope.buildPurchase(res);
 	});
 
