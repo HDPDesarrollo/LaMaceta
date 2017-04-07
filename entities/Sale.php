@@ -104,6 +104,12 @@ class Sale
      */
     public $quota;
 
+    /**
+    *@var integer
+    * @ORM\Column(name="id_payment",type="integer",nullable=true)
+    */
+    public $id_payment;
+
 
     /**
      * Set id
@@ -382,4 +388,25 @@ class Sale
     {
         return $this->quota;
     }
+
+    /**
+     * Get id_payment
+     *
+     * @return integer 
+     */
+    public function getId_payment(){
+        return $this->id_payment;
+    }
+
+    /**
+     * Set id_payment
+     *
+     * @param integer $id_payment
+     * @return Sale
+     */
+    public function setId_payment($id_payment){
+        $this->id_payment = $id_payment;
+        return $this;
+    }
+
 }

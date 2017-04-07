@@ -148,7 +148,7 @@ switch($request->data->action){
 	case 'getAllPurchases':
 
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT s.id, s.sale_Number, s.date, se.description, 
+		$statement = $connection->prepare('SELECT s.id, s.sale_number, s.date, se.description, 
 		p.name, c.color, sz.size, ds.quantity, ds.unit_Price
 					FROM sale s, 
 					detail_sale ds,
@@ -158,14 +158,14 @@ switch($request->data->action){
 					color c, 
 					size sz, 
 					product p
-					WHERE ds.id_Sale = s.id 
-					AND st.id_Sale = s.id and last_update = (SELECT MAX(last_update) FROM sale_state WHERE id_sale = ds.id_sale)
-					AND st.id_State = se.id
-					AND ds.id_Article = a.id
-					AND a.id_Color = c.id
-					AND a.id_Size = sz.id
-					AND a.id_Prod = p.id
-					AND s.id_User = '.$request->data->id.'
+					WHERE ds.id_sale = s.id 
+					AND st.id_sale = s.id and last_update = (SELECT MAX(last_update) FROM sale_state WHERE id_sale = ds.id_sale)
+					AND st.id_state = se.id
+					AND ds.id_article = a.id
+					AND a.id_color = c.id
+					AND a.id_size = sz.id
+					AND a.id_prod = p.id
+					AND s.id_user = '.$request->data->id.'
 					ORDER BY s.id');
 		$statement->execute();
 

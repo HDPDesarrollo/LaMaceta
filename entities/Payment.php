@@ -11,7 +11,8 @@ class mPay
 	private $mp;
 	private $meli;
  	function __construct(){
- 		$this->mp = new MP("7946879739002924", "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ");
+ 		//Credenciales del usuario test como comprador
+ 		$this->mp = new MP("8597128488150533", "RPqizvXasdzgNt23lsFUYSsKQYq1bosP");
  		/*$this->meli = new meli(array('appId' =>  "7946879739002924",
  									 'secret' => "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ"
  									 ));*/
@@ -95,7 +96,7 @@ class mPay
 	public function SearchPayment($sale){
 		$filtro = array(
 			"site_id" => "MLA",
-			"external_reference" => $sale->external_reference);
+			"payer_email" => $sale);
 		$searchResult = $this->mp->search_payment($filtro);
 		return $searchResult;
 	}
@@ -108,6 +109,15 @@ class mPay
 		$filtro = array("payer_email" => $email);
 		$searchResult = $this->mp->search_payment($filtro);
 		return $searchResult;
+	}
+
+	/**
+	* Busca por medio del id de pago (de un usuario) en la coleccion de pagos recibidos 
+	*@param $id (id de referencia de pago guardado en la db) 
+	*/
+	public function SearchCollection($id){
+		$data = "/collections/notifications/".$id;
+		return $this->mp->get($data);
 	}
 
 	/**
