@@ -95,27 +95,27 @@ angular.module("LaMaceta")
 			$scope.provinces = res;
 		});
 
-		// AccountService.getAllActiveAddresses($scope.user)
-		// 	.then(function(res){
-		// 		$scope.addresses = res;
-		// 		if($scope.addresses.length>0){
-		// 			$scope.address = $scope.addresses[0];
+		 AccountService.getAllActiveAddresses($scope.user)
+		 	.then(function(res){
+		 		$scope.addresses = res;
+		 		if($scope.addresses.length>0){
+		 			$scope.address = $scope.addresses[0];
 
-		// 			AccountService.getAllProvinces()
-		// 			.then(function(res){
-		// 				$scope.provinces = res;
+		 			AccountService.getAllProvinces()
+		 			.then(function(res){
+		 				$scope.provinces = res;
 
-		// 				$scope.shippingCost = 0;
-		// 				for (var k = 0; k < $scope.provinces.length; k++) {
-		// 					if($scope.address.idProvince.id == $scope.provinces[k].id){
-		// 						$scope.shippingCost = $scope.provinces[k].cost;
-		// 						break;
-		// 					}		
-		// 				}
+		 				$scope.shippingCost = 0;
+		 				for (var k = 0; k < $scope.provinces.length; k++) {
+		 					if($scope.address.idProvince.id == $scope.provinces[k].id){
+		 						$scope.shippingCost = $scope.provinces[k].cost;
+		 						break;
+		 					}		
+		 				}
 
-		// 			});
-		// 		}
-		// 	});
+		 			});
+		 		}
+		 	});
 
 
 		if($scope.cart!=null){
