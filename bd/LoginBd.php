@@ -7,6 +7,13 @@ include __DIR__ . '../../entities/User.php';
 include __DIR__ . '../../entities/UserType.php';
 include __DIR__ . '../../entities/ResetPassword.php';
 
+// TOKEN ------
+include __DIR__ . '../../PHP/Clases/JWT.php';
+include __DIR__ . '../../PHP/Clases/ExpiredException.php';
+include __DIR__ . '../../PHP/Clases/BeforeValidException.php';
+include __DIR__ . '../../PHP/Clases/SignatureInvalidException.php';
+// ------------
+
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
 
