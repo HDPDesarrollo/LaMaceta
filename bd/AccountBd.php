@@ -189,16 +189,18 @@ switch($request->data->action){
 
 	case 'confirmCheckout'://hacerlo atomico
 		$pay = new mPay();
+		
 
 		$checkout = $request->data->checkout;
 		$address = null;
-		$user= $entityManager->find('User', $checkout->idUser);
+		$user = $entityManager->find('User', $checkout->idUser);
+		$idSale;
 
 		if(isset($checkout->address->id)){
 			$address= $entityManager->find('Address', $checkout->address->id);
 		}
 
-		$state = $entityManager->getRepository('State')->findOneBy(array('description' => 'SOLICITADO'));
+		$state = $entityManager->getRepository('State')->findOneBy(array('description' => 'PENDIENTE'));
 
 		if($address==null){//nueva direccion
 			$address = new Address();
@@ -241,13 +243,13 @@ switch($request->data->action){
 		$entityManager->persist($sale);
 		$entityManager->flush();
 
+
 		$saleState = new SaleState();
 		$saleState->setActive(true);
 		$saleState->setLastUpdate(new DateTime());
 		$saleState->setMotive("SALE");
 		$saleState->setIdSale($sale);
 		$saleState->setIdState($state);
-
 		$entityManager->persist($saleState);
 		$entityManager->flush();
 
@@ -273,11 +275,17 @@ switch($request->data->action){
 			$entityManager->persist($article);
 			$entityManager->flush();
 		}
+		$exRef = $sale->getId();
 
-		var_dump($checkout->articles);
-		//echo $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user);
+		$preference = $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user,$exRef);
 		
-		//echo($sale->id);
+		$sale->setId_payment($preference['external_reference']);
+		$entityManager->merge($sale);
+		$entityManager->flush();
+
+		echo $preference['sandbox_init_point'];
+
+
 
 		break;
 

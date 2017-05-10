@@ -84,13 +84,6 @@ class Sale
     public $idAddress;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_card", type="integer", nullable=true)
-     */
-    public $idCard;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="payment_method", type="string", length=100, nullable=false)
@@ -318,29 +311,6 @@ class Sale
     public function getIdAddress()
     {
         return $this->idAddress;
-    }
-
-    /**
-     * Set idCard
-     *
-     * @param \CreditCard $idCard
-     * @return Sale
-     */
-    public function setIdCard(\CreditCard $idCard = null)
-    {
-        $this->idCard = $idCard;
-
-        return $this;
-    }
-
-    /**
-     * Get idCard
-     *
-     * @return \CreditCard 
-     */
-    public function getIdCard()
-    {
-        return $this->idCard;
     }
 
     /**

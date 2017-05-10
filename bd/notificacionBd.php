@@ -11,6 +11,9 @@ include __DIR__ . '../../entities/State.php';
 
 include("../PHP/clases/MP/mercadopago.php");
 
+$sale_state;
+$sale;
+
 if (!isset($_GET["id"], $_GET["topic"]) || !ctype_digit($_GET["id"])) {
 	http_response_code(400);
 	return;
@@ -18,34 +21,52 @@ if (!isset($_GET["id"], $_GET["topic"]) || !ctype_digit($_GET["id"])) {
 
 if($_GET["topic"] == 'payment'){
 	$payment_info = $mp->get("/collections/notifications/" . $_GET["id"]);
-	$user = $entityManager->find('User', $payment_info["response"]["collection"]["payer"]["email"]);
-	$address = $entityManager->find('address',$user->id);
+	$exRef = $payment_info['collection']['external_reference'];
+	$sale = $entityManager->getRepository('sale')->findOneBy(array('id_payment' => $exRef));
+	$sale_state = $entityManager->getRepository('sale_state')->findOneBy(array('id_sale' => $sale->getId() ));
 
-	$sale = new Sale();
-	$sale->setIdUser($user->id);
-	$sale->setId_payment($payment_info["response"]["collection"]["id"]);
-	$sale->setPrice($payment_info["response"]["collection"]["total_paid_amount"]);
-	$sale->setPaymentMethod($payment_info["response"]["collection"]["payment_type"]);
-	$sale->setDate($payment_info["response"]["collection"]["date_created"]);
-	$sale->setIdAddress($address->id);
+	switch ($payment_info['status']) {
 
-	$entityManager->persist($sale);
+		case 'pending':
+			$sale_state->setIdSale(1);
+			break
+
+		case 'approved':
+			$sale_state->setIdSale(2);
+			break;
+
+		case 'authorized':
+			$sale_state->setIdSale(3);
+			break;
+
+		case 'in_process':
+			$sale_state->setIdSale(4);
+			break;
+
+		case 'in_mediation':
+			$sale_state->setIdSale(5);
+			break;
+
+		case 'rejected':
+			$sale_state->setIdSale(6);
+			break;
+
+		case 'cancelled':
+			$sale_state->setIdSale(7);
+			break;
+
+		case 'refunded':
+			$sale_state->setIdSale(8);
+			break;
+
+		case 'charged_back':
+			$sale_state->setIdSale(9);
+			break;
+	}
+
+	$entityManager->merge($sale_state);
 	$entityManager->flush();
 
-	$state = $entityManager->find('State', $payment_info["response"]["collection"]["status"]);
-	$saleid = $entityManager->find('sale',$payment_info["response"]["collection"]["id"]);
-
-	$saleState = new saleState();
-	$saleState->setIdSale($saleid->id);
-	$saleState->setIdState($state->id);
-	$saleState->setLastUpdate($payment_info["response"]["collection"]["last_modified"]);
-	$saleState->setMotive($payment_info["response"]["collection"]["reason"]);
-
-	$entityManager->persist($saleState);
-	$entityManager->flush();
-
-
-	
 
 } else if($_GET["topic"] == 'merchant_order'){
 	$merchant_order_info = $mp->get("/merchant_orders/" . $_GET["id"]);

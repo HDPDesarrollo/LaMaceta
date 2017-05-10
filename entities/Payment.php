@@ -63,7 +63,7 @@ class mPay
 	*@param $shipping (dimension(alto,largo,ancho) + peso(gramos), retiro por local oca(true, false), costo de envio, tipo de envio (Estándar, Prioritario),CP)
 	*@param $user
 	*/
-	public function  makePay($articles,$address,$shipping,$user){
+	public function  makePay($articles,$address,$shipping,$user,$exRef){
 		$preference_data = array(
 						"items" => array(ItemsToArray($articles)),
 						"payer" => array(
@@ -82,11 +82,12 @@ class mPay
 											"apartment" => $address->apartment
 											),
 						),
-						"shipments" => shipingToArray($shipping,$address)
+						"shipments" => shipingToArray($shipping,$address),
+						"external_reference" => $exRef,
 						);
 
 		$preference = $this->mp->create_preference($preference_data);
-		return $preference["response"]["sandbox_init_point"];
+		return $preference;
 	}
 
 	/**
@@ -96,7 +97,7 @@ class mPay
 	public function SearchPayment($sale){
 		$filtro = array(
 			"site_id" => "MLA",
-			"payer_email" => $sale);
+			"external_reference" => $sale);
 		$searchResult = $this->mp->search_payment($filtro);
 		return $searchResult;
 	}
