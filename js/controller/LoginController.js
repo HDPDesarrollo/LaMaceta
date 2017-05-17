@@ -1,4 +1,17 @@
 angular.module("LaMaceta")
+.config(function($authProvider){
+
+
+	// $authProvider.loginUrl='LaMaceta/PHP/clases/autentificador.php';
+	$authProvider.loginUrl='../bd/LoginBd.php';
+	// $authProvider.signupUrl='LaMaceta/PHP/clases/autentificador.php';
+	$authProvider.tokenName='tokenMaceta'
+	$authProvider.tokenPrefix= 'maceta';
+	$authProvider.authHeader= 'Data';
+
+}); // fin config
+
+angular.module("LaMaceta")
 .directive("passwordVerify", function() {
    return {
       require: "ngModel",
@@ -32,7 +45,7 @@ angular.module("LaMaceta")
 });
 
 angular.module("LaMaceta")
-	.controller("LoginController", function($window, $scope, LoginService, $cookies){
+	.controller("LoginController", function($window, $scope, LoginService, $cookies, $auth){
 
 	var dia = new Date();
     dia.setFullYear(1998);
@@ -91,30 +104,47 @@ angular.module("LaMaceta")
 		}
 	}
 
-	/*$scope.tryLogin = function(login){
-		for(i = 0; i < users.length; i++) {
-			if(users[i].email==login.email && users[i].password==login.password){
-				$cookies.putObject("loginCredentials", users[i]);
-				$window.location.href = dir+"/shop-index.html";
-				return "";
-			}
-		}
 
-		$scope.selectedTab="tryLoginInstead";
-		$scope.tryLoginInsteadLegend = "No existe ningún usuario con esa combinación de mail y contraseña";
-	}*/
 
 	$scope.tryLogin = function(user){
 		//user.password = md5.createHash(user.password);
 		
-		if(LoginService.doLogin(user)){
-			$cookies.putObject("loginCredentials", user);
-				$window.location.href = dir+"/shop-index.html";
-				return true;
-		}else{
-			$scope.selectedTab="tryLoginInstead";
-			$scope.tryLoginInsteadLegend = "No existe ningún usuario con esa combinación de mail y contraseña";
-		}
+
+		   $auth.login({data:{email: user.email, password: user.password, action:'doLogin'}})
+			  .then(function(respuestaAuth){
+							  console.log("datos de respuestaaaa");
+							  console.info("datos de respuesta del login", JSON.stringify(respuestaAuth),$auth.getPayload());				   
+
+							  if ($auth.isAuthenticated()) {
+
+									//   $state.go('menu');
+									window.href('index.html');
+
+							  }else{
+									 console.log("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
+									  
+									//   $state.go('login');
+									}
+							  
+					//        console.info("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
+							$scope.DatoTest="**Menu**";
+
+			  })
+			  .catch(function(parametro){
+
+				console.info("error",JSON.stringify(parametro));
+
+			  }); // fin catch
+
+
+		// if(LoginService.doLogin(user)){
+		// 	$cookies.putObject("loginCredentials", user);
+		// 		$window.location.href = dir+"/shop-index.html";
+		// 		return true;		
+		// }else{
+		// 	$scope.selectedTab="tryLoginInstead";
+		// 	$scope.tryLoginInsteadLegend = "No existe ningún usuario con esa combinación de mail y contraseña";
+		// }
 	}
 
 	$scope.resetPassword = function(email){

@@ -8,10 +8,10 @@ include __DIR__ . '../../entities/UserType.php';
 include __DIR__ . '../../entities/ResetPassword.php';
 
 // TOKEN ------
-include __DIR__ . '../../PHP/Clases/JWT.php';
-include __DIR__ . '../../PHP/Clases/ExpiredException.php';
-include __DIR__ . '../../PHP/Clases/BeforeValidException.php';
-include __DIR__ . '../../PHP/Clases/SignatureInvalidException.php';
+include __DIR__ . '../PHP/Clases/JWT.php';
+include __DIR__ . '../PHP/Clases/ExpiredException.php';
+include __DIR__ . '../PHP/Clases/BeforeValidException.php';
+include __DIR__ . '../PHP/Clases/SignatureInvalidException.php';
 // ------------
 
 $dataPost = file_get_contents("php://input");
@@ -124,7 +124,22 @@ switch($request->data->action){
 		$user = $entityManager->find('User', $request->data->email);
 		if(isset($user->email) && isset($user->password)){
 			if($user->email === $request->data->email && $user->password === $request->data->password){
-				echo(json_encode("true"));
+				// echo(json_encode("true"));
+
+			$token=array(
+			"id"=> $user->id,
+			"name"=> $user->name,
+			"mail"=> $user->email,
+			"idUserType"=> $user->idUserType,
+			"exp"=>time()+9600
+			);
+
+			$token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
+			//token ya terminado
+			$array['tokenMaceta']=$token;
+
+			echo json_encode($array);
+
 			}
 		}else{
 			echo(json_encode("false"));

@@ -1,6 +1,6 @@
 <?php
 
-include_once 'Usuario.php';
+include_once '../../entities/User.php';
 include_once 'JWT.php';
 include_once 'ExpiredException.php';
 include_once 'BeforeValidException.php';
@@ -13,12 +13,11 @@ $request = json_decode($dataPost);
 $objDatos=json_decode(file_get_contents("php://input"));
 
 
-try {
-	//$elUsuario = new usuario();
-	$elUsuario=$user::fijateSiEstaElUser($objDatos->nombre,$objDatos->mail);
-
-} catch (Exception $e) {
-					echo $e->getMessage();
+try {	//$elUsuario = new usuario();
+		$elUsuario=$user::fijateSiEstaElUser($objDatos->name,$objDatos->email);
+} 
+catch (Exception $e) {
+		echo $e->getMessage();
 }
 
 
@@ -39,15 +38,14 @@ if(isset($elUsuario))
 	{
 			$token=array(
 			"id"=> $elUsuario->id,
-			"nombre"=> $elUsuario->nombre,
-			"mail"=> $elUsuario->mail,
-
+			"nombre"=> $elUsuario->name,
+			"mail"=> $elUsuario->email,
 			"exp"=>time()+9600
 			);
 
 			$token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
 			//token ya terminado
-			$array['tokenMascota2016']=$token;
+			$array['tokenMaceta']=$token;
 
 			echo json_encode($array);
 
