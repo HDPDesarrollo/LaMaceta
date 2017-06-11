@@ -1,9 +1,9 @@
-angular.module("LaMaceta")
-.config(function($authProvider){
+// angular.module("LaMaceta")
+app.config(function($authProvider){
 
 
 	// $authProvider.loginUrl='LaMaceta/PHP/clases/autentificador.php';
-	$authProvider.loginUrl='../bd/LoginBd.php';
+	$authProvider.loginUrl='LaMaceta/bd/LoginBd.php';
 	// $authProvider.signupUrl='LaMaceta/PHP/clases/autentificador.php';
 	$authProvider.tokenName='tokenMaceta'
 	$authProvider.tokenPrefix= 'maceta';
@@ -44,8 +44,8 @@ angular.module("LaMaceta")
    };
 });
 
-angular.module("LaMaceta")
-	.controller("LoginController", function($window, $scope, LoginService, $cookies, $auth){
+// angular.module("LaMaceta")
+	app.controller("LoginController", function($window, $scope, LoginService, $cookies, $auth,$location){
 
 	var dia = new Date();
     dia.setFullYear(1998);
@@ -112,13 +112,14 @@ angular.module("LaMaceta")
 
 		   $auth.login({data:{email: user.email, password: user.password, action:'doLogin'}})
 			  .then(function(respuestaAuth){
-							  console.log("datos de respuestaaaa");
-							  console.info("datos de respuesta del login", JSON.stringify(respuestaAuth),$auth.getPayload());				   
+							
+							  console.log("datos respuesta", $auth.isAuthenticated(),$auth.getPayload());				   
 
 							  if ($auth.isAuthenticated()) {
 
 									//   $state.go('menu');
-									window.href('index.html');
+									$window.location.href = "shop-index.html"
+									
 
 							  }else{
 									 console.log("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
@@ -207,3 +208,25 @@ angular.module("LaMaceta")
 					});
 	}
 });
+
+
+
+
+
+// // angular.module('LaMaceta')
+// 	app.controller("PreheaderController", function($window, $scope, $cookies,$auth){
+		
+// 	console.info($auth.getPayload());
+// 		$scope.loginVar = $auth.getPayload();
+// 		console.log($scope.loginVar);
+
+	
+// 	// var loc = window.location.href;
+// 	// var dir = loc.substring(0, loc.lastIndexOf('/'));
+// 	$scope.logOut = function(){
+// 		$cookies.remove("cookieCart");
+// 		$cookies.remove("loginCredentials");
+// 		$window.location.href = dir+"/shop-index.html";
+// 	}
+
+// });

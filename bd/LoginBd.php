@@ -8,10 +8,10 @@ include __DIR__ . '../../entities/UserType.php';
 include __DIR__ . '../../entities/ResetPassword.php';
 
 // TOKEN ------
-include __DIR__ . '../PHP/Clases/JWT.php';
-include __DIR__ . '../PHP/Clases/ExpiredException.php';
-include __DIR__ . '../PHP/Clases/BeforeValidException.php';
-include __DIR__ . '../PHP/Clases/SignatureInvalidException.php';
+include('../PHP/Clases/JWT.php');
+include('../PHP/Clases/ExpiredException.php');
+include('../PHP/Clases/BeforeValidException.php');
+include('../PHP/Clases/SignatureInvalidException.php');
 // ------------
 
 $dataPost = file_get_contents("php://input");
@@ -121,7 +121,7 @@ switch($request->data->action){
 		break;
 
 	case 'doLogin':
-		$user = $entityManager->find('User', $request->data->email);
+		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email));
 		if(isset($user->email) && isset($user->password)){
 			if($user->email === $request->data->email && $user->password === $request->data->password){
 				// echo(json_encode("true"));
