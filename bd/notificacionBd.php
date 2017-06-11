@@ -66,6 +66,8 @@ if($_GET["topic"] == 'payment'){
 
 	$entityManager->merge($sale_state);
 	$entityManager->flush();
+	http_response_code(201);
+	return;
 
 
 } else if($_GET["topic"] == 'merchant_order'){
