@@ -1,4 +1,4 @@
-var app = angular.module("LaMaceta", ["ui.bootstrap", "ngAnimate", "ngSanitize", "ngTable", "checklist-model", "ngCookies", "ngFileUpload", "satellizer"]);
+var app = angular.module("LaMaceta", ["ui.bootstrap", "ngAnimate", "ngSanitize", "ngTable", "checklist-model", "ngCookies", "ngFileUpload", "satellizer","angular-md5"]);
 
 app.config(function($authProvider){
 

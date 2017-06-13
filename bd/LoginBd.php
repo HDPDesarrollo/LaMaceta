@@ -40,7 +40,7 @@ switch($request->data->action){
 		$newUser->setBlacklist(false);
 		$newUser->setEmail($request->data->user->email);
 		$emailUser = $request->data->user->email;
-		$newUser->setPassword($request->data->user->password);
+		$newUser->setPassword(md5($request->data->user->password));
 		$newUser->setBirthDate(new DateTime());//$request->data->user->birthDate
 		$newUser->setGender($request->data->user->gender);
 		$newUser->setName($request->data->user->name);
@@ -120,8 +120,18 @@ switch($request->data->action){
 		$entityManager->flush();
 		break;
 
+	case 'verifyEmail':
+		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email));
+		if(isset($user)){
+			return true;
+		}else{
+			return false;
+		}
+		break;
+
 	case 'doLogin':
 		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email));
+		$request->data->password = md5($request->data->password);
 		if(isset($user->email) && isset($user->password)){
 			if($user->email === $request->data->email && $user->password === $request->data->password){
 				// echo(json_encode("true"));
@@ -131,7 +141,8 @@ switch($request->data->action){
 			"name"=> $user->name,
 			"mail"=> $user->email,
 			"idUserType"=> $user->idUserType,
-			"exp"=>time()+9600
+			"exp"=>time()+9600,
+			"birthDate" => $user->birthDate
 			);
 
 			$token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');

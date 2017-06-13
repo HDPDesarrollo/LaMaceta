@@ -1,9 +1,12 @@
 //ver que se pueda editar todo
 
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_EditProfile", function($window, $scope, AdminService, $cookies){
+	.controller("SubCtrlAdmin_EditProfile", function($window, $scope, AdminService, $cookies,$auth){
 
-	$scope.user = $cookies.getObject("loginCredentials");
+	if(!$auth.isAuthenticated()){
+		$window.location.href = dir+"/page-login.html";
+	}
+	$scope.user = $auth.getPayload();
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
 
 	$scope.today = new Date();

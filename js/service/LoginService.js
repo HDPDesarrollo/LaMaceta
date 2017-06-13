@@ -91,4 +91,15 @@ angular.module("LaMaceta")
                     console.log( response);
                   });
     };
+
+    this.verifyEmail = function(email){
+      return $http.post('../bd/LoginBd.php',{data:{email: email, action:'verifyEmail'}})
+                  .then(function(response){
+                    return response.data;
+                  },function errorCallback(response){
+                    console.log( response);
+                  });
+    };
+
+
 });		

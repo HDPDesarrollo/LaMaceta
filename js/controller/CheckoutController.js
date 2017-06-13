@@ -5,10 +5,10 @@ angular.module("LaMaceta").factory("factoryData", function() {
 });
 
 angular.module("LaMaceta")
-	.controller("CheckoutController", function($scope, $modal, MailService, AccountService, AdminService, LoginService, factoryData, $cookies, $window, ShopItemService){
+	.controller("CheckoutController", function($scope, $modal, MailService, AccountService, AdminService, LoginService, factoryData, $cookies, $window, ShopItemService,$auth,md5){
 
-	$scope.user = $cookies.getObject("loginCredentials");
-	console.log($scope.user);
+	$scope.user = $auth.getPayload();
+
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
 
@@ -290,20 +290,25 @@ angular.module("LaMaceta")
 	}
 
 
-	$scope.tryLogin = function(login){
-		console.log(login);
-		for(i = 0; i < users.length; i++) {
-			if(users[i].email==login.email && users[i].password==login.password){
-				$cookies.putObject("loginCredentials", users[i]);
-
-				$window.location.reload();//cambiar
-
-				return "";
+	$scope.tryLogin = function(user){
+		user.password = md5.createHash(user.password);
+		console.log(md5.createHash(user.password));
+		   $auth.login({data:{email: user.email, password: user.password, action:'doLogin'}})
+			  .then(function(respuestaAuth){				   
+							  if ($auth.isAuthenticated()) {
+									//   $state.go('menu');
+									$window.location.href = "checkout.html"
+							  }else{
+									 console.log("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
+									//   $state.go('login');
+									}
+					//        console.info("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
+							$scope.DatoTest="**Menu**";
+			  })
+			  .catch(function(parametro){
+				console.info("error",JSON.stringify(parametro));
+			  }); // fin catch
 			}
-		}
-
-		alert("No existe ningún usuario con esa combinación de mail y contraseña");
-	}
 
 
 	$scope.openUserModal = function (user) {

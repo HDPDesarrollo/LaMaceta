@@ -32,7 +32,7 @@ angular.module("LaMaceta")
 });
 
 // angular.module("LaMaceta")
-	app.controller("LoginController", function($window, $scope, LoginService, $cookies, $auth,$location){
+	app.controller("LoginController", function($window, $scope, LoginService, $cookies, $auth,$location,md5){
 
 	var dia = new Date();
     dia.setFullYear(1998);
@@ -66,62 +66,46 @@ angular.module("LaMaceta")
 
 
 	$scope.tryRegister = function(register){
-		console.log(register);
-		var flag = 0;
-		for(i = 0; i < users.length; i++) {
-			if(users[i].email==register.email){
-				$scope.selectedTab="tryLoginInstead";
-				$scope.tryLoginInsteadLegend = "Ya hay un usuario registrado con ese e-mail.";
-				$scope.register = "";
-				flag = 1;
-				break;
-			}
-		}
-
-		if(flag==0){
-			LoginService.saveUser(register)
+		register.password = md5.createHash(register.password);
+		LoginSerivice.verifyEmail(register.email)
+			.then(function(res){
+				if(res){
+					$scope.selectedTab = "tryLoginInstead";
+					$scope.tryLoginInsteadLegend = "Error Email ya existe!";
+			}else{
+				LoginService.saveUser(register)
 				.then(function(res){
 					//console.log(res);
 					$scope.selectedTab = "tryLoginInstead";
 					$scope.tryLoginInsteadLegend = "Bienvenido, ¿desea logearse?";
-					users = res;
+					
 				}, function(error){
 					//console.log(error);
-				})	
-		}
+				})
+			}
+			});	
+		
 	}
 
 
 
 	$scope.tryLogin = function(user){
-		//user.password = md5.createHash(user.password);
-		
-
+		user.password = md5.createHash(user.password);
+		console.log(md5.createHash(user.password));
 		   $auth.login({data:{email: user.email, password: user.password, action:'doLogin'}})
-			  .then(function(respuestaAuth){
-							
-							  console.log("datos respuesta", $auth.isAuthenticated(),$auth.getPayload());				   
-
+			  .then(function(respuestaAuth){				   
 							  if ($auth.isAuthenticated()) {
-
 									//   $state.go('menu');
 									$window.location.href = "shop-index.html"
-									
-
 							  }else{
 									 console.log("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
-									  
 									//   $state.go('login');
 									}
-							  
 					//        console.info("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
 							$scope.DatoTest="**Menu**";
-
 			  })
 			  .catch(function(parametro){
-
 				console.info("error",JSON.stringify(parametro));
-
 			  }); // fin catch
 
 

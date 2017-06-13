@@ -26,16 +26,16 @@ angular.module('LaMaceta').filter('dateFilter2', function($filter){
 });
 
 angular.module("LaMaceta")
-	.controller("AccountController", function($scope, $window, AccountService,CartService,MailService, $modal, factoryData, $cookies){
+	.controller("AccountController", function($scope, $window, AccountService,CartService,MailService, $modal, factoryData, $cookies, $auth){
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-	if($cookies.getObject("loginCredentials") == undefined){
+	if(!$auth.isAuthenticated()){
 		$window.location.href = dir+"/page-login.html";
 	}
 
 	
-	$scope.user = $cookies.getObject("loginCredentials");
+	$scope.user = $auth.getPayload();
 	
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
 	
@@ -98,7 +98,11 @@ angular.module("LaMaceta")
 				$window.location.href = dir+"/my-account.html";
 		})
 	};*/
-
+	$scope.logOut = function(){
+		$auth.logout();
+		$window.location.href = "./shop-index.html";
+	}
+	
 	$scope.openAddressModal = function (user) {
 	    var modalInstance = $modal.open({
 	      animation: true,
