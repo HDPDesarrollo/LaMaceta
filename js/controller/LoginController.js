@@ -67,8 +67,9 @@ angular.module("LaMaceta")
 
 	$scope.tryRegister = function(register){
 		register.password = md5.createHash(register.password);
-		LoginSerivice.verifyEmail(register.email)
+		LoginService.verifyEmail(register.email)
 			.then(function(res){
+				console.log(res);
 				if(res){
 					$scope.selectedTab = "tryLoginInstead";
 					$scope.tryLoginInsteadLegend = "Error Email ya existe!";

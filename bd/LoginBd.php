@@ -123,9 +123,9 @@ switch($request->data->action){
 	case 'verifyEmail':
 		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email));
 		if(isset($user)){
-			return true;
+			echo true;
 		}else{
-			return false;
+			echo false;
 		}
 		break;
 

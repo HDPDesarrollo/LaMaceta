@@ -79,7 +79,7 @@ angular.module("LaMaceta")
 	
 	/*AccountService.getRejectedSales($scope.user)
 		.then(function(res){
-			console.log(res);
+			 
 			$scope.blacklistSales = res;
 			angular.forEach(res, function(value, key) {
 				$scope.shippingCostTotal += value.idSale.shippingCost;
@@ -92,7 +92,7 @@ angular.module("LaMaceta")
 	$scope.pagarBlacklist = function (creditCard) {
 		AccountService.pagarBlacklist($scope.user)
 			.then(function(res){
-				console.log(res);
+				 
 				alert("Usted ha pagado correctamente $"+$scope.deudaTotal+" con la tarjeta "+creditCard.number);
 				$cookies.putObject("loginCredentials",res); //se actualiza la cookie porque se le saca el blacklist=1 al user y se lo pone en 0
 				$window.location.href = dir+"/my-account.html";
@@ -168,9 +168,8 @@ angular.module("LaMaceta")
 
 	//Purchases
 
-	AccountService.getAllPurchases(3)
+	AccountService.getAllPurchases($scope.user.id)
 		.then(function(res){
-			console.log(res);
 		$scope.buildPurchase(res);
 	});
 
@@ -269,7 +268,6 @@ angular.module("LaMaceta")
 	$scope.removeCreditCard = function (creditCard) {
 			AccountService.removeCreditCard(creditCard, $scope.user)
 				.then(function(res){
-					console.log(res);
 					$scope.myCreditCards = res;			
 			})
 		};
@@ -340,16 +338,16 @@ angular.module('LaMaceta').controller('CreditCardModal', function ($scope, $moda
 	$scope.getAssociatedCards = function(bank){
 		AdminService.getAllAssociatedCards(bank)
 		.then(function(res){
-			//console.log(res);
+			// 
 			$scope.associatedCards = res;
 		});
 	}
 
 	$scope.save = function (creditCard) {
-		//console.log(creditCard);
+		// 
 		AccountService.saveCreditCard(creditCard, $scope.user)
 			.then(function(res){
-				console.log(res);	
+				 
 				$modalInstance.close(res);
 			}, function(error){
 				 $modalInstance.close();
@@ -396,7 +394,7 @@ angular.module('LaMaceta').controller('CreditCardModal', function ($scope, $moda
   	$scope.save = function (creditCard) {
 		AccountService.saveCreditCard(creditCard, $scope.user)
 			.then(function(res){
-				console.log(res);	
+				 
 				$modalInstance.close(res);
 			}, function(error){
 				 $modalInstance.close();
