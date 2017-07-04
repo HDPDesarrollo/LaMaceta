@@ -44,6 +44,7 @@ angular.module("LaMaceta")
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
 
+	$scope.errorLogin = null;
 
 	$scope.selectTab = function (tab) {
 		$scope.selectedTab=tab;
@@ -97,9 +98,11 @@ angular.module("LaMaceta")
 			  .then(function(respuestaAuth){				   
 							  if ($auth.isAuthenticated()) {
 									//   $state.go('menu');
-									$window.location.href = "shop-index.html"
+									$window.location.href = "shop-index.html";
+									errorLogin = null;
 							  }else{
-									 console.log("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
+									$scope.errorLogin = "Datos mal ingresados, verifique Email y contraseña.";
+									console.log($scope.errorLogin);
 									//   $state.go('login');
 									}
 					//        console.info("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
