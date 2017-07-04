@@ -44,7 +44,8 @@ angular.module("LaMaceta")
 	var loc = window.location.href;
 	var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-	$scope.errorLogin = null;
+	$scope.errorLogin = false;
+	$scope.errorEmail = false;
 
 	$scope.selectTab = function (tab) {
 		$scope.selectedTab=tab;
@@ -99,9 +100,9 @@ angular.module("LaMaceta")
 							  if ($auth.isAuthenticated()) {
 									//   $state.go('menu');
 									$window.location.href = "shop-index.html";
-									errorLogin = null;
+									errorLogin = false;
 							  }else{
-									$scope.errorLogin = "Datos mal ingresados, verifique Email y contraseña.";
+									$scope.errorLogin = true;
 									console.log($scope.errorLogin);
 									//   $state.go('login');
 									}
@@ -124,27 +125,19 @@ angular.module("LaMaceta")
 	}
 
 	$scope.resetPassword = function(email){
-		var flag = 0;
 
-		for(i = 0; i < users.length; i++) {
-			if(users[i].email==email){
-				console.log("si existe");
-				LoginService.resetPassword(users[i])
-					.then(function(res){
-						console.log(res);
-						alert("revise su mail");
-					}, function(error){
-						//console.log(error);
-					})	
-				flag = 1;
-				break;
-			}
-		}
-
-		if(flag==0){
-			alert("Ese email no está registrado en nuestra base de datos");
-		}
-		console.log(email);
+			LoginService.resetPassword(email)
+				.then(function(res){
+					console.log(res);
+					if(res == true){
+					alert("revise su mail");
+					$scope.errorEmail = false;
+					}else{
+						$scope.errorEmail = true;
+					}
+				}, function(error){
+					//console.log(error);
+				})	
 	}
 
 	$scope.getParametersFromLink = function(variable) {
@@ -172,12 +165,17 @@ angular.module("LaMaceta")
 
 	$scope.doTheReset = function(password){
 		var theToken = $scope.getParametersFromLink("token");
-
-		LoginService.doTheReset(password,theToken)
+		passwordcrypt = md5.createHash(password);
+		LoginService.doTheReset(passwordcrypt,theToken)
 			.then(function(res){
-						//console.log(res);
-						alert("Contraseña cambiada satisfactoriamente");
-						$window.location.href = dir+"/page-login.html";
+				if(res == true){
+					alert("Contraseña cambiada satisfactoriamente");
+					$window.location.href = dir+"/page-login.html";
+
+					}else{
+						alert("Token invalido.");
+						$window.location.href = "shop-index.html";
+					}
 					}, function(error){
 						//console.log(error);
 					});

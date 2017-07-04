@@ -162,7 +162,7 @@
           <h1>Logearse</h1>
             <div class="col-md-6 col-sm-6">
               <form id="LoginModal" enctype="multipart/form-data" name="loginForm">
-                      <div class="text-danger" ng-show="errorLogin != null">{{errorLogin}}</div>
+                      <div class="text-danger" ng-show="errorLogin">Datos mal ingresados, verifique Email y contraseña.</div>
                       <div class="form-group">
                         <label for="email">E-mail <span class="require">*</span></label>
                         <input type="email" id="email" class="form-control" ng-model="login.email" required/>
@@ -193,6 +193,7 @@
         <h1>Recuperación de contraseña</h1>
             <div class="col-md-6 col-sm-6">
               <form id="ResetPasswordModal" enctype="multipart/form-data" name="resetPasswordForm">
+                      <div class="bg-danger text-danger" ng-show="errorEmail">Email mal ingresado.</div>
                       <div class="form-group">
                         <label for="email">E-mail <span class="require">*</span></label>
                         <input type="email" id="email" class="form-control" ng-model="reset.email" required/>

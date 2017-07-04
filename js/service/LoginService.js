@@ -96,7 +96,7 @@ angular.module("LaMaceta")
       console.log(email);
       return $http.post('../bd/LoginBd.php',{data:{email: email, action:'verifyEmail'}})
                   .then(function(response){
-                    console.log(response);
+                    //console.log(response);
                     return response.data;
                   },function errorCallback(response){
                     console.log( response);
