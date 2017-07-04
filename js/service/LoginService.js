@@ -63,8 +63,8 @@ angular.module("LaMaceta")
                       });
     };
 
-    this.getAllResets = function(){
-      return $http.post('../bd/LoginBd.php', {data: {action:'getAllResets'}})
+    this.verifyToken = function(token){
+      return $http.post('../bd/LoginBd.php', {data: {token: token, action:'verifyToken'}})
                     .then(function(response) {
                     //console.log( response.data);   
                     return response.data;          

@@ -27,11 +27,13 @@ switch($request->data->action){
 		echo(json_encode($users));
 		break;
 
-	case 'getAllResets':
-		$resets =  $entityManager->getRepository("ResetPassword")->findAll();
-		//var_dump($addresses);
-
-		echo(json_encode($resets));
+	case 'verifyToken':
+		$reset = $entityManager->getRepository('ResetPassword')->findOneBy(array('token' => $request->data->token));
+		if(isset($reset->token) && isset($reset->id_user)){
+			echo json_encode("true");
+		}else{
+			echo json_encode("false");
+		}
 		break;
 
 	case 'createUser':

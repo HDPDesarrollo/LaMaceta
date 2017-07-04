@@ -50,21 +50,8 @@ angular.module("LaMaceta")
 	$scope.selectTab = function (tab) {
 		$scope.selectedTab=tab;
 	}
-
-	var users = [];
-	var resets = [];
-
-	LoginService.getAllUsers()
-		.then(function(res){
-			users = res;
-			//console.log(res);  
-		});
-
-	LoginService.getAllResets()
-		.then(function(res){
-			resets = res;
-			//console.log(res);  
-		});
+	$scope.reset = [];
+	
 
 
 	$scope.tryRegister = function(register){
@@ -155,12 +142,14 @@ angular.module("LaMaceta")
 	$scope.verifyToken = function(){
 		var theToken = $scope.getParametersFromLink("token");
 
-		for(i = 0; i < resets.length; i++) {
-			if(resets[i].token==theToken){
+		LoginService.verifyToken(theToken)
+		.then(function(res){
+			if(res == true){
 				return true;
-			}
-		}
-		return false;
+			}else{
+				return false;
+			} 
+		});
 	}
 
 	$scope.doTheReset = function(password){
