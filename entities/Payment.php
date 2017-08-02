@@ -18,7 +18,7 @@ class mPay
  									 ));*/
  	}
 
-	private function ItemsToArray($dato){
+	public function ItemsToArray($dato){
 		$arrayItem = array();
 		for ($i=0; $i <= count($dato)-1; $i++){
 				$arrayItem += array(
@@ -33,7 +33,7 @@ class mPay
 		return $arrayItem;
 	}
 
-	private function shipingToArray($dato,$address){
+	public function shipingToArray($dato,$address){
 		$array = array("mode" => "me2",
 						"dimensions" => $dato->dimensions,
 						"default_shipping_method" => $dato->method,
@@ -64,8 +64,11 @@ class mPay
 	*@param $user
 	*/
 	public function  makePay($articles,$address,$shipping,$user,$exRef){
+		$arrayItem = $this->ItemsToArray($articles);
+		$arrayShipment = $this->shipingToArray($shipping,$address);
+		
 		$preference_data = array(
-						"items" => array(ItemsToArray($articles)),
+						"items" => array($arrayItem),
 						"payer" => array(
 								"name" => $user->name,
 								"surname" => $user->surname,
@@ -82,12 +85,12 @@ class mPay
 											"apartment" => $address->apartment
 											),
 						),
-						"shipments" => shipingToArray($shipping,$address),
+						"shipments" => $arrayShipment,
 						"external_reference" => $exRef,
 						);
-
-		$preference = $this->mp->create_preference($preference_data);
-		return $preference;
+		echo json_encode($preference);
+		//$preference = $this->mp->create_preference($preference_data);
+		//return $preference;
 	}
 
 	/**

@@ -192,6 +192,7 @@ switch($request->data->action){
 		
 
 		$checkout = $request->data->checkout;
+		$checkout->shippingCost = $request->data->checkout->address->idProvince->cost;
 		$address = null;
 		$user = $entityManager->find('User', $checkout->idUser);
 		$idSale;
@@ -284,7 +285,6 @@ switch($request->data->action){
 		$entityManager->flush();
 
 		echo $preference['sandbox_init_point'];
-
 
 
 		break;

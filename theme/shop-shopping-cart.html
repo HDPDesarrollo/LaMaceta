@@ -61,6 +61,8 @@
   <script src="../js/angular-cookies.js"></script>
   <script src="../bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
   <script src="../bower_components/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
+  <script src="../bower_components/satellizer/dist/satellizer.js"></script>
+  <script type="text/javascript" src="../bower_components/angular-md5/angular-md5.js"></script>
 
   <script src="../js/app/app.js"></script>
   
@@ -107,7 +109,7 @@
                     <th class="goods-page-total" colspan="2">Total</th>
                   </tr>
                   <div>
-                    <tr ng-repeat="oneContent in contentCart">
+                    <tr ng-repeat="oneContent in contentCart track by $index">
                       <td class="goods-page-image">
                         <a href="{{oneContent.article.icon}}" class="fancybox-button"><img ng-src="{{oneContent.article.icon}}" alt=""></a>
                       </td>
