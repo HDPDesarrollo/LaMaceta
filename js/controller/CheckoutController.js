@@ -373,23 +373,26 @@ angular.module("LaMaceta")
 
 	$scope.getCostShipping = function(){
 		$scope.shippingCost.agency = [];
-		$scope.shippingCost.address = {};
+		$scope.shippingCost.address = [];
+
 		$scope.data = {};
 		$scope.data.dimensions = "30x30x30,500";
 		$scope.data.cp_from = 1835;
 		$scope.data.cp_to = $scope.zcode;
+
 		AccountService.GetCostShipping($scope.data)
 		.then(function(res){
 			console.log(res);
 			if(angular.isDefined(res.destination)){
 			$scope.shippingCost.agency.push({"cost" : res.options[0].cost});
-			$scope.shippingCost.address = {"cost" : res.options[1].cost};
+			$scope.shippingCost.address.push({"cost" : res.options[1].cost});
 			console.log($scope.shippingCost.agency);
+			console.log($scope.shippingCost.agency[0].cost);
 			$scope.shippingCost.msg = '<b>Costo del envio</b>'
                                           +'<div class="row">Retiro en Correo Argentino:'
-                                          +'<span class="messages"><strong> $'+$scope.shippingCost.agency.cost+'</strong></span></div>'
+                                          +'<span class="messages"><strong> $'+$scope.shippingCost.agency[0].cost+'</strong></span></div>'
                                           +'<div class="row">Normal a domicilio:'
-                                          +'<span class="messages"><strong> $'+$scope.shippingCost.address.cost+'</strong></span></div>';
+                                          +'<span class="messages"><strong> $'+$scope.shippingCost.address[0].cost+'</strong></span></div>';
 			}}, function(error){
 				$scope.shippingCost.msg = '<span class="messages"><strong>Error inténtelo de nuevo! ('+error.data.message+')</strong></span';
 			});
