@@ -104,15 +104,6 @@ angular.module("LaMaceta")
 		 			AccountService.getAllProvinces()
 		 			.then(function(res){
 		 				$scope.provinces = res;
-
-		 				$scope.shippingCost = 0;
-		 				for (var k = 0; k < $scope.provinces.length; k++) {
-		 					if($scope.address.idProvince.id == $scope.provinces[k].id){
-		 						$scope.shippingCost = $scope.provinces[k].cost;
-		 						break;
-		 					}		
-		 				}
-
 		 			});
 		 		}
 		 	});
