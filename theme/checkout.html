@@ -424,11 +424,13 @@
                           </li>
                           <li>
                             <em>Costo de envio</em>
-                            <strong class="price"><span>$</span>{{shippingCost}}</strong>
+                            <strong class="price" ng-if="method == 503045"><span>$</span>{{shippingCost.agency[0].cost}}</strong>
+                            <strong class="price" ng-if="method == 73328"><span>$</span>{{shippingCost.address[0].cost}}</strong>
                           </li>
                           <li class="checkout-total-price">
                             <em>Total</em>
-                            <strong class="price"><span>$</span>{{totalAmount-promotion+CostPackaging+shippingCost}}</strong>
+                            <strong class="price" ng-if="method == 503045"><span>$</span>{{totalAmount-promotion+CostPackaging+shippingCost.agency[0].cost}}</strong>
+                            <strong class="price" ng-if="method == 73328"><span>$</span>{{totalAmount-promotion+CostPackaging+shippingCost.address[0].cost}}</strong>
                           </li>
                         </ul>
                       </div>
