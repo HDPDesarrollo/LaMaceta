@@ -64,7 +64,7 @@ class mPay
 	*@param $shipping (dimension(alto,largo,ancho) + peso(gramos), retiro por local oca(true, false), costo de envio, tipo de envio (Estándar, Prioritario),CP)
 	*@param $user
 	*/
-	public function  makePay($articles,$address,$shipping,$user,$exRef){
+	public function makePay($articles,$address,$shipping,$user,$exRef){
 		$arrayItem = $this->ItemsToArray($articles);
 		$arrayShipment = $this->shipingToArray($shipping,$address);
 		
@@ -87,11 +87,13 @@ class mPay
 											),
 						),
 						//"shipments" => $arrayShipment,
-						"external_reference" => $exRef
+						"external_reference" => $exRef,
+						"back_urls" => array('success' => "http://localhost/laMaceta/theme/shop-index.html")
 						);
 
 		$preference = $this->mp->create_preference($preference_data);
-		echo json_encode($preference);
+		//echo json_encode($preference);
+		return $preference;
 	}
 
 	/**
