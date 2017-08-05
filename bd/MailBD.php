@@ -58,7 +58,7 @@ switch($request->data->action){
 
 	case 'mailDetailCheckout':
 
-		$connection = $entityManager->getConnection();
+		/*$connection = $entityManager->getConnection();
 		$statement = $connection->prepare("	SELECT *
 				FROM sale s WHERE s.id =".$request->data->idSale);
 		$statement->execute();
@@ -106,7 +106,7 @@ switch($request->data->action){
 
 
 		$mail->Subject = 'DETALLE COMPRA #'.$theSale[0]["sale_number"];
-		$mail->Body    = $bodyContent;
+		$mail->Body    = $bodyContent;*/
 		break;
 }		
 

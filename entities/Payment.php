@@ -25,7 +25,7 @@ class mPay
 					"id" => $dato[$i]->id,
 					"currency_id" => "ARG",
 					"picture_url" => $dato[$i]->img,
-					"description" =>$dato[$i]->description,
+					"description" =>$dato[$i]->idProd->description,
 					"quantity" => $dato[$i]->quantity,
 					"unit_price" =>  $dato[$i]->price
 					);
@@ -34,20 +34,21 @@ class mPay
 	}
 
 	public function shipingToArray($dato,$address){
+
 		$array = array("mode" => "me2",
-						"dimensions" => $dato->dimensions,
-						"default_shipping_method" => $dato->method,
-						"zip_code" => $address->zip_code
+						"dimensions" => $dato->datos[0]->dimensions,
+						"default_shipping_method" => $dato->shippingData->method,
+						"zip_code" => $address->zipCode
 						);
-		if($dato->freeShipping != null)
+		if($dato->shippingData->free_method != null)
 		{
-			$array["free_methods"] = array(array("id" => $dato->free_method));
+			$array["free_methods"] = array(array("id" => $dato->shippingData->free_method));
 		}
 
 		$array["receiver_address"] = array(
 											"street_name" => $address->street,
 											"street_number" => $address->number,
-											"zip_code" => $address->zip_code,
+											"zip_code" => $address->zipCode,
 											"floor" => $address->apartment,
 											"apartment" => $address->apartment
 											);
@@ -80,17 +81,17 @@ class mPay
 								"address" => array(
 											"street_name" => $address->street,
 											"street_number" => $address->number,
-											"zip_code" => $address->zip_code,
+											"zip_code" => $address->zipCode,
 											"floor" => $address->apartment,
 											"apartment" => $address->apartment
 											),
 						),
-						"shipments" => $arrayShipment,
-						"external_reference" => $exRef,
+						//"shipments" => $arrayShipment,
+						"external_reference" => $exRef
 						);
+
+		$preference = $this->mp->create_preference($preference_data);
 		echo json_encode($preference);
-		//$preference = $this->mp->create_preference($preference_data);
-		//return $preference;
 	}
 
 	/**

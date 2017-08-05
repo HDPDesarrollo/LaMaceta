@@ -190,9 +190,8 @@ switch($request->data->action){
 	case 'confirmCheckout'://hacerlo atomico
 		$pay = new mPay();
 		
-
 		$checkout = $request->data->checkout;
-		$checkout->shippingCost = $request->data->checkout->address->idProvince->cost;
+		
 		$address = null;
 		$user = $entityManager->find('User', $checkout->idUser);
 		$idSale;
@@ -227,12 +226,12 @@ switch($request->data->action){
 			$entityManager->flush();
 		}
 
-
+		
 		$sale = new Sale();
 		$sale->setActive(true);
 		$sale->setDate(new DateTime());
 		$sale->setPrice($checkout->totalAmount);
-		$sale->setShippingCost($checkout->shippingCost);
+		$sale->setShippingCost($checkout->shipping->shippingData->cost);
 		$sale->setPromotion($checkout->promotion);
 		$sale->setSaleNumber(rand(1,8000));
 		$sale->setIdUser($user);
@@ -278,13 +277,13 @@ switch($request->data->action){
 		}
 		$exRef = $sale->getId();
 
-		$preference = $pay->makePay($checkout->articles,$address,$checkout->shippingCost,$user,$exRef);
+		$preference = $pay->makePay($checkout->articles,$address,$checkout->shipping,$user,$exRef);
 		
-		$sale->setId_payment($preference['external_reference']);
+		$sale->setId_payment($preference['response']['external_reference']);
 		$entityManager->merge($sale);
 		$entityManager->flush();
 
-		echo $preference['sandbox_init_point'];
+		echo ($preference);
 
 
 		break;

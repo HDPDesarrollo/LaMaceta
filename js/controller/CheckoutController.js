@@ -120,7 +120,6 @@ angular.module("LaMaceta")
 			AdminService.getArticlesById($scope.ids)
 				.then(function(res){
 					$scope.articles = res;
-					console.log($scope.articles);
 					for (var i = 0; i < $scope.articles.length; i++) {
 						$article = $scope.articles[i];
 						for (var j = 0; j < $scope.articles.length; j++) {					
@@ -166,7 +165,6 @@ angular.module("LaMaceta")
 	};
 	
 	function validateEmptyDataAddress(){
-		console.log($scope.address);
 
 		if( 
 			$scope.address == null ||
@@ -216,30 +214,30 @@ angular.module("LaMaceta")
 				if($scope.errorList.length>0){
 				alert("No hay en stock para los productos: "+$scope.errorList);				
 					}else{
+						$scope.shipping = {};
+						$scope.shipping.datos = $scope.shippingCost.data;
 
-						if($scope.method == 503045)
+						if($scope.method == 503045) // retiro por agencia
 						{
-							$scope.shipping = {
-									"method" : $scope.shippingCost.agency.method_id,
-									"cost" : $scope.shippingCost.agency.cost,
-									"free_method" : null
-								};
-						}else if($scope.method == 73328){
-							$scope.shipping = {
-									"method" : $scope.shippingCost.address.method_id,
-									"cost" : $scope.shippingCost.address.cost,
-									"free_method" : null
-								};
+							$scope.shipping.shippingData = {"method" : $scope.shippingCost.agency[0].method_id,
+															"cost" : $scope.shippingCost.agency[0].cost,
+															"free_method" : null};
+
+						}else if($scope.method == 73328){ // Envio a domicilio
+							$scope.shipping.shippingData = {method : $scope.shippingCost.address[0].method_id,
+															cost: $scope.shippingCost.address[0].cost,
+															free_method : null };
 						}
-						console.log($scope.method);
 						$checkout = {articles: $scope.articles, address: $scope.address, paymentMethod: $scope.paymentMethod, 
 									idUser: $scope.user.id, shipping: $scope.shipping, promotion: $scope.promotion, quota: $scope.quota, 
-									totalAmount: ($scope.totalAmount-$scope.promotion+$scope.shippingCost)};
-				//console.log($checkout);
+									totalAmount: ($scope.totalAmount-$scope.promotion+$scope.shipping.shippingData.cost)};
+
 				AccountService.confirmCheckout($checkout)
 					.then(function(res){
-						console.log(res);
-						//window.open(res);
+						/*$scope.rsp = {};
+						$scope.rsp = res;
+						console.log(res.response.sandbox_init_point);*/
+						window.open(res.response.sandbox_init_point);
 						
 						MailService.mailDetailCheckout(res)
 							.then(function(res){
@@ -365,6 +363,7 @@ angular.module("LaMaceta")
 	$scope.getCostShipping = function(){
 		$scope.shippingCost.agency = [];
 		$scope.shippingCost.address = [];
+		$scope.shippingCost.data = [];
 
 		$scope.data = {};
 		$scope.data.dimensions = "30x30x30,500";
@@ -373,12 +372,12 @@ angular.module("LaMaceta")
 
 		AccountService.GetCostShipping($scope.data)
 		.then(function(res){
-			console.log(res);
+			
 			if(angular.isDefined(res.destination)){
-			$scope.shippingCost.agency.push({"cost" : res.options[0].cost});
-			$scope.shippingCost.address.push({"cost" : res.options[1].cost});
-			console.log($scope.shippingCost.agency);
-			console.log($scope.shippingCost.agency[0].cost);
+			$scope.shippingCost.agency.push({"cost" : res.options[0].cost, "method_id" : res.options[0].shipping_method_id});
+			$scope.shippingCost.address.push({"cost" : res.options[1].cost, "method_id" : res.options[1].shipping_method_id});
+			$scope.shippingCost.data.push({"dimensions" : "30x30x30,500","cp_from" : 1835, "cp_to" : $scope.zcode});
+
 			$scope.shippingCost.msg = '<b>Costo del envio</b>'
                                           +'<div class="row">Retiro en Correo Argentino:'
                                           +'<span class="messages"><strong> $'+$scope.shippingCost.agency[0].cost+'</strong></span></div>'
