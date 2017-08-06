@@ -46,16 +46,16 @@ angular.module("LaMaceta")
 
 
 
-	$scope.calcShippingCost = function(){
-		$scope.shippingCost = 0;
+	// $scope.calcShippingCost = function(){
+	// 	$scope.shippingCost.province = [];
 
-			for (var k = 0; k < $scope.provinces.length; k++) {
-				if($scope.address.idProvince.id == $scope.provinces[k].id){
-					$scope.shippingCost = $scope.provinces[k].cost;
-					break;
-				}		
-			}
-	}
+	// 		for (var k = 0; k < $scope.provinces.length; k++) {
+	// 			if($scope.address.idProvince.id == $scope.provinces[k].id){
+	// 				$scope.shippingCost.province[0].cost = $scope.provinces[k].cost;
+	// 				break;
+	// 			}		
+	// 		}
+	// }
 
 	$scope.getPromotions = function(idBankCard){
 		$scope.promotion = 0
@@ -77,9 +77,9 @@ angular.module("LaMaceta")
 			}
 		}
 
-		if($scope.provinces!=null && $scope.address!=null && $scope.address.idProvince!=null){
-			this.calcShippingCost();
-		}
+		// if($scope.provinces!=null && $scope.address!=null && $scope.address.idProvince!=null){
+		// 	this.calcShippingCost();
+		// }
 
 		if($scope.card != null && $scope.card.idBankCard!=null){
 			this.getPromotions($scope.card.idBankCard.id);
