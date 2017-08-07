@@ -366,7 +366,7 @@ angular.module("LaMaceta")
 		$scope.data = {};
 		$scope.data.dimensions = "30x30x30,500";
 		$scope.data.cp_from = 1835;
-		$scope.data.cp_to = $scope.zcode;
+		$scope.data.cp_to = $scope.address.zipCode;
 
 		AccountService.GetCostShipping($scope.data)
 		.then(function(res){
