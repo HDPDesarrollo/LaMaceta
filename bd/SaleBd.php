@@ -31,53 +31,60 @@ $Updatesale->setId_collection($request['collection_id']);
 
 $sale_state = $entityManager->getRepository("SaleState")->findOneBy(array("idSale" => $exRef));
 
-//$state = $entityManager->getRepository("State")->findOneBy(array("id" => 1));
-$state = new State();
+
 switch ($request['collection_status']) {
 
 		case 'pending':
-			$state->setId(1);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 1));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'approved':
-			$state->setId(2);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 2));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'authorized':
-			$sale_state->setIdState(3);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 3));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'in_process':
-			$sale_state->setIdState(4);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 4));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'in_mediation':
-			$sale_state->setIdState(5);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 5));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'rejected':
-			$sale_state->setIdState(6);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 6));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'cancelled':
-			$sale_state->setIdState(7);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 7));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'refunded':
-			$sale_state->setIdState(8);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 8));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'charged_back':
-			$sale_state->setIdState(9);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 9));
+			$sale_state->setIdState($state);
 			break;
 	}
 
-$sale_state->setIdState($state);
-
-$entityManager->merge($Updatesale);
-$entityManager->flush();
 
 $entityManager->merge($sale_state);
+$entityManager->flush();
+
+$entityManager->merge($Updatesale);
 $entityManager->flush();
 
 

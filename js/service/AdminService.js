@@ -145,7 +145,7 @@ angular.module("LaMaceta")
     this.getAllSales = function(){
       return $http.post('../bd/AdminBd.php', {data: {action:'getAllSales'}})
                     .then(function(response) {
-                    console.log(response.data);   
+                    //console.log(response.data);   
                     return response.data;          
                       },function errorCallback(response) {        
                           console.log( response);           

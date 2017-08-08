@@ -23,47 +23,56 @@ if($_GET["topic"] == 'payment'){
 	$payment_info = $mp->get("/collections/notifications/" . $_GET["id"]);
 	$exRef = $payment_info['collection']['external_reference'];
 	$sale = $entityManager->getRepository('sale')->findOneBy(array('id' => $exRef));
-	$sale_state = $entityManager->getRepository('sale_state')->findOneBy(array('id_sale' => $sale->getId() ));
+	$sale_state = $entityManager->getRepository("SaleState")->findOneBy(array("idSale" => $sale->getId() ));
 
 	switch ($payment_info['status']) {
-
 		case 'pending':
-			$sale_state->setIdSale(1);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 1));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'approved':
-			$sale_state->setIdSale(2);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 2));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'authorized':
-			$sale_state->setIdSale(3);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 3));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'in_process':
-			$sale_state->setIdSale(4);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 4));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'in_mediation':
-			$sale_state->setIdSale(5);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 5));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'rejected':
-			$sale_state->setIdSale(6);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 6));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'cancelled':
-			$sale_state->setIdSale(7);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 7));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'refunded':
-			$sale_state->setIdSale(8);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 8));
+			$sale_state->setIdState($state);
 			break;
 
 		case 'charged_back':
-			$sale_state->setIdSale(9);
+			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 9));
+			$sale_state->setIdState($state);
 			break;
-	}
 
+		}
+		
 	$entityManager->merge($sale_state);
 	$entityManager->flush();
 	http_response_code(201);
