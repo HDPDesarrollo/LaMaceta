@@ -234,7 +234,8 @@ angular.module("LaMaceta")
 
 				AccountService.confirmCheckout($checkout)
 					.then(function(res){
-						window.location.href = res;
+						console.log(res);
+						//window.location.href = res;
 						//window.open(res.response.sandbox_init_point);
 						
 						MailService.mailDetailCheckout(res)
@@ -256,12 +257,12 @@ angular.module("LaMaceta")
 							});			
 						}
 
-						$cookies.remove("cookieCart");
+						/*$cookies.remove("cookieCart");
 						alert("Compra realizada con exito!");
 						var loc = window.location.href;
 		   				var dir = loc.substring(0, loc.lastIndexOf('/'));
 		   				var dir2 = loc.substring(0, dir.lastIndexOf('/'));
-		    			$window.location.href = dir2+"/shop-index.html";
+		    			$window.location.href = dir2+"/shop-index.html";*/
 					});
 				return;
 

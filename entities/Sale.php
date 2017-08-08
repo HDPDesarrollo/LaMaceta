@@ -99,9 +99,9 @@ class Sale
 
     /**
     *@var integer
-    * @ORM\Column(name="id_payment",type="integer",nullable=true)
+    * @ORM\Column(name="id_collection",type="integer",nullable=true)
     */
-    public $id_payment;
+    public $id_collection;
 
 
     /**
@@ -360,22 +360,22 @@ class Sale
     }
 
     /**
-     * Get id_payment
+     * Get id_collection
      *
      * @return integer 
      */
-    public function getId_payment(){
-        return $this->id_payment;
+    public function getId_collection(){
+        return $this->id_collection;
     }
 
     /**
-     * Set id_payment
+     * Set id_collection
      *
-     * @param integer $id_payment
+     * @param integer $id_collection
      * @return Sale
      */
-    public function setId_payment($id_payment){
-        $this->id_payment = $id_payment;
+    public function setId_collection($id_collection){
+        $this->id_collection = $id_collection;
         return $this;
     }
 

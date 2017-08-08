@@ -22,14 +22,14 @@ if (!isset($_GET["id"], $_GET["topic"]) || !ctype_digit($_GET["id"])) {
 if($_GET["topic"] == 'payment'){
 	$payment_info = $mp->get("/collections/notifications/" . $_GET["id"]);
 	$exRef = $payment_info['collection']['external_reference'];
-	$sale = $entityManager->getRepository('sale')->findOneBy(array('id_payment' => $exRef));
+	$sale = $entityManager->getRepository('sale')->findOneBy(array('id' => $exRef));
 	$sale_state = $entityManager->getRepository('sale_state')->findOneBy(array('id_sale' => $sale->getId() ));
 
 	switch ($payment_info['status']) {
 
 		case 'pending':
 			$sale_state->setIdSale(1);
-			break
+			break;
 
 		case 'approved':
 			$sale_state->setIdSale(2);

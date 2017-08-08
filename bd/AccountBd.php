@@ -279,14 +279,14 @@ switch($request->data->action){
 
 		$preference = $pay->makePay($checkout->articles,$address,$checkout->shipping,$user,$exRef);
 
-		$Updatesale = $entityManager->getRepository("sale")->findOneBy(array("id" => $exRef));
-		$Updatesale->setId_payment($exRef);
+		/*$Updatesale = $entityManager->getRepository("sale")->findOneBy(array("id" => $exRef));
+		$Updatesale->setId_collection($preference['response']);
 		$entityManager->merge($Updatesale);
-		$entityManager->flush();
+		$entityManager->flush();*/
 
-		$url = $preference['response']['sandbox_init_point'];
-		echo $url;
-
+		/*$url = $preference['response']['sandbox_init_point'];
+		echo $url;*/
+		echo json_encode($preference);
 
 		break;
 

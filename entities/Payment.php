@@ -13,6 +13,7 @@ class mPay
  	function __construct(){
  		//Credenciales del usuario test como comprador
  		$this->mp = new MP("8597128488150533", "RPqizvXasdzgNt23lsFUYSsKQYq1bosP");
+ 		//token = APP_USR-5630636466029670-080719-389ff4a7c4b29dfa6981881a737dc009__J_B__-218578500
  		/*$this->meli = new meli(array('appId' =>  "7946879739002924",
  									 'secret' => "fheDWZZVYy03UT7CJXCIUdXpYdowjqzJ"
  									 ));*/
@@ -86,9 +87,9 @@ class mPay
 											"apartment" => $address->apartment
 											),
 						),
-						//"shipments" => $arrayShipment,
+						"shipments" => $arrayShipment,
 						"external_reference" => $exRef,
-						"back_urls" => array('success' => "http://localhost/laMaceta/theme/shop-index.html")
+						"back_urls" => array('success' => "http://localhost/laMaceta/bd/SaleBd.php")
 						);
 
 		$preference = $this->mp->create_preference($preference_data);
@@ -100,10 +101,16 @@ class mPay
 	 *funcion que buscar los pagos hechos por un usuario con su external_reference (id que vincula MercadoPago y el sistema propio)
 	 * @param $sale recibe una venta para obtener el 'external_reference'
 	 */
-	public function SearchPayment($sale){
+	public function SearchPaymentExt($sale){
 		$filtro = array(
-			"site_id" => "MLA",
 			"external_reference" => $sale);
+		$searchResult = $this->mp->search_payment($filtro);
+		return $searchResult;
+	}
+
+	public function SearchPaymentStatus($sale){
+		$filtro = array(
+			"status" => $sale);
 		$searchResult = $this->mp->search_payment($filtro);
 		return $searchResult;
 	}
@@ -119,7 +126,7 @@ class mPay
 	}
 
 	/**
-	* Busca por medio del id de pago (de un usuario) en la coleccion de pagos recibidos 
+	* Busca por medio del collection id. 
 	*@param $id (id de referencia de pago guardado en la db) 
 	*/
 	public function SearchCollection($id){
