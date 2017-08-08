@@ -8,12 +8,12 @@ angular.module("LaMaceta")
 });
 
 angular.module("LaMaceta")
-	.controller("SubCtrlAdmin_User", function($window, $scope, AdminService, $modal, factoryData, $cookies){
+	.controller("SubCtrlAdmin_User", function($window, $scope, AdminService, $modal, factoryData, $cookies,$auth){
 
 	$scope.users = [];
 	$scope.userTypes = [];
 
-	$scope.user = $cookies.getObject("loginCredentials");
+	$scope.user = $auth.getPayload();
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
 	$scope.selectedTab = "sales";
 

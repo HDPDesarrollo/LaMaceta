@@ -40,7 +40,7 @@ angular.module("LaMaceta")
 
 
 angular.module("LaMaceta")
-	.controller("AdminController", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
+	.controller("AdminController", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload, $auth){
 
     var dia = new Date();
     dia.setFullYear(1998);
@@ -52,11 +52,11 @@ angular.module("LaMaceta")
     var loc = window.location.href;
     var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-    if($cookies.getObject("loginCredentials") == undefined){
+    if(!$auth.isAuthenticated()){
         $window.location.href = dir+"/page-login.html";
     }
         
-	$scope.user = $cookies.getObject("loginCredentials");
+	$scope.user = $auth.getPayload();
 	$scope.user.birthDate = new Date($scope.user.birthDate.date);
 
     if($scope.user.idUserType.type=="CLIENTE"){

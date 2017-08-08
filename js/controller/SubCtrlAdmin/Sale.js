@@ -22,6 +22,7 @@ angular.module("LaMaceta")
 	AdminService.getAllSaleStates()
 		.then(function(res){
 			$scope.states = res;
+			console.log(res);
 		});   
 
 
