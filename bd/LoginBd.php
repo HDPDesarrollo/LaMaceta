@@ -150,11 +150,12 @@ switch($request->data->action){
 		break;
 
 	case 'doLogin':
-		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email));
-		$request->data->password = md5($request->data->password);
-		if(isset($user->email) && isset($user->password)){
-			if($user->email === $request->data->email && $user->password === $request->data->password){
-				// echo(json_encode("true"));
+		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email,'password'=>md5($request->data->password)));
+		// $request->data->password = md5($request->data->password);
+		// echo json_encode($user);
+		if(isset($user)){
+
+				// echo(json_encode(true));
 
 			$token=array(
 			"id"=> $user->id,
@@ -171,9 +172,9 @@ switch($request->data->action){
 
 			echo json_encode($array);
 
-			}
+			
 		}else{
-			echo(json_encode("false"));
+			echo(json_encode(false));
 		}
 		break;
 }		

@@ -86,6 +86,7 @@ angular.module("LaMaceta")
     }
 
 	$scope.removeProduct = function (user) {
+		// console.log(user);
 		AdminService.removeProduct(user)
 			.then(function(res){
 			$scope.buildArticles(res);

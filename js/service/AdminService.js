@@ -247,7 +247,7 @@ angular.module("LaMaceta")
     this.saveArticles = function(articles, idProd){  
       return $http.post('../bd/AdminBd.php', {data: {articles: articles, idProd: idProd, action:'saveArticles'}})
             .then(function(response) { 
-            //console.log(response.data);   
+            console.log(response.data);   
                   return $http.post('../bd/AdminBd.php', {data: {action:'getAllArticles'}})
                     .then(function(response) {                        
                         return response.data;          
@@ -276,6 +276,8 @@ angular.module("LaMaceta")
     this.removeProduct = function(product){
       return $http.post('../bd/AdminBd.php', {data: {product: product, action:'removeProduct'}})
             .then(function(response) { 
+                // console.log(product);
+                // console.log(response);
                   return $http.post('../bd/AdminBd.php', {data: {action:'getAllArticles'}})
                       .then(function(response) {                        
                           return response.data;          

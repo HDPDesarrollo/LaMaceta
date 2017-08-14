@@ -293,12 +293,12 @@ switch($request->data->action){
 	case 'saveArticles':
 	
 		foreach($request->data->articles as $article) {
-			
+			echo json_encode($article);
 			if(isset($article->id)){
 				$articleToPersist = $entityManager->find('Article', $article->id);
 			}else{
 				$articleToPersist = new Article();	
-				$articleToPersist->setOldPrice();
+				$articleToPersist->setOldPrice(null);
 				$articleToPersist->setSku($request->data->idProd+rand(1,8000));
 			}
 		

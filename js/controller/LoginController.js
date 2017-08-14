@@ -83,14 +83,16 @@ angular.module("LaMaceta")
 		user.password = md5.createHash(user.password);
 		console.log(md5.createHash(user.password));
 		   $auth.login({data:{email: user.email, password: user.password, action:'doLogin'}})
-			  .then(function(respuestaAuth){				   
+			  .then(function(respuestaAuth){	
+				  
+					console.log(respuestaAuth);
 							  if ($auth.isAuthenticated()) {
 									//   $state.go('menu');
 									$window.location.href = "shop-index.html";
 									errorLogin = false;
 							  }else{
 									$scope.errorLogin = true;
-									console.log($scope.errorLogin);
+									console.log('error login --> ' + $scope.errorLogin);
 									//   $state.go('login');
 									}
 					//        console.info("datos_auth_en_menu", $auth.isAuthenticated(),$auth.getPayload());
