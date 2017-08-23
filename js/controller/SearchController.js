@@ -14,7 +14,7 @@ angular.module("LaMaceta")
 	$scope.quantityPage = "10";
  	$scope.currentPage = 1;
 
- 	$scope.sorting = "P.NAME ASC";
+ 	$scope.sorting = "p.name ASC";
  	$scope.color = null;
  	$scope.minAmount = null;
  	$scope.maxAmount = null;
@@ -33,6 +33,7 @@ angular.module("LaMaceta")
 	$scope.search = function (wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season){	
 		SearchService.search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)
 				.then(function(res){
+					
 					$scope.buildProductsAndFilters(res);
 
 					$scope.totalItems = $scope.totalProductsSearch.length;
@@ -211,6 +212,7 @@ angular.module('LaMaceta').controller('AddCartModalCtrl', function ($scope, $uib
 			$scope.article.size.id, 
 			$scope.article.color.id, $scope.article.quantity)
 		.then(function(res){
+			console.log(res);
 			$scope.idArticle = res[0].ID;//deberia ser solo uno
 			
 			if($scope.idArticle!=null){

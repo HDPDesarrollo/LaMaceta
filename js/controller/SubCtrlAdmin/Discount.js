@@ -4,13 +4,16 @@ angular.module("LaMaceta")
 	.controller("SubCtrlAdmin_Discount", function($window, $scope, AdminService, $modal, factoryData, NgTableParams, $cookies, Upload){
 
 	AdminService.getAllProductDiscounts()
-		.then(function(res){				
-			$scope.discounts = res;
+		.then(function(res){
+			if(res){				
+				$scope.discounts = res;
 
-			for (var i = 0; i < $scope.discounts.length; i++) {
-				$scope.discounts[i].active = {active: $scope.discounts[i].active};
+				for (var i = 0; i < $scope.discounts.length; i++) {
+					$scope.discounts[i].active = {active: $scope.discounts[i].active};
+				}
 			}
 		}, function(error){
+			console.log(error);
 	});	
 
 	$scope.openDiscountModal = function (user) {
@@ -67,7 +70,7 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 
 	AdminService.getAllProductDiscounts()
 		.then(function(res){
-			
+			if(res){
 			$scope.products = res;  
 			for (var i = 0; i < $scope.products.length; i++) {
 				$scope.products[i].active = {active: $scope.products[i].active};
@@ -75,7 +78,8 @@ angular.module('LaMaceta').controller('DiscountModalCtrl', function ($scope, NgT
 				$scope.tableParams = new NgTableParams({        
 			    }, {dataset: $scope.products});
 
-			    console.log($scope.products);	
+			    console.log($scope.products);
+			    }	
 	});
 
 

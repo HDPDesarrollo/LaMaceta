@@ -1,5 +1,7 @@
 <?php
 
+
+
 include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
 include __DIR__ . '../../entities/Address.php';
 include __DIR__ . '../../entities/User.php';
@@ -22,11 +24,12 @@ include __DIR__ . '../../entities/Card.php';
 include __DIR__ . '../../entities/BankCard.php';
 include __DIR__ . '../../entities/Province.php';
 include __DIR__ . '../../entities/Payment.php';
+include __DIR__ . '../../entities/Picture.php';
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
 
-
+// echo(json_encode($request->data->action));
 switch($request->data->action){
 
 	//Address
@@ -202,6 +205,8 @@ switch($request->data->action){
 
 		$state = $entityManager->getRepository('State')->findOneBy(array('description' => 'PENDIENTE'));
 
+
+
 		if($address==null){//nueva direccion
 			$address = new Address();
 			$address->setActive(true);
@@ -225,7 +230,6 @@ switch($request->data->action){
 			$entityManager->persist($address);
 			$entityManager->flush();
 		}
-
 		
 		$sale = new Sale();
 		$sale->setActive(true);
@@ -243,7 +247,6 @@ switch($request->data->action){
 		$entityManager->persist($sale);
 		$entityManager->flush();
 
-
 		$saleState = new SaleState();
 		$saleState->setActive(true);
 		$saleState->setLastUpdate(new DateTime());
@@ -254,6 +257,10 @@ switch($request->data->action){
 		$entityManager->flush();
 
 		for ($i=0; $i < sizeof($checkout->articles); $i++) { 
+			
+			$img = $entityManager->getRepository("Picture")->findOneBy(array("idProd" => $checkout->articles[$i]->idProd->id));
+
+			$checkout->articles[$i]->img = "http://lamacetaweb.com.ar/lamaceta/".$img->path."/".$img->rutaImg;
 
 			$id = $checkout->articles[$i]->id;
 			$article= $entityManager->find('Article', $id);
@@ -277,12 +284,14 @@ switch($request->data->action){
 		}
 		$exRef = $sale->getId();
 
+
+		
 		$preference = $pay->makePay($checkout->articles,$address,$checkout->shipping,$user,$exRef);
 
-		/*$Updatesale = $entityManager->getRepository("sale")->findOneBy(array("id" => $exRef));
+		$Updatesale = $entityManager->getRepository("sale")->findOneBy(array("id" => $exRef));
 		$Updatesale->setId_collection($preference['response']);
 		$entityManager->merge($Updatesale);
-		$entityManager->flush();*/
+		$entityManager->flush();
 
 		/*$url = $preference['response']['sandbox_init_point'];
 		echo $url;*/
@@ -409,9 +418,10 @@ switch($request->data->action){
 		$creditCards = $entityManager->getRepository('CreditCard')->findBy(array('idUser' => $request->data->user->id, 'active' => true));
 		echo(json_encode($creditCards));
 		break;
-		*/
-
+		
+*/
 
 }		
 
+?>
 

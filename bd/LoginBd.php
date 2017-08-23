@@ -1,5 +1,6 @@
 <?php
 
+
 require '../PHPMailer/PHPMailerAutoload.php';
 
 include __DIR__ . '../../doctrine_config/doctrine-cfg.php';
@@ -8,11 +9,11 @@ include __DIR__ . '../../entities/UserType.php';
 include __DIR__ . '../../entities/ResetPassword.php';
 
 // TOKEN ------
-include('../PHP/Clases/JWT.php');
-include('../PHP/Clases/ExpiredException.php');
-include('../PHP/Clases/BeforeValidException.php');
-include('../PHP/Clases/SignatureInvalidException.php');
-// ------------
+include __DIR__.'../../PHP/clases/JWT.php';
+include __DIR__.'../../PHP/Clases/ExpiredException.php';
+include __DIR__.'../../PHP/Clases/BeforeValidException.php';
+include __DIR__.'../../PHP/Clases/SignatureInvalidException.php';
+
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
@@ -20,7 +21,7 @@ $request = json_decode($dataPost);
 
 switch($request->data->action){
 
-	case 'getAllUsers':
+	/*case 'getAllUsers':
 		$users =  $entityManager->getRepository("User")->findAll();
 		//var_dump($addresses);
 
@@ -147,16 +148,14 @@ switch($request->data->action){
 		}else{
 			echo false;
 		}
-		break;
+		break;*/
 
 	case 'doLogin':
-		$user = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->email,'password'=>md5($request->data->password)));
+			$user = $entityManager->getRepository('user')->findOneBy(array('email'=>$request->data->email,'password'=>md5($request->data->password)));
 		// $request->data->password = md5($request->data->password);
-		// echo json_encode($user);
+		
 		if(isset($user)){
-
-				// echo(json_encode(true));
-
+			try{
 			$token=array(
 			"id"=> $user->id,
 			"name"=> $user->name,
@@ -166,15 +165,18 @@ switch($request->data->action){
 			"birthDate" => $user->birthDate
 			);
 
-			$token=Firebase\JWT\JWT::encode($token,'29jackkeylo92');
+			$token = Firebase\JWT\JWT::encode($token,'29jackkeylo92');
 			//token ya terminado
 			$array['tokenMaceta']=$token;
 
 			echo json_encode($array);
-
+		}catch(Exception $ex){
+			echo json_encode($ex->getMessage());
+		}
 			
 		}else{
 			echo(json_encode(false));
 		}
 		break;
-}		
+}
+?>

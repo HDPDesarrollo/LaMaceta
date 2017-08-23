@@ -13,7 +13,6 @@ include __DIR__ . '../../entities/Season.php';
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
 
-
 switch($request->data->action){
 
 	case 'getPicturesByProdId':
@@ -32,20 +31,17 @@ switch($request->data->action){
 
 	case 'validateStockByArticle': 
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT MAX(ID) as ID
-					FROM ARTICLE 
-					WHERE ID_PROD = '.$request->data->idProd.' 
-					AND ID_SIZE = '.$request->data->idSize.' 
-					AND ID_COLOR = '.$request->data->idColor.' 
-					AND STOCK >= '.$request->data->quantity);
+
+		$statement = $connection->prepare('SELECT MAX(ID) as ID FROM article WHERE id_prod = '.$request->data->idProd.' AND id_size = '.$request->data->idSize.' AND id_color = '.$request->data->idColor.' AND stock >= '.$request->data->quantity);
+		
 		$statement->execute();
 
 		$idArticle = $statement->fetchAll();
 
 		echo(json_encode($idArticle));
 		break;
-
-	/*case 'getPromotions': 
+/*
+	case 'getPromotions': 
 
 		if(isset($request->data->idBankCard)){		
 			$connection = $entityManager->getConnection();

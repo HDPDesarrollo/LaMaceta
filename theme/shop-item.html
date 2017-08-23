@@ -103,10 +103,10 @@
               <div class="row">
                 <div class="col-md-6 col-sm-6">
                   <div class="product-main-image">
-                    <img src="../images/producto/{{principalPicture.rutaImg}}" alt="" class="img-responsive">
+                    <img ng-src="../images/producto/{{principalPicture.rutaImg}}" alt="" class="img-responsive">
                   </div>
                   <div class="product-other-images" ng-repeat="pic in pictures | filter:{active:'true'} track by $index" style="display: inline-block;">
-                    <a class="fancybox-button" rel="photos-lib" ng-click="changePicture(pic.id)"><img alt="" src="../images/producto/{{pic.rutaImg}}" ></a><!-- ver si no es mas facil cambiar por la q se ve-->
+                    <a class="fancybox-button" rel="photos-lib" ng-click="changePicture(pic.id)"><img alt="" ng-src="../images/producto/{{pic.rutaImg}}" ></a><!-- ver si no es mas facil cambiar por la q se ve-->
                     <!--<a href="assets/pages/img/products/model3.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model3.jpg"></a>-->
                   </div>
                 </div>

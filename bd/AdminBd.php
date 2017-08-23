@@ -1,5 +1,6 @@
 <?php
 
+
 include __DIR__ ."../../doctrine_config/doctrine-cfg.php";
 include __DIR__ . '../../entities/User.php';
 include __DIR__ . '../../entities/UserType.php';
@@ -28,6 +29,7 @@ include __DIR__ . '../../entities/Address.php';
 
 include __DIR__ . '../../entities/ProductDiscount.php';
 include __DIR__ . '../../entities/Discount.php';
+
 
 $dataPost = file_get_contents("php://input");
 $request = json_decode($dataPost);
@@ -176,31 +178,17 @@ switch($request->data->action){
 
 	//Articles
 	case 'getAllArticles': 
-		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT 
-				p.id, 
-				p.name, 
-				p.description, 
-				p.active as prodActive, 
-				c.id as idColor, 
-				s.id as idSize, 
-				a.sku, 
-				a.active, 
-				(CAST(a.stock AS SIGNED)) as stock,
-				(CAST(a.min_Stock AS SIGNED)) as minStock,
-				a.price as price,
-				c.color, 
-				s.size, 
-				a.id as idArt
-					FROM Product p 
-					LEFT JOIN Article a ON a.id_prod = p.id
-					LEFT JOIN Color c ON a.id_Color = c.id
-					LEFT JOIN Size s ON a.id_Size = s.id');
-		$statement->execute();
+		try{
+			$connection = $entityManager->getConnection();
+			$statement = $connection->prepare('SELECT p.id, p.name, p.description, p.active as prodActive, c.id as idColor, s.id as idSize, a.sku, a.active, (CAST(a.stock AS SIGNED)) as stock, (CAST(a.min_Stock AS SIGNED)) as minStock, a.price as price, c.color,  s.size,  a.id as idArt FROM product p  LEFT JOIN article a ON a.id_prod = p.id LEFT JOIN color c ON a.id_Color = c.id LEFT JOIN size s ON a.id_Size = s.id');
+			$statement->execute();
 
-		$articles = $statement->fetchAll();
+			$articles = $statement->fetchAll();
 
-		echo(json_encode($articles));
+			echo(json_encode($articles));
+		}catch(Exception $e){
+			echo json_encode($e->getMessage());
+		}
 		break;
 
 	case 'getArticlesById': 
@@ -757,18 +745,7 @@ switch($request->data->action){
 
 	case 'getAllSales':
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('	SELECT 		
-				S.SALE_NUMBER as saleNumber, 
-				S.DATE as saleDate, 
-				STATE.DESCRIPTION as state,
-				STATE.ID as idState, 
-				S.PRICE as price, 
-				CONCAT( USER.SURNAME, ", ",USER.NAME) AS userName 
-				FROM SALE S INNER JOIN USER ON S.ID_USER = USER.ID
-				INNER JOIN SALE_STATE ST ON ST.ID_SALE = S.ID 
-									AND ST.LAST_UPDATE = (SELECT MAX(LAST_UPDATE) FROM SALE_STATE ST WHERE ST.ID_SALE = S.ID)
-				INNER JOIN STATE ON ST.ID_STATE = STATE.ID
-				ORDER BY S.SALE_NUMBER');
+		$statement = $connection->prepare('SELECT s.sale_number as saleNumber, s.date as saleDate, state.description as state,state.id as idState, s.price as price, CONCAT( user.surname, ", ",user.name) AS userName FROM sale s INNER JOIN user ON s.id_user = user.id INNER JOIN sale_state st ON st.id_sale = s.id AND st.last_update = (SELECT MAX(LAST_UPDATE) FROM sale_state st WHERE st.id_sale = s.id) INNER JOIN state ON st.id_state = state.id ORDER BY s.sale_number');
 		$statement->execute();
 
 		$sales = $statement->fetchAll();
@@ -801,24 +778,17 @@ switch($request->data->action){
 		break;
 
 	case 'getDetailSaleBySaleNumber':
+		try{
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT P.NAME prodName, 
-												  C.COLOR color, 
-												  Z.SIZE size, 
-												  D.QUANTITY quantity, 
-												  D.UNIT_PRICE unitPrice
-											FROM DETAIL_SALE D 
-											INNER JOIN ARTICLE A ON D.ID_ARTICLE = A.ID
-											INNER JOIN SALE S ON D.ID_SALE = S.ID
-											INNER JOIN PRODUCT P ON A.ID_PROD = P.ID
-											INNER JOIN COLOR C ON C.ID = A.ID_COLOR
-											INNER JOIN SIZE Z ON Z.ID = A.ID_SIZE
-											WHERE S.SALE_NUMBER = '.$request->data->saleNumber);
+		$statement = $connection->prepare('SELECT p.name prodName, c.color color, z.size size, d.quantity quantity, d.unit_price unitPrice FROM detail_sale d INNER JOIN article a ON d.id_article = a.id INNER JOIN sale s ON d.id_sale = s.id INNER JOIN product p ON a.id_prod = p.id INNER JOIN color c ON c.id = a.id_color INNER JOIN size z ON z.id = a.id_size WHERE s.sale_number = '.$request->data->saleNumber);
 		$statement->execute();
 
 		$detailsSale = $statement->fetchAll();
 
 		echo(json_encode($detailsSale));
+		}catch(Exception $e){
+			echo json_encode($e->getMessage);
+		}
 		break;
 
 	case 'getAllSaleStates':
@@ -844,18 +814,7 @@ switch($request->data->action){
 
 
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('	SELECT 		
-				S.SALE_NUMBER as saleNumber, 
-				S.DATE as saleDate, 
-				STATE.DESCRIPTION as state,
-				STATE.ID as idState, 
-				S.PRICE as price, 
-				CONCAT( USER.SURNAME, ", ",USER.NAME) AS userName 
-				FROM SALE S INNER JOIN USER ON S.ID_USER = USER.ID
-				INNER JOIN SALE_STATE ST ON ST.ID_SALE = S.ID 
-									AND ST.LAST_UPDATE = (SELECT MAX(LAST_UPDATE) FROM SALE_STATE ST WHERE ST.ID_SALE = S.ID)
-				INNER JOIN STATE ON ST.ID_STATE = STATE.ID
-				ORDER BY S.SALE_NUMBER');
+		$statement = $connection->prepare('SELECT s.sale_number as saleNumber, s.date as saleDate, state.description as state,state.id as idState, s.price as price, CONCAT( user.surname, ", ",user.name) AS userName FROM sale s INNER JOIN user ON s.id_user = user.id INNER JOIN sale_state st ON st.id_sale = s.id AND st.last_update = (SELECT MAX(LAST_UPDATE) FROM sale_state st WHERE st.id_sale = s.id) INNER JOIN state ON st.id_state = state.id ORDER BY s.sale_number');
 		$statement->execute();
 
 		$sales = $statement->fetchAll();
@@ -864,10 +823,18 @@ switch($request->data->action){
 		break;
 
 	case 'getAllProductDiscounts':
+		try{
 		$discounts =  $entityManager->getRepository("ProductDiscount")->findAll();
 		//var_dump($products);
-
-		echo(json_encode($discounts));
+		if(isset($discount)){
+			echo(json_encode($discounts));
+		}else{
+			echo json_encode("false");
+		}
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	
 		break;
 
 	case 'getAllDiscounts':

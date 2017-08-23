@@ -103,15 +103,18 @@ angular.module("LaMaceta")
 	function getQueryParam(param) {
 	    var result =  window.location.search.match(
 	        new RegExp("(\\?|&)" + param + "(\\[\\])?=([^&]*)")
-	    );
-
+		);
+		console.log(result);
 	    return result ? result[3] : false;
 	}
 
 	$scope.itemId = getQueryParam("id"); 
+	console.log("la concha de tu vieja"+$scope.itemId);
 
     var loc = window.location.href;
-    var dir = loc.substring(0, loc.lastIndexOf('/'));
+	var dir = loc.substring(0, loc.lastIndexOf('/'));
+	
+	console.log("hola",loc,dir);
 
         
 
@@ -126,7 +129,7 @@ angular.module("LaMaceta")
 		});
 
 	ShopItemService.getPicturesByProdId($scope.itemId)
-		.then(function(res){			
+		.then(function(res){
 			if(res.length==0){
 				$window.location.href = dir+"/search-result.html";
 			}

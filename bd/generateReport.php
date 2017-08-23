@@ -15,58 +15,33 @@ $request = json_decode($dataPost);
 switch($request->data->report->type){
 
 	case 'Articulos':
+		try{
+			$connection = $entityManager->getConnection();
+			$statement = $connection->prepare('SELECT p.id, p.name, p.description, p.active as prodActive, c.id as idColor, s.id as idSize, a.sku, a.active, (CAST(a.stock AS SIGNED)) as stock,(CAST(a.min_Stock AS SIGNED)) as minStock, a.price as price, c.color, s.size, a.id as idArt FROM product p LEFT JOIN article a ON a.id_prod = p.id LEFT JOIN color c ON a.id_Color = c.id LEFT JOIN size s ON a.id_Size = s.id');
+			$statement->execute();
 
-		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT 
-				p.id, 
-				p.name, 
-				p.description, 
-				p.active as prodActive, 
-				c.id as idColor, 
-				s.id as idSize, 
-				a.sku, 
-				a.active, 
-				(CAST(a.stock AS SIGNED)) as stock,
-				(CAST(a.min_Stock AS SIGNED)) as minStock,
-				a.price as price,
-				c.color, 
-				s.size, 
-				a.id as idArt
-					FROM Product p 
-					LEFT JOIN Article a ON a.id_prod = p.id
-					LEFT JOIN Color c ON a.id_Color = c.id
-					LEFT JOIN Size s ON a.id_Size = s.id');
-		$statement->execute();
+			$articles = $statement->fetchAll();
 
-		$articles = $statement->fetchAll();
+			$pdf = new PDF();
+			 
+			$pdf->AddPage();
+			 
+			$miCabecera = array('Nombre', 'Color', 'Talle', 'Stock', 'Precio', 'SKU');
+			 
+			$pdf->tablaHorizontal($miCabecera, $articles, $request->data->report);
+			 
+			$pdf->Output(__DIR__ ."../..//reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
 
-		$pdf = new PDF();
-		 
-		$pdf->AddPage();
-		 
-		$miCabecera = array('Nombre', 'Color', 'Talle', 'Stock', 'Precio', 'SKU');
-		 
-		$pdf->tablaHorizontal($miCabecera, $articles, $request->data->report);
-		 
-		$pdf->Output(__DIR__ ."../..//reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
-
-		echo "reportes/".$request->data->report->type.".pdf";
-
+			echo "reportes/".$request->data->report->type.".pdf";
+		}catch(Exception $e){
+			echo json_encode($e->getMessage());
+		}
 		break;
 
 	case 'Ventas':
-
+		try{
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('	SELECT 		
-				S.SALE_NUMBER as saleNumber, 
-				S.DATE as saleDate, 
-				STATE.DESCRIPTION as state, 
-				S.PRICE as price, 
-				CONCAT( USER.SURNAME, ", ",USER.NAME) AS userName 
-				FROM SALE S INNER JOIN USER ON S.ID_USER = USER.ID
-				INNER JOIN SALE_STATE ST ON ST.ID_SALE = S.ID 
-									AND ST.LAST_UPDATE = (SELECT MAX(LAST_UPDATE) FROM SALE_STATE ST WHERE ST.ID_SALE = S.ID)
-				INNER JOIN STATE ON ST.ID_STATE = STATE.ID');
+		$statement = $connection->prepare('SELECT S.sale_number as saleNumber, S.date as saleDate, state.description as state, S.price as price, CONCAT( user.surname, ", ",user.name) AS userName FROM sale S INNER JOIN user ON S.id_user = user.id inner JOIN sale_state ST ON ST.id_sale = S.ID AND ST.last_update = (SELECT MAX(LAST_UPDATE) FROM sale_state ST WHERE ST.id_sale = S.id) INNER JOIN state ON ST.ID_STATE = state.id');
 		$statement->execute();
 
 		$sales = $statement->fetchAll();
@@ -82,25 +57,29 @@ switch($request->data->report->type){
 		$pdf->Output(__DIR__ ."../../reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
 
 		echo "reportes/".$request->data->report->type.".pdf";
-
+		}catch(Exception $e){
+			echo json_encode($e->getMessage());
+		}
 		break;
 
 	case 'Usuarios':
-		
-		$users =  $entityManager->getRepository("User")->findAll();
+		try{
+			$users =  $entityManager->getRepository("User")->findAll();
 
-		$pdf = new PDF();
-		 
-		$pdf->AddPage();
-		 
-		$miCabecera = array('Nombre', 'Apellido', 'e-mail', 'Nacimiento', 'Tipo');
-		 
-		$pdf->tablaHorizontal($miCabecera, $users, $request->data->report);
-		 
-		$pdf->Output(__DIR__ ."../../reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
+			$pdf = new PDF();
+			 
+			$pdf->AddPage();
+			 
+			$miCabecera = array('Nombre', 'Apellido', 'e-mail', 'Nacimiento', 'Tipo');
+			 
+			$pdf->tablaHorizontal($miCabecera, $users, $request->data->report);
+			 
+			$pdf->Output(__DIR__ ."../../reportes/".$request->data->report->type.".pdf","F"); //Salida al navegador
 
-		echo "reportes/".$request->data->report->type.".pdf";
-
+			echo "reportes/".$request->data->report->type.".pdf";
+		}catch(Exception $e){
+			echo json_encode($e->getMessage);
+		}
 		break;
 
 }

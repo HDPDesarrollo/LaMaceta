@@ -207,10 +207,10 @@ angular.module("LaMaceta")
     this.getAllArticles = function(){
       return $http.post('../bd/AdminBd.php', {data: {action:'getAllArticles'}})
                     .then(function(response) {
-                   // console.log( response);   
+                   //console.log( response);   
                     return response.data;          
                       },function errorCallback(response) {        
-                          console.log( response);           
+                          console.log(response);           
                       });
     };
 
@@ -569,7 +569,7 @@ angular.module("LaMaceta")
     this.getDetailSaleBySaleNumber = function(saleNumber){
       return $http.post('../bd/AdminBd.php', {data: {saleNumber: saleNumber, action:'getDetailSaleBySaleNumber'}})
             .then(function(response) {
-                console.log(response.data);    
+                //console.log(response.data);    
                 return response.data;    
             },function errorCallback(response) {        
                 console.log(response);           

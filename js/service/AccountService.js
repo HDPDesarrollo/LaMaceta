@@ -135,7 +135,8 @@ angular.module("LaMaceta")
 
     this.confirmCheckout = function(checkout){  
       return $http.post('../bd/AccountBd.php', {data: {checkout: checkout, action:'confirmCheckout'}})
-            .then(function(response) {      
+            .then(function(response) { 
+            console.log(response);     
                 return response.data;    
             },function errorCallback(response) {        
                 console.log(response);           

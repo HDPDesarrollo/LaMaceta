@@ -234,9 +234,9 @@ angular.module("LaMaceta")
 
 				AccountService.confirmCheckout($checkout)
 					.then(function(res){
-						console.log(res);
-						//window.location.href = res;
-						//window.open(res.response.sandbox_init_point);
+						//console.log(res);
+						window.location.href = res;
+						window.open(res.response.sandbox_init_point);
 						
 						MailService.mailDetailCheckout(res)
 							.then(function(res){

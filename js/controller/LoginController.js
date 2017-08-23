@@ -81,15 +81,12 @@ angular.module("LaMaceta")
 
 	$scope.tryLogin = function(user){
 		user.password = md5.createHash(user.password);
-		console.log(md5.createHash(user.password));
 		   $auth.login({data:{email: user.email, password: user.password, action:'doLogin'}})
 			  .then(function(respuestaAuth){	
-				  
-					console.log(respuestaAuth);
 							  if ($auth.isAuthenticated()) {
 									//   $state.go('menu');
 									$window.location.href = "shop-index.html";
-									errorLogin = false;
+									
 							  }else{
 									$scope.errorLogin = true;
 									console.log('error login --> ' + $scope.errorLogin);

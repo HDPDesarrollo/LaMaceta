@@ -12,8 +12,8 @@ angular.module("LaMaceta")
     $scope.generateReport = function(report){
     	AdminService.generateReport(report)
 			.then(function(res){
-				console.log(res);
-				$window.location.href = "../"+res;
+				$window.open("http://lamacetaweb.com.ar/lamaceta/"+res,"_blank");
+
 		})
     }
 });

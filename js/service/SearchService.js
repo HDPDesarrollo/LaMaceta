@@ -3,13 +3,13 @@ angular.module("LaMaceta")
 
     
     this.search = function(word, sorting, color, priceFrom, priceTo, target, prodType, season){
-      return $http.post('../bd/SearchBd.php', {data: {word: word, sorting: sorting, priceFrom: priceFrom, 
+      return $http.post('http://lamacetaweb.com.ar/lamaceta/bd/SearchBd.php', {data: {word: word, sorting: sorting, priceFrom: priceFrom, 
                                                           priceTo: priceTo, color:color, target: target, prodType: prodType, season, 
                                                             action:'search'}})
                     .then(function(response) {
                     return response.data;          
                       },function errorCallback(response) {       
-                          console.log( response);           
+                          console.log(response);           
                       });
     };
 
@@ -24,8 +24,7 @@ angular.module("LaMaceta")
 
     this.getAllColorsByProdId = function(prodId){
       return $http.post('../bd/SearchBd.php', {data: {prodId: prodId, action:'getAllColorsByProdId'}})
-                    .then(function(response) {
-                    console.log( response.data);   
+                    .then(function(response) {   
                     return response.data;          
                       },function errorCallback(response) {        
                           console.log( response);           

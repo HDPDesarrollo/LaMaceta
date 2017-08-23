@@ -10,7 +10,6 @@ include __DIR__ . '../../entities/Provider.php';
 $datapost = file_get_contents("php://input");
 $request = json_decode($datapost);
 
-
 switch($request->data->action){
 
 	case 'search':
@@ -45,28 +44,7 @@ switch($request->data->action){
 				$filterSeason = " and (se.season = '".$request->data->season."') ";
 			}
 
-			$query = ("select p.id as id,
-							  a.price as price,
-							  p.name, s.size, c.color, c.rgb,
-							  pic.ruta_img as picture,
-							  se.season
-							from article a 
-							inner join product p on p.id = a.id_prod
-							inner join color c on c.id = a.id_color
-							inner join size s on s.id = a.id_size
-							inner join season se on se.id = p.id_season
-							inner join picture pic on pic.id_prod = p.id
-							where upper(p.name) like upper('%".$request->data->word."%' ) 
-							".$filterPriceFrom."
-							".$filterPriceTo."
-							".$filterColor."
-							".$filterProdType."
-							".$filterTarget."
-							".$filterSeason."
-							order by ".$request->data->sorting);
-
-			/*echo($query);
-			break;*/
+			$query = ("select p.id as id,a.price as price,p.name, s.size, c.color, c.rgb,pic.ruta_img as picture,se.season from article a inner join product p on p.id = a.id_prod inner join color c on c.id = a.id_color inner join size s on s.id = a.id_size inner join season se on se.id = p.id_season inner join picture pic on pic.id_prod = p.id where upper(p.name) like upper('%".$request->data->word."%' ) ".$filterPriceFrom." ".$filterPriceTo." ".$filterColor." ".$filterProdType." ".$filterTarget." ".$filterSeason." order by ".$request->data->sorting);
 
 			$connection = $entityManager->getConnection();
 			$statement = $connection->prepare($query);
@@ -76,22 +54,26 @@ switch($request->data->action){
 			$search = $statement->fetchAll();
 
 			echo(json_encode($search));
-		break;
+	break;
 
 	case 'getMenu':
+		try{
 			$connection = $entityManager->getConnection();
-			$statement = $connection->prepare("select target as target, 
-													  prod_type as prodtype
-												from product 
-												group by target, prod_type
-												order by target, prod_type");
+			$statement = $connection->prepare('SELECT target AS target, 
+													  prod_type AS prodtype
+												FROM product 
+												GROUP BY target, prod_type
+												ORDER BY target, prod_type');
 
 			$statement->execute();
 
 			$menu = $statement->fetchAll();
 
 			echo(json_encode($menu));
-		break;
+		}catch(Exception $e){
+			echo json_encode($e->getMessage());
+		}
+	break;
 
 	case 'getAllColorsByProdId':
 		$connection = $entityManager->getConnection();
@@ -103,7 +85,7 @@ switch($request->data->action){
 		$colors = $statement->fetchAll();
 
 		echo(json_encode($colors));
-		break;
+	break;
 
 	case 'getAllSizesByProdId':
 		$connection = $entityManager->getConnection();
@@ -115,7 +97,7 @@ switch($request->data->action){
 		$sizes = $statement->fetchAll();
 
 		echo(json_encode($sizes));
-		break;
-}		
-
+	break;
+}
+?>
 

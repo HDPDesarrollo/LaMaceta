@@ -22,7 +22,6 @@ angular.module("LaMaceta")
 	AdminService.getAllSaleStates()
 		.then(function(res){
 			$scope.states = res;
-			console.log(res);
 		});   
 
 
@@ -61,10 +60,10 @@ angular.module('LaMaceta').controller('SaleDetailModalCtrl', function ($scope, A
 	$scope.saleNumber = factoryData.data.saleNumber;
 
 	AdminService.getDetailSaleBySaleNumber($scope.saleNumber)
-		.then(function(res){
-		console.log(res);	
+		.then(function(res){	
 			$scope.details = res;
 		}, function(error){
+			console.log(error);
 	});	
 
 	  $scope.close = function () {

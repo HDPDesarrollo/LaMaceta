@@ -2,9 +2,11 @@
 	app.controller("PreheaderController", function($window, $scope, $cookies,$auth){
 		
 		if($auth.isAuthenticated()){
-		$scope.loginVar = $auth.getPayload();
+			$scope.loginVar = $auth.getPayload();
+		}else{
+			$auth.removeToken();
 		}
-	
+		
 
 	
 	// var loc = window.location.href;
