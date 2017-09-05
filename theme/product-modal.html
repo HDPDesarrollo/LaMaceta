@@ -68,7 +68,7 @@
       <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
         <div class="form-group">
           <label for="supplier">Target<span class="require"> *</span></label>
-            <select class="form-control" id="target" ng-model="product.target" name="target" required>
+            <select class="form-control" id="target" ng-model="product.target" name="target" required><!--TODO no harcodear-->
             <option value="Nenes">Nenes</option>
             <option value="Nenas">Nenas</option>
             <option value="Bebes">Bebes</option>
@@ -88,6 +88,39 @@
             <span ng-show="productForm.prodType.$error.required">El campo es obligatorio.</span>
             </span>
         </div>
+      </div>
+
+      <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
+        <div class="form-group">               
+          <label for="images">Imagenes </label>
+          <input type="file" ngf-select="imagesVerification($files,$invalidFiles)" ng-model="product.imagesToUpload" name="imagesToUpload" id="imagesToUpload"   
+             accept="image/*" ngf-max-size="5MB" ngf-max-height="2000" ngf-max-width="2000" ngf-model-invalid="errorFile" multiple/><br>
+               <div ng-show="badFiles!=undefined">
+                   <div ng-show="badFiles.length!=0"><label>Con errores:</label></div>
+                   <li ng-repeat="f in badFiles">"{{f.name}}". Error: {{f.$error}}. Límite: {{f.$errorParam}}</li>
+               </div>
+               <span ng-show="errorMsg != ''">{{errorMsg}}</span>
+        </div>
+      </div>
+
+      <div class="col-xs-8 col-sm-10 col-md-12 col-lg-12">
+      <div class="form-group">
+        <table summary="Shopping cart" width="100%">
+          <tr>
+            <th>¿Borrar?</th>
+            <th>Preview</th>
+            <th>Nombre</th>
+          </tr>
+          <tr ng-repeat="image in product.images | filter:{active:true}">
+            <td><input type="checkbox" checklist-model="checklistToDelete" checklist-value="product.images.id"/></td>
+            <td><img width="50" heigth="50" ng-src="../images/{{image.path}}/{{image.rutaImg}}"/></td>
+            <td><a href="../images/{{image.path}}/{{image.rutaImg}}" target="_blank">{{image.rutaImg}}</a></td>
+          </tr>
+        </table>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button" ng-click="deleteImages(checklistToDelete, product.id)" ng-disabled="checklistToDelete.length==0">Borrar Imagenes</button>
+        </div>
+      </div>
       </div>
     </div>
     </div>    

@@ -151,25 +151,7 @@ switch($request->data->action){
 	case 'getAllPurchases':
 
 		$connection = $entityManager->getConnection();
-		$statement = $connection->prepare('SELECT s.id, s.sale_number, s.date, se.description, 
-		p.name, c.color, sz.size, ds.quantity, ds.unit_Price
-					FROM sale s, 
-					detail_sale ds,
-					sale_state st, 
-					state se,
-					article a,
-					color c, 
-					size sz, 
-					product p
-					WHERE ds.id_sale = s.id 
-					AND st.id_sale = s.id and last_update = (SELECT MAX(last_update) FROM sale_state WHERE id_sale = ds.id_sale)
-					AND st.id_state = se.id
-					AND ds.id_article = a.id
-					AND a.id_color = c.id
-					AND a.id_size = sz.id
-					AND a.id_prod = p.id
-					AND s.id_user = '.$request->data->id.'
-					ORDER BY s.id');
+		$statement = $connection->prepare('SELECT s.id, s.sale_number, s.date, se.description,s.link_pago,p.name, c.color, sz.size, ds.quantity, ds.unit_Price FROM sale s, detail_sale ds,sale_state st, state se, article a,color c, size sz, product p WHERE ds.id_sale = s.id AND st.id_sale = s.id and last_update = (SELECT MAX(last_update) FROM sale_state WHERE id_sale = ds.id_sale) AND st.id_state = se.id AND ds.id_article = a.id AND a.id_color = c.id AND a.id_size = sz.id AND a.id_prod = p.id AND s.id_user = '.$request->data->id.' ORDER BY s.id');
 		$statement->execute();
 
 		$purchases = $statement->fetchAll();
@@ -289,12 +271,11 @@ switch($request->data->action){
 		$preference = $pay->makePay($checkout->articles,$address,$checkout->shipping,$user,$exRef);
 
 		$Updatesale = $entityManager->getRepository("sale")->findOneBy(array("id" => $exRef));
-		$Updatesale->setId_collection($preference['response']);
+		$Updatesale->setId_collection($preference['response']['collection_id']);
+		$Updatesale->setLink_pago($preference['response']['sandbox_init_point']);
 		$entityManager->merge($Updatesale);
 		$entityManager->flush();
 
-		/*$url = $preference['response']['sandbox_init_point'];
-		echo $url;*/
 		echo json_encode($preference);
 
 		break;

@@ -74,7 +74,7 @@
                     <li>
                       <a href="{{oneContent.article.icon}}"><img ng-src="{{oneContent.article.icon}}" alt="" width="37" height="34"></a>
                       <span class="cart-content-count">{{oneContent.quantity}}</span>
-                      <strong><a href="shop-item.html/">{{oneContent.article.idProd.name}}</a></strong>
+                      <strong><a href="shop-item.html?id={{oneContent.article.idProd.id}}">{{oneContent.article.idProd.name}}</a></strong>
                       <em>{{(oneContent.article.price | number:2.0)}}</em>
                       <a ng-click="deleteFromCart(oneContent.article.id)" class="del-goods">&nbsp;</a>
                     </li>

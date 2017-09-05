@@ -122,6 +122,16 @@ angular.module("LaMaceta")
                       });
     };
 
+    this.deleteImagesForProducts = function(images, idProd){
+      return $http.post('../bd/AdminBd.php', {data: {images: images, idProd: idProd, action:'deleteImagesForProducts'}})
+                    .then(function(response) {
+                    //console.log( response.data);   
+                    return response.data;          
+                      },function errorCallback(response) {        
+                          console.log( response);           
+                      });
+    };
+
     this.getAllUsers = function(){
       return $http.post('../bd/AdminBd.php', {data: {action:'getAllUsers'}})
                     .then(function(response) {
@@ -186,8 +196,7 @@ angular.module("LaMaceta")
 
     this.removeBlacklist = function(user){
       return $http.post('../bd/AdminBd.php', {data: {user: user, action:'removeBlacklist'}})
-            .then(function(response) { 
-              console.log(response.data);   
+            .then(function(response) {    
                  return response.data;    
             },function errorCallback(response) {        
                 console.log(response);           
@@ -332,49 +341,24 @@ angular.module("LaMaceta")
                       });
     };
 
-    this.getAllSizes = function(){
-      return $http.post('../bd/AdminBd.php', {data: {action:'getAllSizes'}})
-                    .then(function(response) {
-                    //console.log( response.data);   
+    this.getSizesByProvider = function(idProvider){
+      return $http.post('../bd/AdminBd.php', {data: {idProvider: idProvider, action:'getSizesByProvider'}})
+                    .then(function(response) {  
                     return response.data;          
                       },function errorCallback(response) {        
                           console.log( response);           
                       });
     };
 
-    this.saveSize = function(size){
-      return size.id ? updateSize(size) : createSize(size);
-    };
-
-    var createSize = function(size){
-      console.log(size);
-      return $http.post('../bd/AdminBd.php', {data: {size: size, action:'createSize'}})
+    this.saveSizes = function(sizes){  
+      return $http.post('../bd/AdminBd.php', {data: {sizes: sizes, action:'saveSizes'}})
             .then(function(response) {
                 console.log(response.data);    
                 return response.data;
             },function errorCallback(response) {        
                 console.log(response);           
             });
-    };
-
-    var updateSize = function(size){
-      return $http.post('../bd/AdminBd.php', {data: {size: size, action:'updateSize'}})
-            .then(function(response) {
-                //console.log(response.data);
-                return response.data;    
-            },function errorCallback(response) {        
-                console.log(response);           
-            });
-    };
-
-    this.removeSize = function(size){
-      return $http.post('../bd/AdminBd.php', {data: {size: size, action:'deleteSize'}})
-                    .then(function(response) {  ;
-                    return response.data;          
-                      },function errorCallback(response) {        
-                          console.log( response);           
-                      });
-    };
+    }; 
 
     this.getAllProvinces = function(){
       return $http.post('../bd/AdminBd.php', {data: {action:'getAllProvinces'}})

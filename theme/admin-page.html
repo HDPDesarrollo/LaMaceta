@@ -25,7 +25,7 @@
   <script src="../js/controller/SubCtrlAdmin/Discount.js"></script>
   <script src="../js/controller/SubCtrlAdmin/EditProfile.js"></script>
   <script src="../js/controller/SubCtrlAdmin/Report.js"></script>
-  <script src="../js/controller/SubCtrlAdmin/SizeAndColor.js"></script>
+  <script src="../js/controller/SubCtrlAdmin/Color.js"></script>
   <script src="../js/controller/SubCtrlAdmin/Image.js"></script>
   <script src="../js/controller/SubCtrlAdmin/Province.js"></script>
   <script src="../js/controller/SubCtrlAdmin/Triple.js"></script>
@@ -100,7 +100,7 @@
               <li class="list-group-item clearfix" ng-click="selectTab('configureDiscounts')"><a href=""><i class="fa fa-angle-right"></i>Configurar Descuentos</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('editProfile')"><a href=""><i class="fa fa-angle-right"></i>Editar Perfil</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('reports')"><a href=""><i class="fa fa-angle-right"></i>Reportes</a></li>
-              <li class="list-group-item clearfix" ng-click="selectTab('size-colors')"><a href=""><i class="fa fa-angle-right"></i>Talles/Colores</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('colors')"><a href=""><i class="fa fa-angle-right"></i>Colores</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('images')"><a href=""><i class="fa fa-angle-right"></i>Imagenes</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('providers')"><a href=""><i class="fa fa-angle-right"></i>Proveedores</a></li>
               <li class="list-group-item clearfix" ng-click="selectTab('logout')"><a href=""><i class="fa fa-angle-right"></i>Cerrar Sesion</a></li>
@@ -205,7 +205,7 @@
                           <p>{{row.name}}</p>
                       </td>
                       <td data-title="'Descripcion'"">
-                        <button type="submit" class="btn btn-primary" ng-click="openDetailProductModal(row.articles, row.id)">Ver / Editar Detalles</button>
+                        <button type="submit" class="btn btn-primary" ng-click="openDetailProductModal(row.articles, row.id, row.idProvider)">Ver / Editar Detalles</button>
                       </td>
                       <td data-title="'Acciones'">
                         <div class="dropdown">
@@ -411,12 +411,11 @@
               </div>
             </div> <!---ng-controller--> 
           </div> <!---ng-show-->  
-          <div ng-show="selectedTab=='size-colors'">
-            <div ng-controller="SubCtrlAdmin_SizeAndColor">
-              <h1>TALLES / COLORES</h1>
+          <div ng-show="selectedTab=='colors'">
+            <div ng-controller="SubCtrlAdmin_Color">
+              <h1>COLORES</h1>
                 <div align="right">
                   <button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openColorModal()">Agregar Color</button>
-                  <button type="submit" class="btn btn-primary" ng-disabled="user.idUserType.type!='ADMIN'" ng-click="openSizeModal()">Agregar Talle</button>
                 </div>
               </br>
               <div class="goods-page">
@@ -436,23 +435,6 @@
                         </td>
                       </tr>
                     </table>
-                  <br>
-                  <br>
-                  <br>
-                  <table summary="Shopping cart">
-                    <tr>
-                      <th class="goods-page-description">Nombre</th>
-                      <th class="goods-page-description">Largo</th>
-                    </tr>
-                    <tr ng-repeat="size in sizes | filter:{active:true} track by $index">
-                        <td>{{size.size}}</td>
-                        <td>{{size.large}} cm</td>
-                        <td class="del-goods-col" ng-if="user.idUserType.type=='ADMIN'">
-                          <a class="del-goods" href="" ng-click="removeSize(size)">&nbsp;</a>
-                          <a class="upd-goods" href="" ng-click="editSizeModal(size)">&nbsp;</a>
-                        </td>
-                      </tr>
-                  </table>
                   </div>
                 </div>
               </div>
@@ -470,16 +452,9 @@
                               <div class="form-group">
                                 <label for="product">¿A qué desea subirle foto?<span class="require">*</span></label>
                                 <select class="form-control" id="type" ng-model="images.type" name="type" ng-change="images.product=products[0]">
-                                  <option value="producto">Producto</option>
                                   <option value="slider1">Slider 1</option>
                                   <option value="slider2">Slider 2</option>
                                 </select>
-                                  <div ng-show="images.type == 'producto'">
-                                    <br><label>Producto </label>
-                                    <select class="form-control" id="product" ng-model="images.product" name="product" 
-                                      ng-options="product.name for product in products | filter:{active:'true'} track by product.id">
-                                      </select>
-                                  </div>
                                   <div ng-show="images.type == 'slider1'">
                                     <br><label>Referencia: </label>
                                     <select class="form-control" id="sliderLink" ng-model="images.sliderLink" name="sliderLink">
@@ -528,13 +503,11 @@
                     <table summary="Shopping cart">
                       <tr>
                         <th class="goods-page-description">Nombre</th>
-                        <th class="goods-page-description">e-mail</th>
-                        <th class="goods-page-description">Dirección</th>
+                        <th class="goods-page-description">Código</th>                        
                       </tr>
                       <tr ng-repeat="provider in providers | filter:{active:true} track by $index">
                         <td>{{provider.name}}</td>
-                        <td>{{provider.email}}</td>   
-                        <td>{{provider.address}}</td>                 
+                        <td>{{provider.code}}</td>                           
                         <td ng-if="user.idUserType.type=='ADMIN'" class="del-goods-col">
                           <a class="del-goods" href="" ng-click="removeProvider(provider)">&nbsp;</a>
                           <a class="upd-goods" href="" ng-click="editProviderModal(provider)">&nbsp;</a>

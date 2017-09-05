@@ -204,7 +204,8 @@
                     </td>
                     <td class="del-goods-col">                        
                         <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="sendAgain(purchase)" ng-disabled="!allowNewSend(purchase)">Pedir de nuevo</button> 
-                        <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="cancelPurchase(purchase)" ng-disabled="allowCancelPurchase(purchase)">Cancelar</button> 
+                        <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="cancelPurchase(purchase)" ng-disabled="allowCancelPurchase(purchase)">Cancelar</button>
+                        <button class="btn btn-primary pull-right" type="submit" id="button-confirm" ng-click="Pay(purchase.link)" ng-disabled="verifyLink(purchase.link)">Pagar</button> 
                     </td>
                   </tr>
                 </table>

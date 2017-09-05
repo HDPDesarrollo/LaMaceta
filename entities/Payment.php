@@ -87,9 +87,9 @@ class mPay
 											"apartment" => $address->apartment
 											),
 						),
-						"shipments" => $arrayShipment,
+						//"shipments" => $arrayShipment,
 						"external_reference" => $exRef,
-						"back_urls" => array('success' => "http://localhost/laMaceta/bd/SaleBd.php")
+						"back_urls" => array('success' => "http://lamacetaweb.com.ar/lamaceta/bd/SaleBd.php")
 						);
 
 		$preference = $this->mp->create_preference($preference_data);

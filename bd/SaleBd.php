@@ -26,7 +26,7 @@ $request = $_GET;
 
 $exRef = $request['external_reference'];
 
-$Updatesale = $entityManager->getRepository("sale")->findOneBy(array("id" => $exRef));
+$Updatesale = $entityManager->getRepository("Sale")->findOneBy(array("id" => $exRef));
 $Updatesale->setId_collection($request['collection_id']);
 
 $sale_state = $entityManager->getRepository("SaleState")->findOneBy(array("idSale" => $exRef));
@@ -41,6 +41,7 @@ switch ($request['collection_status']) {
 
 		case 'approved':
 			$state = $entityManager->getRepository("State")->findOneBy(array("id" => 2));
+			$Updatesale->setLink_pago("null");
 			$sale_state->setIdState($state);
 			break;
 
@@ -88,5 +89,5 @@ $entityManager->merge($Updatesale);
 $entityManager->flush();
 
 
-header('Location: http://localhost/laMaceta/theme/shop-index.html');
+header('Location: http://lamacetaweb.com.ar/lamaceta/theme/shop-index.html');
  ?>

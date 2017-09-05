@@ -235,6 +235,7 @@ angular.module("LaMaceta")
 				AccountService.confirmCheckout($checkout)
 					.then(function(res){
 						//console.log(res);
+						window.alert("Su pago sera procesado por MercadoPago para brindarle seguridad a sus datos.");
 						window.location.href = res.response.sandbox_init_point;
 						
 						

@@ -1,4 +1,4 @@
- <div class="modal-header">
+<!-- <div class="modal-header">
     <center><h3 class="modal-title">Talle</h3></center>
 </div>
 <div class="modal-body">
@@ -35,7 +35,7 @@
                 </span>
           </div>
         </div>
-      </div><!--row-->
+      </div>
 
     <div class="row">
         <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
@@ -54,5 +54,52 @@
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="save(size)" ng-disabled="sizeForm.$invalid">Guardar</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+
+-->
+
+ <div class="modal-header">
+    <center><h3 class="modal-title">Talles</h3></center>
+</div>
+<div class="modal-body">
+
+  <form id="sizeModal"  enctype="multipart/form-data" name="sizeForm" novalidate>
+            <div class="goods-page">
+              <div class="goods-data clearfix">
+                <div class="table-wrapper-responsive">
+                <table ng-table="sizeTableParams" class="table table-condensed table-bordered table-striped">
+                  <tr ng-repeat="row in $data">
+                    <td data-title="'Talle'" class="goods-page-description" width="20%" >
+                        <input type="text" name="size" ng-model="row.size" class="editable-input form-control input-sm"/>
+                    </td> 
+                    <td data-title="'Alto'" class="goods-page-quantity">
+                        <input type="number" name="large" ng-model="row.large" class="editable-input form-control input-sm"/>
+                    </td> 
+                    <td data-title="'Ancho'" class="goods-page-quantity">
+                        <input type="number" name="width" ng-model="row.width" class="editable-input form-control input-sm"/>
+                    </td> 
+                    <td data-title="'Calce'" class="goods-page-quantity">
+                        <input type="number" name="wedge" ng-model="row.wedge" class="editable-input form-control input-sm"/>
+                    </td> 
+                    <td data-title="'Estado'" class="goods-page-description" filter="{active: 'select'}" filter-data="productStatus" width="20%">
+                      <p>
+                      <select class="form-control" id="active" ng-model="row.active" name="active" 
+                      ng-options="status as status.title for status in sizeStatus track by status.id" required>
+                      </select>
+                      </p>
+                    </td>    
+                  </tr>
+                </table>
+                </div>
+              </div>
+            </div>
+  </form>
+</div>
+<div class="modal-footer">
+              <button class="btn btn-primary" type="button" ng-click="deleteRow()">Eliminar Vacios</button>
+              <button class="btn btn-primary" type="button" ng-click="addRow()">Agregar Fila</button>
+              <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="sizeForm.$invalid">Guardar</button>
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Salir</button>                     
+
 </div>
 

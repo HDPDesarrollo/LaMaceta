@@ -55,6 +55,19 @@ angular.module("LaMaceta")
 	$scope.myCreditCards = [];
 	$scope.blacklistSales = [];
 
+	$scope.Pay = function(link){
+
+		window.location.href = link;	
+	}
+
+	$scope.verifyLink = function(link){
+		if(link == "null"){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	$scope.selectTab = function (tab) {
 		$scope.selectedTab=tab;
 	}
@@ -179,12 +192,12 @@ angular.module("LaMaceta")
 			if(i>0 && res[i].id == res[i-1].id){
 				$obj = res[i];
 				$scope.myPurchases[$lastObj].description.push(
-				{name: $obj.name, color: $obj.color, size: $obj.size, quantity: $obj.quantity, unitPrice: $obj.unit_Price});
+				{name: $obj.name, color: $obj.color, size: $obj.size, quantity: $obj.quantity, unitPrice: $obj.unit_Price, link: $obj.link_pago.toLowerCase()});
 				$scope.myPurchases[$lastObj].totalAmount +=($obj.quantity*$obj.unit_Price);
 			}else{				
 				$obj = res[i];
 				$lastObj = $scope.myPurchases.length;
-				$scope.myPurchases[$lastObj] = {id:$obj.id, saleNumber: $obj.sale_Number, state: $obj.description, date: $obj.date, 
+				$scope.myPurchases[$lastObj] = {id:$obj.id, saleNumber: $obj.sale_Number, state: $obj.description, date: $obj.date, link: $obj.link_pago.toLowerCase(), 
 					totalAmount: ($obj.quantity*$obj.unit_Price),
 					description:[{name: $obj.name, color: $obj.color, size: $obj.size, quantity: $obj.quantity, unitPrice: $obj.unit_Price}]};
 			}

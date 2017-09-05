@@ -38,9 +38,33 @@ class Size
     /**
      * @var float
      *
-     * @ORM\Column(name="large", type="float", precision=15, scale=4, nullable=false)
+     * @ORM\Column(name="large", type="float", precision=15, scale=4, nullable=true)
      */
     public $large;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="width", type="float", precision=15, scale=4, nullable=true)
+     */
+    public $width;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="wedge", type="float", precision=15, scale=4, nullable=true)
+     */
+    public $wedge;
+
+    /**
+     * @var \Provider
+     *
+     * @ORM\ManyToOne(targetEntity="Provider", fetch="EAGER")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_provider", referencedColumnName="id")
+     * })
+     */
+    public $idProvider;
 
     /**
      * Set id
@@ -115,7 +139,7 @@ class Size
      * Set large
      *
      * @param float $large
-     * @return Sale
+     * @return Size
      */
     public function setLarge($large)
     {
@@ -132,5 +156,74 @@ class Size
     public function getLarge()
     {
         return $this->large;
+    }
+
+    /**
+     * Set width
+     *
+     * @param float $width
+     * @return Size
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Get width
+     *
+     * @return float 
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set waist
+     *
+     * @param float $waist
+     * @return Size
+     */
+    public function setWedge($wedge)
+    {
+        $this->wedge = $wedge;
+
+        return $this;
+    }
+
+    /**
+     * Get wedge
+     *
+     * @return float 
+     */
+    public function getWedge()
+    {
+        return $this->wedge;
+    }
+
+        /**
+     * Set idProvider
+     *
+     * @param \Provider $idProvider
+     * @return Size
+     */
+    public function setIdProvider(\Provider $idProvider = null)
+    {
+        $this->idProvider = $idProvider;
+
+        return $this;
+    }
+
+    /**
+     * Get idProvider
+     *
+     * @return \Provider 
+     */
+    public function getIdProvider()
+    {
+        return $this->idProvider;
     }
 }

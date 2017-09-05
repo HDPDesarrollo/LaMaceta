@@ -29,11 +29,6 @@ angular.module("LaMaceta")
 			$scope.colors = res;  
 		});
 
-	AdminService.getAllSizes()
-		.then(function(res){
-			$scope.sizes = res;
-		});
-
 	AdminService.getAllProviders()
 		.then(function(res){
 			$scope.providers = res;
@@ -48,6 +43,7 @@ angular.module("LaMaceta")
 	$scope.openArticleModal = function (product) {
 	    var modalInstance = $modal.open({
 	      animation: true,
+	      size: 'lg',
 		  templateUrl: '../theme/product-modal.html',
 	      controller: 'ProductModalCtrl',
 	      scope: $scope,
@@ -100,6 +96,7 @@ angular.module("LaMaceta")
 		for (i = 0; i < res.length; i++) { 	
 			if(i>0 && res[i].id == res[i-1].id){
 				$obj = res[i];
+
 				if($obj.idArt != null){
 					$scope.products[$lastObj].articles.push(
 					{id: $obj.idArt, idProd:$obj.id, sku: $obj.sku, active: {id: $obj.active}, color: {color: $obj.color, id: $obj.idColor}, 
@@ -109,7 +106,7 @@ angular.module("LaMaceta")
 			}else{				
 				$obj = res[i];
 				$lastObj = $scope.products.length;
-				$scope.products[$lastObj] = {id:$obj.id, name: $obj.name, description: $obj.description, prodActive: $obj.prodActive,
+				$scope.products[$lastObj] = {id:$obj.id, name: $obj.name, description: $obj.description, prodActive: $obj.prodActive, idProvider: $obj.idProvider,
 				articles:[]};
 
 				if($obj.idArt != null){
@@ -122,7 +119,7 @@ angular.module("LaMaceta")
 		}	
 	};
 
-	$scope.openDetailProductModal = function (detail, idProd) {
+	$scope.openDetailProductModal = function (detail, idProd, idProvider) {
 	    var modalInstance = $modal.open({
 	      animation: true,
 	      templateUrl: '../theme/detail-product.html',
@@ -133,6 +130,7 @@ angular.module("LaMaceta")
 	        detail: function () {	 
 	        	factoryData.data.idProd = idProd;
 	        	factoryData.data.detail = detail;  
+	        	factoryData.data.idProvider = idProvider;  
 	        }
 	      }
 		});
@@ -148,8 +146,14 @@ angular.module('LaMaceta').controller('DetailProductModalCtrl', function ($scope
 
 	$scope.detail = factoryData.data.detail;
 	$scope.idProd = factoryData.data.idProd;
+	$scope.idProvider = factoryData.data.idProvider;
 
 	$scope.detailConfigTableParams = new NgTableParams({}, { dataset: $scope.detail});
+
+	AdminService.getSizesByProvider($scope.idProvider)
+		.then(function(res){
+			$scope.sizes = res;
+		});
 
 	$scope.addRow = function () {
 	    $scope.detail.push({});
@@ -183,11 +187,31 @@ angular.module('LaMaceta').controller('DetailProductModalCtrl', function ($scope
 		});
   	};
 
+
 });
 
-angular.module('LaMaceta').controller('ProductModalCtrl', function ($scope, AdminService, $modalInstance) {
+angular.module('LaMaceta').controller('ProductModalCtrl', function ($scope, AdminService, $modalInstance, Upload) {
+
+	$scope.imagesVerification = function(images,invalidImages){
+		$scope.badFiles = invalidImages;
+	}
 
   	$scope.save = function (product) {
+		product.images.upload = Upload.upload({
+	        url: '../bd/uploadFiles.php',
+	        data: {files: product.imagesToUpload,
+	        		type: "producto",
+	        		product: product}
+	      }).then(function(response){
+	      	if (response.status == 200){
+	      		$scope.errorMsg = response.data;
+	      	}else{
+	      		$scope.errorMsg = response.status + ': ' + response.data;
+	      	}
+	      	$scope.badFiles = [];
+	      	$scope.product.images = [];
+	      });
+
 	AdminService.saveProduct(product)
 		.then(function(res){	
 			$modalInstance.close(res);
@@ -202,24 +226,60 @@ angular.module('LaMaceta').controller('ProductModalCtrl', function ($scope, Admi
 
 });
 
-angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, AdminService, $modalInstance, factoryData) {
-
+angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, AdminService, $modalInstance, factoryData, Upload) {
 
 	AdminService.getProductById(factoryData.data.product.id)
-		.then(function(res){
+		.then(function(res){	
 			$scope.product = res;
 			$scope.product.provider = res.idProvider;
 			$scope.product.season = res.idSeason;
+
+			AdminService.getProductImages(factoryData.data.product)
+				.then(function(res){					
+					$scope.product.images = res;
+				}); 
+
+			console.log($scope.product);
 		}); 
 
+	$scope.imagesVerification = function(images,invalidImages){
+		$scope.badFiles = invalidImages;
+	}
+
   	$scope.save = function (product) {
-	AdminService.saveProduct(product)
-		.then(function(res){	
-			$modalInstance.close(res);
-		}, function(error){
-			 $modalInstance.close();
-		})		    
+		product.images.upload = Upload.upload({
+		        url: '../bd/uploadFiles.php',
+		        data: {files: product.imagesToUpload,
+		        		type: "producto",
+		        		product: product}
+		      }).then(function(response){
+		      	if (response.status == 200){
+		      		$scope.errorMsg = response.data;
+		      	}else{
+		      		$scope.errorMsg = response.status + ': ' + response.data;
+		      	}
+		      	$scope.badFiles = [];
+		      	$scope.product.images = [];
+		      });
+
+		AdminService.saveProduct(product)
+			.then(function(res){	
+				$modalInstance.close(res);
+			}, function(error){
+				 $modalInstance.close();
+			})		    
   	};
+
+	$scope.deleteImages = function (images, idProd) {
+		console.log(images);
+	    AdminService.deleteImagesForProducts(images, idProd)
+			.then(function(res){				
+				$scope.product.images = res;
+				$scope.checklistToDelete = [];
+
+				console.log($scope.product);
+			});
+	};
 
 	  $scope.cancel = function () {
 	    $modalInstance.dismiss('cancel');

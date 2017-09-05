@@ -35,7 +35,7 @@ switch($request->data->action){
 		}else{
 			echo json_encode("false");
 		}
-		break;
+		break;*/
 
 	case 'createUser':
 		$newUser = new User();
@@ -49,7 +49,7 @@ switch($request->data->action){
 		$newUser->setName($request->data->user->name);
 		$newUser->setSurname($request->data->user->surname);
 
-		$userType= $entityManager->find('UserType', 1);
+		$userType = $entityManager->getRepository("UserType")->findOneBy(array("id" => 1));
 		$newUser->setIdUserType($userType);
 
 		$entityManager->persist($newUser);
@@ -58,7 +58,7 @@ switch($request->data->action){
 		$users =  $entityManager->getRepository("User")->findAll();
 		echo(json_encode($users));
 		break;
-
+		/*
 	case 'resetPassword':
 		try{
 			$theUser = $entityManager->getRepository('user')->findOneBy(array('email' => $request->data->user));

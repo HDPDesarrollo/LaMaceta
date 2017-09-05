@@ -25,16 +25,9 @@
         <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">
         <label>Tipo:</label>
           <select class="form-control" id="type" ng-model="images.type" name="type" ng-change="images.product=products[0]" required>
-            <option value="producto">Producto</option>
             <option value="slider1">Slider 1</option>
             <option value="slider2">Slider 2</option>
           </select>
-            <div ng-show="images.type == 'producto'">
-              <br><label>Producto:</label>
-              <select class="form-control" id="product" ng-model="images.product" name="product" 
-                ng-options="product.name for product in products | filter:{active:'true'} track by product.id">
-                </select>
-            </div>
           <br><button class="btn btn-primary" type="button" ng-click="search(images)" ng-disabled="bankForm.$invalid">Buscar</button>
         </div>
       </div>

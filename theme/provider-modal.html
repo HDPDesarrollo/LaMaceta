@@ -34,27 +34,27 @@
               </span>
             </div>
             <div class="form-group">
-              <label for="email">E-Mail <span class="require">*</span></label>
-                <input type="email" id="email" name="email" class="form-control" ng-model="provider.email" required>
-                  <span class="messages" ng-show="userForm.$submitted || userForm.email.$touched">
-                    <div ng-show="providerForm.email.$error.email">Debe ser formato mail</div>
-                    <div ng-show="providerForm.email.$error.required">Requerido</div>
-                  </span>
-            </div>
-            <div class="form-group">
-            <label for="phone">Dirección<span class="require">*</span></label>
-            <input type="text" id="address" name="address" ng-pattern="/^[a-zA-Z1-9\_\- ]*$/" ng-minlength="3" class="form-control" ng-model="provider.address" required>               
-              <span class="messages" ng-show="providerForm.$submitted || providerForm.address.$touched">
-                <div ng-show="providerForm.address.$error.pattern">Solo letras, numeros y espacios</div>
-                <div ng-show="providerForm.address.$error.minlength">Mínimo tres letras</div>
-                <div ng-show="providerForm.address.$error.required">Requerido</div>
+            <label for="code">Código<span class="require">*</span></label>
+            <input type="text" id="code" name="code" ng-pattern="/^[a-zA-Z1-9\_\- ]*$/" ng-minlength="1" class="form-control" ng-model="provider.code" required>               
+              <span class="messages" ng-show="providerForm.$submitted || providerForm.code.$touched">
+                <div ng-show="providerForm.code.$error.pattern">Solo letras, numeros y espacios</div>                
+                <div ng-show="providerForm.code.$error.required">Requerido</div>
               </span>
             </div>
         </div>
+        <div class="col-xs-4 col-sm-5 col-md-6 col-lg-6">  
+          <div class="form-group">
+              <!--<button class="btn btn-primary" type="button" ng-click="">Ver / Editar talles</button>-->
+              <button type="button" class="btn btn-primary" ng-click="openSizeModal()">Ver / Editar Talles</button>
+          </div>      
+        </div>
+
+
+
     </div>  <!-- /.row -->  
   </form>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="save(provider)" ng-disabled="providerForm.$invalid">Guardar</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
 </div>

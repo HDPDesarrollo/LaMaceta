@@ -38,16 +38,9 @@ class Provider
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100, nullable=false)
+     * @ORM\Column(name="code", type="string", length=100, nullable=false)
      */
-    public $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="string", length=100, nullable=false)
-     */
-    public $address;
+    public $code;
 
     /**
      * Set id
@@ -120,48 +113,25 @@ class Provider
     }
 
     /**
-     * Set email
+     * Set code
      *
-     * @param string $email
+     * @param string $code
      * @return User
      */
-    public function setEmail($email)
+    public function setCode($code)
     {
-        $this->email = $email;
+        $this->code = $code;
 
         return $this;
     }
 
     /**
-     * Get email
+     * Get code
      *
      * @return string 
      */
-    public function getEmail()
+    public function getCode()
     {
-        return $this->email;
-    }
-
-    /**
-     * Set address
-     *
-     * @param string $address
-     * @return Provider
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string 
-     */
-    public function getAddress()
-    {
-        return $this->address;
+        return $this->code;
     }
 }

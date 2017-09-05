@@ -37,7 +37,7 @@ $request = json_decode($dataPost);
 
 switch($request->data->action){
 
-/*	case 'removeBlacklist':
+	case 'removeBlacklist':
 
 		$blacklistSales = $entityManager->getRepository('BlacklistDetail')->findBy(array('idUser' => $request->data->user->id));
 
@@ -59,7 +59,7 @@ switch($request->data->action){
 		$users =  $entityManager->getRepository("User")->findAll();
 		echo(json_encode($users));
 
-		break;*/
+		break;
 
 	case 'getAllProducts':
 		$products =  $entityManager->getRepository("Product")->findAll();
@@ -180,7 +180,7 @@ switch($request->data->action){
 	case 'getAllArticles': 
 		try{
 			$connection = $entityManager->getConnection();
-			$statement = $connection->prepare('SELECT p.id, p.name, p.description, p.active as prodActive, c.id as idColor, s.id as idSize, a.sku, a.active, (CAST(a.stock AS SIGNED)) as stock, (CAST(a.min_Stock AS SIGNED)) as minStock, a.price as price, c.color,  s.size,  a.id as idArt FROM product p  LEFT JOIN article a ON a.id_prod = p.id LEFT JOIN color c ON a.id_Color = c.id LEFT JOIN size s ON a.id_Size = s.id');
+			$statement = $connection->prepare('SELECT p.id, p.name, p.description, p.active as prodActive, c.id as idColor, s.id as idSize, a.sku, a.active, (CAST(a.stock AS SIGNED)) as stock, (CAST(a.min_Stock AS SIGNED)) as minStock, a.price as price, c.color,  s.size,  a.id as idArt, p.id_provider as idProvider FROM product p  LEFT JOIN article a ON a.id_prod = p.id LEFT JOIN color c ON a.id_Color = c.id LEFT JOIN size s ON a.id_Size = s.id');
 			$statement->execute();
 
 			$articles = $statement->fetchAll();
@@ -367,8 +367,7 @@ switch($request->data->action){
 		$newProvider = new Provider();
 		$newProvider->setActive(true);
 		$newProvider->setName($request->data->provider->name);
-		$newProvider->setEmail($request->data->provider->email);
-		$newProvider->setAddress($request->data->provider->address);
+		$newProvider->setCode($request->data->provider->code);		
 
 		$entityManager->persist($newProvider);
 		$entityManager->flush();
@@ -381,8 +380,7 @@ switch($request->data->action){
 		$newProvider = $entityManager->find('Provider', $request->data->provider->id);
 		$newProvider->setActive(true);
 		$newProvider->setName($request->data->provider->name);
-		$newProvider->setEmail($request->data->provider->email);
-		$newProvider->setAddress($request->data->provider->address);
+		$newProvider->setCode($request->data->provider->code);		
 
 		$entityManager->merge($newProvider);
 		$entityManager->flush();
@@ -402,48 +400,29 @@ switch($request->data->action){
 		echo(json_encode($providers));
 		break;
 
-	case 'getAllSizes':
-		$sizes =  $entityManager->getRepository("Size")->findAll();
-		//var_dump($addresses);
-
+	case 'getSizesByProvider':
+		$sizes = $entityManager->getRepository('Size')->findBy(array('idProvider' => $request->data->idProvider));
 		echo(json_encode($sizes));
 		break;
 
-	case 'createSize':
-		$newSize = new Size();
-		$newSize->setActive(true);
-		$newSize->setSize($request->data->size->size);
-		$newSize->setLarge($request->data->size->large);
-
-		$entityManager->persist($newSize);
-		$entityManager->flush();
-
-		$sizes =  $entityManager->getRepository("Size")->findAll();
-		echo(json_encode($sizes));
-		break;
-
-	case 'updateSize':
-		$newSize = $entityManager->find('Size', $request->data->size->id);
-		$newSize->setActive(true);
-		$newSize->setSize($request->data->size->size);
-		$newSize->setLarge($request->data->size->large);
-
-		$entityManager->merge($newSize);
-		$entityManager->flush();
-
-		$sizes =  $entityManager->getRepository("Size")->findAll();
-		echo(json_encode($sizes));
-		break;
-
-	case 'deleteSize':
-		$sizeToDelete = $request->data->size;
-		$size = $entityManager->find('Size', $sizeToDelete->id);
-		$size->setActive(false);
-		$entityManager->merge($size);
-		$entityManager->flush();
-
-		$sizes =  $entityManager->getRepository("Size")->findAll();
-		echo(json_encode($sizes));
+	case 'saveSizes':
+		foreach($request->data->sizes as $size) {
+			//echo json_encode($size);
+			if(isset($size->id)){
+				$sizeToPersist = $entityManager->find('Size', $size->id);			
+			}else{
+				$sizeToPersist = new Size();	
+			}
+			
+			$sizeToPersist->setActive($size->active);
+			$sizeToPersist->setSize($size->size);
+			$sizeToPersist->setLarge($size->large);
+			$sizeToPersist->setWidth($size->width);
+			$sizeToPersist->setWedge($size->wedge);
+			
+    		$entityManager->persist($sizeToPersist);
+			$entityManager->flush();
+		}
 		break;
 
 	case 'getAllProvinces':
@@ -760,7 +739,22 @@ switch($request->data->action){
 			$image->setActive(false);
 			$entityManager->merge($image);
 		}
+
 		$entityManager->flush();
+		break;
+
+	case 'deleteImagesForProducts':
+		foreach ($request->data->images as $item) {
+			echo(var_dump($item));
+			$image= $entityManager->find('Picture', $item);
+			$image->setActive(false);
+			$entityManager->merge($image);
+		}
+
+		$entityManager->flush();
+
+		$images = $entityManager->getRepository("Picture")->findBy(array('idProd' => $request->data->idProd, 'active' => true));		
+		echo(json_encode($images));
 		break;
 
 	case 'getProductImages':

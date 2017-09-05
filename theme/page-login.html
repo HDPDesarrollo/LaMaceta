@@ -88,7 +88,7 @@
           <div class="sidebar col-md-3 col-sm-3">
             <ul class="list-group margin-bottom-25 sidebar-menu">
               <li class="list-group-item clearfix" ng-click="selectTab('register')"><a href=""><i class="fa fa-angle-right"></i>Registrarse</a></li>
-              <li class="list-group-item clearfix" ng-click="selectTab('login')"><a href=""><i class="fa fa-angle-right"></i>Logearse</a></li>
+              <li class="list-group-item clearfix" ng-click="selectTab('login')"><a href=""><i class="fa fa-angle-right"></i>Loguearse</a></li>
             </ul>
           </div>
           <!-- END SIDEBAR -->
@@ -159,7 +159,7 @@
       </div> <!---ng-show-->
 
       <div ng-show="selectedTab=='login'">
-          <h1>Logearse</h1>
+          <h1>Loguearse</h1>
             <div class="col-md-6 col-sm-6">
               <form id="LoginModal" enctype="multipart/form-data" name="loginForm">
                       <div class="text-danger" ng-show="errorLogin">Datos mal ingresados, verifique Email y contraseña.</div>
@@ -173,7 +173,7 @@
                   </div>
               </form>
               <div class="col-md-12">   
-                  <button class="btn btn-primary pull-right" type="submit" id="login-confirm" ng-click="tryLogin(login)" ng-disabled="loginForm.$invalid">Logearse</button>
+                  <button class="btn btn-primary pull-right" type="submit" id="login-confirm" ng-click="tryLogin(login)" ng-disabled="loginForm.$invalid">Loguearse</button>
               </div>
               <a href="" ng-click="selectTab('forgotPassword')">Olvidó su contraseña?</a>
             </div>
@@ -184,7 +184,7 @@
             <div class="content-form-page">
               {{tryLoginInsteadLegend}}
               <ul class="list-group margin-bottom-25 sidebar-menu">
-                <li class="list-group-item clearfix" ng-click="selectTab('login')"><a href=""><i class="fa fa-angle-right"></i>Logearse</a></li>
+                <li class="list-group-item clearfix" ng-click="selectTab('login')"><a href=""><i class="fa fa-angle-right"></i>Loguearse</a></li>
               </ul>
             </div>
       </div> <!---ng-show-->  

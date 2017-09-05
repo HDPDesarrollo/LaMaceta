@@ -103,6 +103,12 @@ class Sale
     */
     public $id_collection;
 
+    /**
+    *@var string
+    *@ORM\Column(name="link_pago", type="string", length=64, nullable=true)
+    */
+    public $link_pago;
+
 
     /**
      * Set id
@@ -378,5 +384,26 @@ class Sale
         $this->id_collection = $id_collection;
         return $this;
     }
+
+    /**
+    * get link_pago
+    * 
+    * @return string
+    */
+    public function getLink_pago(){
+        return $this->link_pago;
+    }
+
+    /**
+    * set link_pago
+    * @param string $link_pago 
+    *
+    * @return Sale
+    */
+    public function setLink_pago($linkPago){
+        $this->link_pago = $linkPago;
+        return $this;
+    }
+
 
 }
