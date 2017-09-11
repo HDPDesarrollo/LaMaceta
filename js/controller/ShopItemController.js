@@ -35,14 +35,12 @@ angular.module("LaMaceta")
 
 	$scope.validateAndAddToCart = function () {
 
-		console.log($scope.quantityBuy);
-
 		ShopItemService.validateStockByArticle($scope.itemBuy.idProd, 
-			$scope.itemBuy.size.id, 
+			$scope.itemBuy.size, 
 			$scope.itemBuy.color.id, $scope.quantityBuy)
 		.then(function(res){
-			//console.log(res);
-			$scope.idArticle = res[0].ID;//deberia ser solo uno
+			console.log(res);
+			$scope.idArticle = res[0].id;//deberia ser solo uno
 
 			if($scope.idArticle!=null){
 				CartService.addToCart($scope.idArticle, $scope.quantityBuy);
@@ -104,19 +102,13 @@ angular.module("LaMaceta")
 	    var result =  window.location.search.match(
 	        new RegExp("(\\?|&)" + param + "(\\[\\])?=([^&]*)")
 		);
-		console.log(result);
 	    return result ? result[3] : false;
 	}
 
 	$scope.itemId = getQueryParam("id"); 
-	console.log("la concha de tu vieja"+$scope.itemId);
 
     var loc = window.location.href;
-	var dir = loc.substring(0, loc.lastIndexOf('/'));
-	
-	console.log("hola",loc,dir);
-
-        
+	var dir = loc.substring(0, loc.lastIndexOf('/'));        
 
 	ShopItemService.getArticlesByProdId($scope.itemId)
 		.then(function(res){

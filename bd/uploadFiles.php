@@ -10,6 +10,8 @@ include __DIR__ . '../../entities/Picture.php';
 
 if(isset($_FILES['files'])){
 
+	try {
+
 	$product = $_POST['product'];
 	$type = $_POST['type'];
 	$files = $_FILES['files'];
@@ -42,6 +44,9 @@ if(isset($_FILES['files'])){
 
 	echo "Imágenes subidas correctamente";
 
+	} catch (Exception $e) {
+		echo json_encode($e->getMessage());
+	}
 }else{
 	echo "Sin setear PESOS_FILES";
 }

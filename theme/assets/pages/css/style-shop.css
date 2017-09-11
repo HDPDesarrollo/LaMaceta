@@ -1215,3 +1215,11 @@ Shop Stype Buttons
 .btn {
 	text-transform: uppercase;
 }
+
+.row-inactive{
+	background-color: pink !important;
+}
+
+.row-active{
+	background-color: lightgreen !important;
+}

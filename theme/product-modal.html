@@ -112,13 +112,13 @@
             <th>Nombre</th>
           </tr>
           <tr ng-repeat="image in product.images | filter:{active:true}">
-            <td><input type="checkbox" checklist-model="checklistToDelete" checklist-value="product.images.id"/></td>
+            <td><input type="checkbox" checklist-model="checklistToDelete" checklist-value="image.id"/></td>
             <td><img width="50" heigth="50" ng-src="../images/{{image.path}}/{{image.rutaImg}}"/></td>
             <td><a href="../images/{{image.path}}/{{image.rutaImg}}" target="_blank">{{image.rutaImg}}</a></td>
           </tr>
         </table>
         <div class="modal-footer">
-          <button class="btn btn-primary" type="button" ng-click="deleteImages(checklistToDelete, product.id)" ng-disabled="checklistToDelete.length==0">Borrar Imagenes</button>
+          <button class="btn btn-primary" type="button" ng-click="actionImages(checklistToDelete, product.id)" ng-disabled="checklistToDelete.length==0">BORRAR IMAGENES</button>
         </div>
       </div>
       </div>

@@ -4,7 +4,6 @@ angular.module('LaMaceta')
 	.controller('CartController',function($interval,$cookies,$scope,CartService,SearchService){
 
 	$scope.contentCart = [];
-
 	$scope.theCookie = $cookies.getObject("cookieCart");
 
 	getAllArticlesFromCookie = function(){
@@ -172,5 +171,13 @@ angular.module('LaMaceta')
 				$scope.menu[$lastObj] = {target: $obj.target, prodType:[{type: $obj.prodType}]};
 			}
 		}	
+	}
+
+	$scope.emptyCart = function(){
+		if($scope.contentCart.length == 0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 });

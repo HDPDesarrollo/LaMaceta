@@ -143,7 +143,6 @@ angular.module('LaMaceta').controller('SizeModalCtrl', function ($scope, $modalI
 	AdminService.getSizesByProvider($scope.provider.id)
 		.then(function(res){
 			$scope.buildSizes(res);
-
 			$scope.sizeTableParams = new NgTableParams({}, { dataset: $scope.sizes});			
 		});
 
@@ -176,8 +175,9 @@ angular.module('LaMaceta').controller('SizeModalCtrl', function ($scope, $modalI
 
   
   	$scope.save = function () {
-  		console.log($scope.sizes);
-		AdminService.saveSizes($scope.sizes)
+  		//console.log($scope.sizes);
+  		//console.log($scope.provider.id);
+		AdminService.saveSizes($scope.sizes, $scope.provider.id)
 			.then(function(res){	
 				$modalInstance.close(res);
 			}, function(error){

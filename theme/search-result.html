@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-
-<html lang="es" ng-app="LaMaceta">
-
+﻿<!DOCTYPE html><html lang="es-AR" class="nojs">
 <head>
-  <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Maceta</title>
+
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<script src="../bower_components/angular/angular.js" type="text/javascript"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
+  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.3.0.js"></script><!--Es para la paginacion-->
   <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
   <script src="../bower_components/ng-file-upload/ng-file-upload.min.js" type="text/javascript"></script>
   <script src="../bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
@@ -28,235 +38,156 @@
   <script src="../js/service/ShopItemService.js"></script>
   <script src="../js/service/AdminService.js"></script>
 
-  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.3.0.js"></script><!--Es para la paginacion-->
-
-  <meta charset="utf-8">
-  <title>Resultado Busqueda | LaMaceta</title>
-
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 
-  <!-- Fonts START -->
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css"> 
-  <!-- Fonts END -->
+<script type="text/javascript" src="../js/js/jquery-1.8.2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/js/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/js/jquery-ui.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/js/jquery.cycle2.carousel.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/js/jquery.cycle2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/js/jquery.cycle2.swipe.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/js/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="../js/js/behaviours.js" charset="utf-8"></script>
 
-  <!-- Global styles START -->          
-  <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Global styles END --> 
-   
-  <!-- Page level plugin styles START -->
-  <link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
-  <link href="assets/plugins/owl.carousel/assets/owl.carousel.css" rel="stylesheet">
-  <!-- Page level plugin styles END -->
-
-  <!-- Theme styles START -->
-  <link href="assets/pages/css/components.css" rel="stylesheet">
-  <link href="assets/corporate/css/style.css" rel="stylesheet">
-  <link href="assets/pages/css/style-shop.css" rel="stylesheet" type="text/css">
-  <link href="assets/corporate/css/style-responsive.css" rel="stylesheet">
-  <link href="assets/corporate/css/themes/red.css" rel="stylesheet" id="style-color">
-  <link href="assets/corporate/css/custom.css" rel="stylesheet">
-  <!-- Theme styles END -->
+<style>
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Raleway:300,400,700|Roboto:300,400,700|Roboto+Slab:400,700');
+</style> 
 </head>
-<!-- Head END -->
-
-<!-- VISTA HEADER -->
-  <div ng-include="'header.html'"></div>
-   <!-- FIN VISTA HEADER -->
-
-   <style type="text/css">
-
-    .inline {
-      display: inline-block;
-    }
-
-    .foo {
-      float: left;
-      width: 20px;
-      height: 20px;
-      margin: 5px;
-      border: 1px solid rgba(0, 0, 0, .2);
-    }
-
-  </style>
-
-<!-- Body BEGIN -->
-<body class="ecommerce" ng-app="LaMaceta" ng-controller="SearchController"> 
-
-    <div class="main">
-      <div class="container">
-        <ul class="breadcrumb">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="">Tienda</a></li>
-            <li class="active">Resultado Busqueda</li>
-        </ul>
-        <!-- BEGIN SIDEBAR & CONTENT -->
-        <div class="row margin-bottom-40">
-          <!-- BEGIN SIDEBAR -->
-          <div class="sidebar col-md-3 col-sm-5">
-            <div class="sidebar-filter margin-bottom-25">
-
-            <div style="text-align:center;">
-                    <button type="button" class="btn btn-default add2cart" ng-click="removeFilters()" style="border: 0;">
-                      <span class="glyphicon glyphicon-remove"></span> <h4>Quitar Filtros </h4>
-                    </button>
-            </div>
-
-
-            <br>
-              <p>
-                <h3>Rango de precios: </h3>
-                <div style="display: inline-block;" >
-                    <input type="number" placeholder="  Mín." id="minAmount" ng-model="maxAmount" style="border:1; color:#f6931f; font-weight:bold;width:75px;height:31px">
-                    <a>-</a>
-                    <input type="number" placeholder="  Máx." id="maxAmount" ng-model="minAmount" style="border:1; color:#f6931f; font-weight:bold;width:75px;height:31px">
-                    <button class="btn btn-primary" type="submit" ng-click="searchPrice(wordSearch, sorting, minAmount, maxAmount)">></button>
-                </div>
-
-                <h3>Temporadas: </h3>
-
-
-                <div>
-                <ul ><!--ng-repeat="season in filterSeason"-->
-                  <li><input type="radio" id="season" ng-model="season" value="verano" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Verano</li>
-                  <li><input type="radio" id="season" ng-model="season" value="otonio" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Otoño</li>
-                  <li><input type="radio" id="season" ng-model="season" value="invierno" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Invierno</li>
-                  <li><input type="radio" id="season" ng-model="season" value="primavera" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> Primavera</li>
-                </ul>
-
-                 <!-- <ul >
-                    <li><input type="radio" id="season" ng-model="season" value="{{season}}" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"> 
-                    {{season}}
-                    </li>
-                  </ul>-->
-                </div>
-            <br>
-            <br>
-            <h3>Colores: </h3>
-                <div class="sidebar-products clearfix">              
-                <div>
-                  <ul class="social-icons" style="display: inline-block;" ng-repeat="color in filterColor">
-                    <li><a class="foo" ng-model="color" style="background:{{color.rgb}};" ng-click="search(wordSearch, sorting, color.rgb, minAmount, maxAmount, target, prodType, season)"></a></li>
-                  </ul>   
-                </div>
-
-              </p>
-            </div>
-
-            </div>
-
-          </div>
-          <!-- END SIDEBAR -->
-          <!-- BEGIN CONTENT -->
-          <div class="col-md-9 col-sm-7">
-            <div class="content-search margin-bottom-20">
-              <div class="row">
-                <div class="col-md-6">
-                  <h1>Resultados para <em>{{wordSearched}}</em></h1>
-                </div>
-              </div>
-            </div>
-            <div class="row list-view-sorting clearfix">
-              <div class="col-md-2 col-sm-2 list-view">
-                <a href="javascript:;"><i class="fa fa-th-large"></i></a>
-                <a href="javascript:;"><i class="fa fa-th-list"></i></a>
-              </div>
-              <div class="col-md-10 col-sm-10">
-                <div class="pull-right">
-                  <label class="control-label">Show:</label>
-                  <select class="form-control input-sm" ng-model="quantityPage" ng-change="search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)">
+<body ng-app="LaMaceta" ng-controller="SearchController">
+	<div id="wrapper">
+	<div class="topcontent">
+		<div class="header">
+			<a class="logo" href="/"><img src="images/logo.svg"></a>
+			<div class="toolbar">
+				<div class="login"><a href="page-login.html">LOGIN</a></div>
+				<div class="carrito"><a href="shop-shopping-cart.html">0 ARTÍCULOS: $0.00</a></div>
+			</div>
+			<div id="topmenu">
+				<ul class="menu">
+					<li><a href="\">Home</a></li>
+					<li><a href="">Productos</a>
+						<ul class="submenu">
+							<li><a href="">Bebes</a></li>
+							<li><a href="">Nenas</a></li>
+							<li><a href="">Nenes</a></li>
+							<li><a href="">Unisex</a></li>
+						</ul>
+					</li>
+					<li><a href="">Nosotros</a></li>
+				</ul>
+			</div>
+			<a href="search-result.html" class="search"></a>
+			<div class="sidebar-trigger"></div>
+		</div>
+	</div>
+	<div class="maincontent">
+		<div class="container">
+			<div class="bloque seccion-buscador">
+				<div class="content-search">
+					<form action="search-result.html" method="GET">
+						<input class="input" type="text" name="texto" value="" placeholder="Encuentra productos increibles..." />
+						<button class="btn" type="submit"></button>
+					</form>
+				</div>
+				<div class="row">
+				<div class="col-md-2"> 
+                  <label >Show:</label>
+                  <select class="form-control" ng-model="quantityPage" ng-change="changeItemView()"> 
                     <option value="1">1</option>
-                    <option value="2">2</option>
                     <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option value="5">5</option>
                     <option value="10">10</option>
+                    <option value="15">15</option>
                   </select>
                 </div>
-                <div class="pull-right">
-                  <label class="control-label">Sort&nbsp;By:</label>
-                  <select class="form-control input-sm" ng-model="sorting" ng-change="search(wordSearch, sorting, color, minAmount, maxAmount, target, prodType, season)">
-                    <option value="P.NAME ASC">Default</option>
-                    <option value="P.NAME ASC">Nombre (A - Z)</option>
-                    <option value="P.NAME DESC">Nombre (Z - A)</option>
-                    <option value="A.PRICE ASC">Menor Precio &gt; Mayor Precio</option>
-                    <option value="A.PRICE DESC">Mayor Precio &gt; Menor Precio</option>
-                  </select>
                 </div>
-              </div>
-            </div>
-            <!-- BEGIN PRODUCT LIST -->
+				<div class="resultado-productos">
+					<div class="item" ng-repeat="row in productsPage track by $index">
+						<a href="shop-item.html?id={{row.id}}"></a>
+						<div class="image"><img ng-src="../images/producto/{{row.picture}}"/></div>
+						<div class="title">{{row.name}}</div>
+						<div class="precio">{{row.price | currency:"$"}}</div>
+					</div>
+				</div>
+				<center> 
+		             <div>
+		               <ul uib-pagination boundary-links="true" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></ul>
+		                <!-- <pre>The selected page no: {{currentPage}}</pre> -->
+		             </div>
+	            </center>
+			</div>
+			
+			<div class="bloque cuatro sb">
+				<h1>Contactanos</h1>
+				Teléfono: 0810.777.4444 <br>
+				Correo Electrónico: <a href="mailto:info@lamaceta.com.ar">info@lamaceta.com.ar</a>
+				<?php
+				if (!isset($_POST['email'])) {
+				}else{
+				$mensaje="Mensaje del formulario de contacto de hotelsanmiguel.com.ar";
+				$mensaje.= "\nNombre y Apellido: ". $_POST['nombre'];
+				$mensaje.= "\nEmail: ".$_POST['email'];
+				$mensaje.= "\nCometario: \n".$_POST['consulta'];
+				$destino= "nicolas.juarez86@gmail.com";
+				$remitente = $_POST['email'];
+				$asunto = "Consulta enviada por: ".$_POST['nombre'];
+				mail($destino,$asunto,$mensaje,"FROM: $remitente");
+				?>
+				<?php
+				}
+				?>
+				<div class="formulario">
+					<div class="flecha">TUS COMENTARIOS NOS INTERESAN!</div>
+					<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+						<input class="box" name="nombre" type="text" size="53" placeholder="Nombre"/>
+						<input class="box" name="email" type="text" size="53" placeholder="Email" />
+						<textarea class="box" name="consulta" rows="6" cols="40" placeholder="Comentario" ></textarea>
+						<input type="submit" value="Enviar" class="button"/>
+					</form>	
+				</div>					
+			</div>
+		</div>
 
-              <ul ng-repeat="row in productsPage track by $index" class="col-md-4 col-sm-6 col-xs-12">
-                  <li  class="inline"> 
-                      <div class="product-item">
-                        <div class="pi-img-wrapper">
-                          <img ng-src="../images/producto/{{row.picture}}" class="img-responsive" alt="">
-                          <div>
-                              <a href="shop-item.html?id={{row.id}}" class="btn btn-default fancybox-fast-view">Ver</a>
-                          </div>
-                        </div>
-                        <h3><a href="shop-item.html?id={{row.id}}">{{row.name}}</a></h3>
-                        <div>
-                          <ul class="social-icons" style="display: inline-block;" ng-repeat="color in row.color">
-                            <li><a class="foo" style="background:{{color.rgb}};"></a></li>
-                          </ul>   
-                        </div>  
-                        <div class="pi-price">{{row.price | currency:"$"}}</div>
-                        <a ng-click="openAddToCartModal(row.id)" class="btn btn-default add2cart">Agregar al Carrito</a><!--modal con talle color y cantidad-->
-                      </div>
-                    </li>
-              </ul>
-             <center> 
-             <div style="clear: both;">
-               <ul uib-pagination boundary-links="true" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged()"></ul>
-                <!--<pre>The selected page no: {{currentPage}}</pre>-->
-             </div>
-            <!-- END PRODUCT LIST -->
-          </div>
-          <!-- END CONTENT -->
-        </div>
-        <!-- END SIDEBAR & CONTENT -->
-      </div>
-    </div>
+		<div class="bloque cinco">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13111.223566461284!2d-58.3982202!3d-34.7604822!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x679c670d7246451b!2sLa+Maceta!5e0!3m2!1ses-419!2sar!4v1493671466510" frameborder="0" style="border:0" allowfullscreen></iframe>
+		</div>
+	</div>
+	<div class="bottomcontent">
+		<div class="footer">
+			<div class="bloque">
+				<ul>
+					<li><a href="">Inicio</a></li>
+					<li><a href="">Bebes</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Unisex</a></li>
+				</ul>
+			</div>
+			<div class="bloque logo"><a class="logo" href="/"><img src="images/logo-pie.svg"></a></div>
+			<div class="bloque">
+				<h2>Contáctenos</h2>
+				Dirección, Buenos Aires Argentina <br>
+				Teléfono 0810-777-4444<br>
+				E-mail <a href="mailto:info@lamaceta.com.ar">info@lamaceta.com.ar</a>
+			</div>
+		</div>
+	</div>
+	</div>
 
-    <!-- VISTA FOOTER -->
-    <div ng-include="'footer.html'"></div>
-    <!-- FIN VISTA FOOTER -->
+	<div id="sidebar">
+		<div class="toolbar">
+			<div class="login"><a href="">LOGIN</a></div>
+			<div class="carrito">0 ARTÍCULOS: $0.00</div>
+		</div>
+			<div id="topmenu">
+				<ul class="menu">
+					<li><a href="">Bebes</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Nenes</a></li>
+					<li><a href="">Unisex</a></li>
+				</ul>
+			</div>
+		<a class="buscador search"></a>
+	</div>
 
-    <!-- Load javascripts at bottom, this will reduce page load time -->
-    <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
-    <!--[if lt IE 9]>
-    <script src="assets/plugins/respond.min.js"></script>  
-    <![endif]-->  
-    <script src="assets/plugins/jquery.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>      
-    <script src="assets/corporate/scripts/back-to-top.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
-    <script src="assets/plugins/owl.carousel/owl.carousel.min.js" type="text/javascript"></script><!-- slider for products -->
-    <script src="assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
-    <script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/rateit/src/jquery.rateit.js" type="text/javascript"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script><!-- for slider-range -->
-
-    <script src="assets/corporate/scripts/layout.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            Layout.init();    
-            Layout.initOWL();
-            Layout.initTwitter();
-            Layout.initTouchspin();
-            Layout.initUniform();
-            Layout.initSliderRange();
-        });
-    </script>
-    <!-- END PAGE LEVEL JAVASCRIPTS -->
 </body>
-<!-- END BODY -->
-</html>

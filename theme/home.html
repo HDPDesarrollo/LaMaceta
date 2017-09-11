@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+	<html lang="es-AR" class="nojs" ng-app="LaMaceta">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Maceta</title>
+
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+
+<link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon" />
+
+<script type="text/javascript" src="javascript/jquery-1.8.2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery-ui.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.cycle2.carousel.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.cycle2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.cycle2.swipe.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.magnific-popup.min.js"></script>
+
+<script type="text/javascript" src="javascript/behaviours.js" charset="utf-8"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Raleway:300,400,700|Roboto:300,400,700|Roboto+Slab:400,700');
+</style> 
+</head>
+<body>
+	<div id="wrapper">
+	<div class="topcontent">
+		<div class="header">
+			<a class="logo"><img src="images/logo.svg"></a>
+			<div class="toolbar">
+				<div class="login"><a href="page-login.html">LOGIN</a></div>
+				<div class="carrito"><a href="shop-shopping-cart.html">0 ARTÍCULOS: $0.00</a></div>
+			</div>
+			<div id="topmenu">
+				<ul class="menu">
+					<li><a href="/">Home</a></li>
+					<li><a href="">Productos</a>
+						<ul class="submenu">
+							<li><a href="">Bebes</a></li>
+							<li><a href="">Nenas</a></li>
+							<li><a href="">Nenes</a></li>
+							<li><a href="">Unisex</a></li>
+						</ul>
+					</li>
+					<li><a href="">Nosotros</a></li>
+				</ul>
+			</div>
+			<a href="search-result.html" class="search"></a>
+			<div class="sidebar-trigger"></div>
+		</div>
+	</div>
+	<div class="maincontent">
+		<div class="slides">
+			<ul>
+				<li style="background-image: url('images/slide1.svg');"></li>
+				<li style="background-image: url('images/slide2.svg');"></li>
+			</ul>
+		    <a class="prev"></a>
+		    <a class="next"></a>
+		    <div class="nav"></div>
+		</div>
+		<div class="bloque uno">
+			<h1>Creemos que te puede gustar</h1>
+			<div class="destacados">
+				<div class="item">
+					<a href=""></a>
+					<div class="image"><img src="images/imagen1.svg"/></div>
+					<div class="title">Uniformes varios modelos</div>
+					<div class="aclaracion">100% algodón</div>
+				</div>
+				<div class="item">
+					<a href=""></a>
+					<div class="image"><img src="images/imagen2.svg"/></div>
+					<div class="title">Camisa de jean niños</div>
+					<div class="aclaracion">Variedad de talles</div>
+				</div>
+				<div class="item">
+					<a href=""></a>
+					<div class="image"><img src="images/imagen3.svg"/></div>
+					<div class="title">Camisa escosesa nenas</div>
+					<div class="aclaracion">Liquidación</div>
+				</div>
+				<div class="item">
+					<a href=""></a>
+					<div class="image"><img src="images/imagen4.svg"/></div>
+					<div class="title">Accesorios princesa</div>
+					<div class="aclaracion">Corona + Varita</div>
+				</div>
+			</div>
+		</div>
+		<div class="bloque dos">
+			<h1>Descubrí nuestras líneas</h1>
+			<div class="lineas">
+				<div class="item bebes">
+					<a href=""></a>
+					<div class="image"><img src="images/chupete.svg"/></div>
+					<div class="title">Bebés</div>
+				</div>
+				<div class="item nenas">
+					<a href=""></a>
+					<div class="image"><img src="images/beba.svg"/></div>
+					<div class="title">Nenas</div>
+				</div>
+				<div class="item nenes">
+					<a href=""></a>
+					<div class="image"><img src="images/bebe.svg"/></div>
+					<div class="title">Nenes</div>
+				</div>
+			</div>
+		</div>
+		<div class="bloque tres">
+			<h1>Novedad!</h1>
+			<div class="novedades">
+				<img src="images/slide2.svg"/>
+			</div>
+		</div>
+		<div class="bloque cuatro">
+			<h1>Contactanos</h1>
+			Teléfono: 0810.777.4444 <br/>
+			Correo Electrónico: <a href="mailto:info@lamaceta.com.ar">info@lamaceta.com.ar</a>
+			<?php
+			if (!isset($_POST['email'])) {
+			}else{
+			$mensaje="Mensaje del formulario de contacto de hotelsanmiguel.com.ar";
+			$mensaje.= "\nNombre y Apellido: ". $_POST['nombre'];
+			$mensaje.= "\nEmail: ".$_POST['email'];
+			$mensaje.= "\nCometario: \n".$_POST['consulta'];
+			$destino= "nicolas.juarez86@gmail.com";
+			$remitente = $_POST['email'];
+			$asunto = "Consulta enviada por: ".$_POST['nombre'];
+			mail($destino,$asunto,$mensaje,"FROM: $remitente");
+			?>
+			<?php
+			}
+			?>
+			<div class="formulario">
+				<div class="flecha">TUS COMENTARIOS NOS INTERESAN!</div>
+				<form action="" method="post">
+					<input class="box" name="nombre" type="text" size="53" placeholder="Nombre"/>
+					<input class="box" name="email" type="text" size="53" placeholder="Email" />
+					<textarea class="box" name="consulta" rows="6" cols="40" placeholder="Comentario" ></textarea>
+					<input type="submit" value="Enviar" class="button"/>
+				</form>	
+			</div>					
+		</div>
+		</div>
+
+		<div class="bloque cinco">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13111.223566461284!2d-58.3982202!3d-34.7604822!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x679c670d7246451b!2sLa+Maceta!5e0!3m2!1ses-419!2sar!4v1493671466510" frameborder="0" style="border:0" allowfullscreen></iframe>
+		</div>
+	<div class="bottomcontent">
+		<div class="footer">
+			<div class="bloque">
+				<ul>
+					<li><a href="">Inicio</a></li>
+					<li><a href="">Bebes</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Unisex</a></li>
+				</ul>
+			</div>
+			<div class="bloque logo"><a class="logo" href="/"><img src="images/logo-pie.svg"></a></div>
+			<div class="bloque">
+				<h2>Contáctenos</h2>
+				Dirección, Buenos Aires Argentina <br>
+				Teléfono 0810-777-4444<br>
+				E-mail <a href="mailto:info@lamaceta.com.ar">info@lamaceta.com.ar</a>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<div id="sidebar">
+		<div class="toolbar">
+			<div class="login"><a href="">LOGIN</a></div>
+			<div class="carrito">0 ARTÍCULOS: $0.00</div>
+		</div>
+			<div id="topmenu">
+				<ul class="menu">
+					<li><a href="">Bebes</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Nenes</a></li>
+					<li><a href="">Unisex</a></li>
+				</ul>
+			</div>
+		<a class="buscador search"></a>
+	</div>
+
+
+  <!-- Load javascripts at bottom, this will reduce page load time -->
+  <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
+  <script src="../js/checklist-model.js"></script>
+  <script src="../js/angular-cookies.js"></script>
+  <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
+  <script src="../bower_components/ng-file-upload/ng-file-upload.min.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
+  <script src="../bower_components/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
+  <script src="../bower_components/ngprogress/build/ngprogress.js"></script>
+  <script src="../bower_components/satellizer/dist/satellizer.js"></script>
+  <script type="text/javascript" src="../bower_components/angular-md5/angular-md5.js"></script>
+
+  <script src="../js/app/app.js"></script>
+
+</body>

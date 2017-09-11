@@ -240,14 +240,7 @@ angular.module("LaMaceta")
     var createProduct = function(product){  
       return $http.post('../bd/AdminBd.php', {data: {product: product, action:'createProduct'}})
             .then(function(response) { 
-                      console.log(response.data);   
-                     return $http.post('../bd/AdminBd.php', {data: {action:'getAllArticles'}})
-                    .then(function(response) {
-                        //console.log(response);
-                        return response.data;          
-                      },function errorCallback(response) {        
-                          console.log( response);           
-                      });           
+                      return response.data;           
             },function errorCallback(response) {        
                 console.log(response);           
             });
@@ -256,13 +249,7 @@ angular.module("LaMaceta")
     this.saveArticles = function(articles, idProd){  
       return $http.post('../bd/AdminBd.php', {data: {articles: articles, idProd: idProd, action:'saveArticles'}})
             .then(function(response) { 
-            console.log(response.data);   
-                  return $http.post('../bd/AdminBd.php', {data: {action:'getAllArticles'}})
-                    .then(function(response) {                        
-                        return response.data;          
-                      },function errorCallback(response) {        
-                          console.log( response);           
-                      });          
+            console.log(response.data);            
             },function errorCallback(response) {        
                 console.log(response);           
             });
@@ -297,6 +284,22 @@ angular.module("LaMaceta")
                 console.log(response);           
             });
     };
+
+    this.eraseProduct = function(product){
+        return $http.post('../bd/AdminBd.php', {data: {product: product, action:'eraseProduct'}})
+              .then(function(response) { 
+                  // console.log(product);
+                  // console.log(response);
+                    return $http.post('../bd/AdminBd.php', {data: {action:'getAllArticles'}})
+                        .then(function(response) {                        
+                            return response.data;          
+                          },function errorCallback(response) {        
+                              console.log( response);           
+                          });             
+              },function errorCallback(response) {        
+                  console.log(response);           
+              });
+      };    
 
     this.getAllColors = function(){
       return $http.post('../bd/AdminBd.php', {data: {action:'getAllColors'}})
@@ -350,8 +353,9 @@ angular.module("LaMaceta")
                       });
     };
 
-    this.saveSizes = function(sizes){  
-      return $http.post('../bd/AdminBd.php', {data: {sizes: sizes, action:'saveSizes'}})
+    this.saveSizes = function(sizes, idProvider){  
+      console.log(sizes);
+      return $http.post('../bd/AdminBd.php', {data: {sizes: sizes, idProvider: idProvider, action:'saveSizes'}})
             .then(function(response) {
                 console.log(response.data);    
                 return response.data;

@@ -180,7 +180,7 @@ switch($request->data->action){
 	case 'getAllArticles': 
 		try{
 			$connection = $entityManager->getConnection();
-			$statement = $connection->prepare('SELECT p.id, p.name, p.description, p.active as prodActive, c.id as idColor, s.id as idSize, a.sku, a.active, (CAST(a.stock AS SIGNED)) as stock, (CAST(a.min_Stock AS SIGNED)) as minStock, a.price as price, c.color,  s.size,  a.id as idArt, p.id_provider as idProvider FROM product p  LEFT JOIN article a ON a.id_prod = p.id LEFT JOIN color c ON a.id_Color = c.id LEFT JOIN size s ON a.id_Size = s.id');
+			$statement = $connection->prepare('SELECT p.id, p.name, p.description, p.active as prodActive, c.id as idColor, s.id as idSize, a.sku, a.active, (CAST(a.stock AS SIGNED)) as stock, (CAST(a.min_Stock AS SIGNED)) as minStock, a.price as price, c.color,  s.size,  a.id as idArt, p.id_provider as idProvider FROM product p  LEFT JOIN article a ON a.id_prod = p.id LEFT JOIN color c ON a.id_Color = c.id LEFT JOIN size s ON a.id_Size = s.id GROUP BY p.id');
 			$statement->execute();
 
 			$articles = $statement->fetchAll();
@@ -240,6 +240,7 @@ switch($request->data->action){
 			$entityManager->persist($productDiscount);
 			$entityManager->flush();
 
+		echo json_encode($newProduct);
 		break;
 
 	case 'updateProduct':
@@ -277,11 +278,24 @@ switch($request->data->action){
 		$entityManager->flush();
 		break;
 
+	case 'eraseProduct':
+
+			// $theArticleToErase = $entityManager->getRepository('Article')->findBy(array('idProd' => $request->data->product->id));
+			// $entityManager->remove($theArticleToErase);
+			// $entityManager->flush();
+
+			// $thePictureToErase = $entityManager->getRepository('Picture')->findBy(array('idProd' => $request->data->product->id));
+			// $entityManager->remove($thePictureToErase);
+			// $entityManager->flush();
+
+			$theProductToErase= $entityManager->find('Product', $request->data->product->id);
+			$entityManager->remove($theProductToErase);
+			$entityManager->flush();
+			break;		
 
 	case 'saveArticles':
 	
 		foreach($request->data->articles as $article) {
-			echo json_encode($article);
 			if(isset($article->id)){
 				$articleToPersist = $entityManager->find('Article', $article->id);
 			}else{
@@ -308,6 +322,7 @@ switch($request->data->action){
     		$entityManager->persist($articleToPersist);
 			$entityManager->flush();
 		}
+
 		break;
 
 
@@ -401,29 +416,39 @@ switch($request->data->action){
 		break;
 
 	case 'getSizesByProvider':
-		$sizes = $entityManager->getRepository('Size')->findBy(array('idProvider' => $request->data->idProvider));
+		$sizes = $entityManager->getRepository('Size')->findBy(array('idProvider' => $request->data->idProvider, 'active' => true));
 		echo(json_encode($sizes));
 		break;
 
 	case 'saveSizes':
+		/*echo json_encode($size);
+		break;*/
+
 		foreach($request->data->sizes as $size) {
-			//echo json_encode($size);
+			
 			if(isset($size->id)){
-				$sizeToPersist = $entityManager->find('Size', $size->id);			
+				$sizeToPersist = $entityManager->find('Size', $size->id);
 			}else{
 				$sizeToPersist = new Size();	
+			}				
+			if($size->active->id == "true"){
+				$sizeToPersist->setActive(true);	
+			}else{
+				$sizeToPersist->setActive(false);	
 			}
-			
-			$sizeToPersist->setActive($size->active);
 			$sizeToPersist->setSize($size->size);
 			$sizeToPersist->setLarge($size->large);
 			$sizeToPersist->setWidth($size->width);
 			$sizeToPersist->setWedge($size->wedge);
+
+			$provider = $entityManager->find('Provider', $request->data->idProvider);
+			$sizeToPersist->setIdProvider($provider);
 			
     		$entityManager->persist($sizeToPersist);
 			$entityManager->flush();
 		}
 		break;
+
 
 	case 'getAllProvinces':
 		$provinces =  $entityManager->getRepository("Province")->findAll();
@@ -744,15 +769,19 @@ switch($request->data->action){
 		break;
 
 	case 'deleteImagesForProducts':
-		foreach ($request->data->images as $item) {
-			echo(var_dump($item));
-			$image= $entityManager->find('Picture', $item);
-			$image->setActive(false);
-			$entityManager->merge($image);
+	/*echo(var_dump($request->data->images));
+	break;*/
+		if(isset($request->data->images)){
+			foreach ($request->data->images as $item) {
+				//echo(var_dump($item));
+				$image= $entityManager->find('Picture', $item);
+				$image->setActive(false);
+				$entityManager->merge($image);
+			}
+
+			$entityManager->flush();
 		}
-
-		$entityManager->flush();
-
+		
 		$images = $entityManager->getRepository("Picture")->findBy(array('idProd' => $request->data->idProd, 'active' => true));		
 		echo(json_encode($images));
 		break;
@@ -781,7 +810,7 @@ switch($request->data->action){
 
 		echo(json_encode($detailsSale));
 		}catch(Exception $e){
-			echo json_encode($e->getMessage);
+			echo json_encode($e->getMessage());
 		}
 		break;
 

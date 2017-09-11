@@ -1,199 +1,139 @@
-<!DOCTYPE html>
-
-<html lang="es" ng-app="LaMaceta">
-
+﻿<!DOCTYPE html><html lang="es-AR" class="nojs">
 <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Maceta</title>
 
-  <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
-  <script src="../bower_components/angular-bootstrap/ui-bootstrap.js" type="text/javascript"></script>
-  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
-  <script src="../bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
-  <script src="../js/controller/AdminController.js"></script>
-  <script src="../js/service/CartService.js"></script>
-  <script src="../js/controller/CartController.js"></script>
-  <script src="../js/service/AdminService.js"></script>
-  <script src="../js/controller/PreheaderController.js"></script>
-  <script src="../js/controller/controlador.carrito.js"></script>
-  <script src="../js/checklist-model.js"></script>
-  <script src="../js/angular-cookies.js"></script>
-  <script src="../js/service/LoginService.js"></script>
-  <script src="../bower_components/satellizer/dist/satellizer.js"></script>
+<meta name="description" content="" />
 
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
 
+<link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon" />
 
-  <meta charset="utf-8">
-  <title>Mi Cuenta | LaMaceta</title>
+<script type="text/javascript" src="javascript/jquery-1.8.2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery-ui.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.cycle2.carousel.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.cycle2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.cycle2.swipe.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/jquery.magnific-popup.min.js"></script>
 
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<script type="text/javascript" src="javascript/behaviours.js" charset="utf-8"></script>
 
-
-  <!-- Fonts START -->
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&subset=all" rel="stylesheet" type="text/css"> 
-  <!-- Fonts END -->
-
-  <!-- Global styles START -->          
-  <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Global styles END --> 
-   
-  <!-- Page level plugin styles START -->
-  <link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
-  <link href="assets/plugins/owl.carousel/assets/owl.carousel.css" rel="stylesheet">
-  <!-- Page level plugin styles END -->
-
-  <!-- Theme styles START -->
-  <link href="assets/pages/css/components.css" rel="stylesheet">
-  <link href="assets/corporate/css/style.css" rel="stylesheet">
-  <link href="assets/pages/css/style-shop.css" rel="stylesheet" type="text/css">
-  <link href="assets/corporate/css/style-responsive.css" rel="stylesheet">
-  <link href="assets/corporate/css/themes/red.css" rel="stylesheet" id="style-color">
-  <link href="assets/corporate/css/custom.css" rel="stylesheet">
-  <!-- Theme styles END -->
+<style>
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Raleway:300,400,700|Roboto:300,400,700|Roboto+Slab:400,700');
+</style> 
 </head>
-<!-- Head END -->
+<body>
+	<div id="wrapper">
+	<div class="topcontent">
+		<div class="header">
+			<a class="logo" href="/"><img src="images/logo.svg"></a>
+			<div class="toolbar">
+				<div class="login"><a href="login.html">LOGIN</a></div>
+				<div class="carrito"><a href="shop-shopping-cart.html">0 ARTÍCULOS: $0.00</a></div>
+			</div>
+			<div id="topmenu">
+				<ul class="menu">
+					<li><a href="\">Home</a></li>
+					<li><a href="">Productos</a>
+						<ul class="submenu">
+							<li><a href="">Bebes</a></li>
+							<li><a href="">Nenas</a></li>
+							<li><a href="">Nenes</a></li>
+							<li><a href="">Unisex</a></li>
+						</ul>
+					</li>
+					<li><a href="">Nosotros</a></li>
+				</ul>
+			</div>
+			<a href="search-result.html" class="search"></a>
+			<div class="sidebar-trigger"></div>
+		</div>
+	</div>
+	<div class="maincontent">
+		<div class="container">
+			<div class="seccion-login">
+				<form action="" method="post">
+					<input class="box" name="usuario" type="text" size="53" placeholder="Usuario"/>
+					<input class="box" name="password" type="password" size="53" placeholder="Contraseña"/>
+					<input type="submit" value="Iniciar Sesión" class="button"/>
+					<div>¿Olvidaste tu contraseña? <a href="">Click aquí</a></div>
+					<div>¿Todavía no eres miembro? <a href="registro.html">Registrate</a></div>
+				</form>	
+			</div>
+			<div class="bloque cuatro sc">
+				<h1>Contactanos</h1>
+				Teléfono: 0810.777.4444 <br/>
+				Correo Electrónico: <a href="mailto:info@lamaceta.com.ar">info@lamaceta.com.ar</a>
+				<?php
+				if (!isset($_POST['email'])) {
+				}else{
+				$mensaje="Mensaje del formulario de contacto de hotelsanmiguel.com.ar";
+				$mensaje.= "\nNombre y Apellido: ". $_POST['nombre'];
+				$mensaje.= "\nEmail: ".$_POST['email'];
+				$mensaje.= "\nCometario: \n".$_POST['consulta'];
+				$destino= "nicolas.juarez86@gmail.com";
+				$remitente = $_POST['email'];
+				$asunto = "Consulta enviada por: ".$_POST['nombre'];
+				mail($destino,$asunto,$mensaje,"FROM: $remitente");
+				?>
+				<?php
+				}
+				?>
+				<div class="formulario">
+					<div class="flecha">TUS COMENTARIOS NOS INTERESAN!</div>
+					<form action="" method="post">
+						<input class="box" name="nombre" type="text" size="53" placeholder="Nombre"/>
+						<input class="box" name="email" type="text" size="53" placeholder="Email" />
+						<textarea class="box" name="consulta" rows="6" cols="40" placeholder="Comentario" ></textarea>
+						<input type="submit" value="Enviar" class="button"/>
+					</form>	
+				</div>					
+			</div>
+		</div>
 
-  <!-- VISTA HEADER -->
-    <div ng-include="'header.html'">
-     </div>
-     <!-- FIN VISTA HEADER -->
+		<div class="bloque cinco">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13111.223566461284!2d-58.3982202!3d-34.7604822!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x679c670d7246451b!2sLa+Maceta!5e0!3m2!1ses-419!2sar!4v1493671466510" frameborder="0" style="border:0" allowfullscreen></iframe>
+		</div>
+	</div>
+	<div class="bottomcontent">
+		<div class="footer">
+			<div class="bloque">
+				<ul>
+					<li><a href="">Inicio</a></li>
+					<li><a href="">Bebes</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Unisex</a></li>
+				</ul>
+			</div>
+			<div class="bloque logo"><a class="logo" href="/"><img src="images/logo-pie.svg"></a></div>
+			<div class="bloque">
+				<h2>Contáctenos</h2>
+				Dirección, Buenos Aires Argentina <br>
+				Teléfono 0810-777-4444<br>
+				E-mail <a href="mailto:info@lamaceta.com.ar">info@lamaceta.com.ar</a>
+			</div>
+		</div>
+	</div>
+	</div>
 
-<!-- Body BEGIN -->
-<body class="ecommerce"  ng-controller="LoginController">       
-    
-    <div class="main">
-      <div class="container">
-        <ul class="breadcrumb">
-            <li><a href="shop-index.html">Inicio</a></li>
-            <li><a href="">Store</a></li>
-            <li class="active">Administrador</li>
-        </ul>
-        <!-- BEGIN SIDEBAR & CONTENT -->
-        <div class="row margin-bottom-40">
-          <!-- BEGIN SIDEBAR -->
-          <div class="sidebar col-md-3 col-sm-3">
-            <ul class="list-group margin-bottom-25 sidebar-menu">
-              <li class="list-group-item clearfix" ng-click="selectTab('register')"><a href=""><i class="fa fa-angle-right"></i>Registrarse</a></li>
-              <li class="list-group-item clearfix" ng-click="selectTab('login')"><a href=""><i class="fa fa-angle-right"></i>Logearse</a></li>
-            </ul>
-          </div>
-          <!-- END SIDEBAR -->
+	<div id="sidebar">
+		<div class="toolbar">
+			<div class="login"><a href="">LOGIN</a></div>
+			<div class="carrito">0 ARTÍCULOS: $0.00</div>
+		</div>
+			<div id="topmenu">
+				<ul class="menu">
+					<li><a href="">Bebes</a></li>
+					<li><a href="">Nenas</a></li>
+					<li><a href="">Nenes</a></li>
+					<li><a href="">Unisex</a></li>
+				</ul>
+			</div>
+		<a class="buscador search"></a>
+	</div>
 
-    <div class="col-md-9 col-sm-7">
-
-      <div ng-show="selectedTab=='register'">
-            <h1>Registrarse</h1>
-            <div class="content-form-page">
-              <form id="RegisterModal" enctype="multipart/form-data" name="registerForm">
-                <div class="panel-body row">
-                    <div class="col-md-6 col-sm-6">
-                      <div class="form-group">
-                        <label for="name">Nombre <span class="require">*</span></label>
-                        <input type="text" id="name" class="form-control" ng-model="register.name" required/>
-                      </div>
-                      <div class="form-group">
-                        <label for="lastname">Apellido <span class="require">*</span></label>
-                        <input type="text" id="lastname" class="form-control" ng-model="register.surname" required/>
-                      </div>
-                      <div class="form-group">
-                        <label for="email">E-Mail <span class="require">*</span></label>
-                        <input type="text" id="email" class="form-control" ng-model="register.email" required/>
-                      </div>
-                      <h3>Contraseña</h3>
-                      <div class="form-group">
-                        <label for="password">Contraseña <span class="require">*</span></label>
-                        <input type="password" id="password" class="form-control" ng-model="register.password" required/>
-                      </div>
-                      <div class="form-group">
-                        <label for="password-confirm">Confirmar Contraseña <span class="require">*</span></label>
-                        <input type="password" id="password-confirm" class="form-control" ng-model="register.password" required/>
-                      </div>
-                    </div>
-
-                  <div class="col-md-6 col-sm-6">
-                    <div class="form-group">
-                        <label for="birthdate">Fecha de Nacimiento <span class="require">*</span></label>
-                        <input type="date" id="company" class="form-control" ng-model="register.birthdate" required/>
-                    </div>
-                      <label for="gender">Genero <span class="require">*</span></label></br>  
-                    <div ng-init="register.gender='Masculino'" />          
-                        <label><input type="radio" id="gender" ng-model="register.gender" value="Masculino"> Masculino</label>
-                        <label><input type="radio" id="gender" ng-model="register.gender" value="Femenino"> Femenino</label>
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <div class="col-md-12">   
-                      <button class="btn btn-primary pull-right" type="submit" id="register-confirm" ng-click="tryRegister(register)" ng-disabled="registerForm.$invalid">Registrarse</button>
-              </div>
-            </div>
-      </div> <!---ng-show-->
-
-      <div ng-show="selectedTab=='login'">
-          <h1>Logearse</h1>
-            <div class="col-md-6 col-sm-6">
-              <form id="LoginModal" enctype="multipart/form-data" name="loginForm">
-                      <div class="form-group">
-                        <label for="email">E-mail <span class="require">*</span></label>
-                        <input type="email" id="email" class="form-control" ng-model="login.email" required/>
-                      </div>
-                      <div class="form-group">
-                        <label for="password">Contraseña<span class="require">*</span></label>
-                        <input type="password" id="password" class="form-control" ng-model="login.password" required/>
-                  </div>
-              </form>
-              <div class="col-md-12">   
-                  <button class="btn btn-primary pull-right" type="submit" id="login-confirm" ng-click="tryLogin(login)" ng-disabled="loginForm.$invalid">Logearse</button>
-              </div>
-            </div>
-      </div> <!---ng-show--> 
-
-      <div ng-show="selectedTab=='tryLoginInstead'">
-          <h1>Mensaje</h1>
-            <div class="content-form-page">
-              {{tryLoginInsteadLegend}}
-              <ul class="list-group margin-bottom-25 sidebar-menu">
-                <li class="list-group-item clearfix" ng-click="selectTab('login')"><a href=""><i class="fa fa-angle-right"></i>Logearse</a></li>
-              </ul>
-            </div>
-      </div> <!---ng-show-->  
-        
-        
-        </div>        
-        </div>
-        <!-- END SIDEBAR & CONTENT -->
-      </div>
-    </div>
-
-        <!-- VISTA FOOTER -->
-    <div ng-include="'footer.html'"></div>
-    <!-- FIN VISTA FOOTER -->
-
-    <!-- Load javascripts at bottom, this will reduce page load time -->
-    <!-- BEGIN CORE PLUGINS(REQUIRED FOR ALL PAGES) -->
-    <!--[if lt IE 9]>
-    <script src="assets/plugins/respond.min.js"></script>  
-    <![endif]-->  
-    <script src="assets/plugins/jquery.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>      
-    <script src="assets/corporate/scripts/back-to-top.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <!-- END CORE PLUGINS -->
-
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
-    <script src="assets/plugins/owl.carousel/owl.carousel.min.js" type="text/javascript"></script><!-- slider for products -->
-
-    <script src="assets/corporate/scripts/layout.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            Layout.init();    
-            Layout.initOWL();
-            Layout.initTwitter();
-        });
-    </script>
-    <!-- END PAGE LEVEL JAVASCRIPTS -->
 </body>
-<!-- END BODY -->
-</html>

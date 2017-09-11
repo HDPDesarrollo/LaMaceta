@@ -19,6 +19,7 @@ angular.module("LaMaceta")
 
 	AdminService.getAllArticles()
 		.then(function(res){
+			// console.log(res);
 			$scope.buildArticles(res);
 			$scope.productsConfigTableParams = new NgTableParams({}, { dataset: $scope.products});
 		});
@@ -88,10 +89,23 @@ angular.module("LaMaceta")
 			$scope.buildArticles(res);
 			$scope.productsConfigTableParams = new NgTableParams({}, { dataset: $scope.products});
 		});
-    }
+	}
+
+	$scope.eraseProduct = function (user) {
+		// console.log(user);
+		AdminService.eraseProduct(user)
+			.then(function(res){
+				$scope.buildArticles(res);
+				$scope.productsConfigTableParams = new NgTableParams({}, { dataset: $scope.products});
+		});
+	}
 
     $scope.buildArticles = function (res) {
+		// console.log("estoy cargando los productos de la grilla");
+		// console.log($scope.products);
+		// console.log(res);
 		$scope.products = [];
+		// console.log($scope.products);
 
 		for (i = 0; i < res.length; i++) { 	
 			if(i>0 && res[i].id == res[i-1].id){
@@ -150,8 +164,9 @@ angular.module('LaMaceta').controller('DetailProductModalCtrl', function ($scope
 
 	$scope.detailConfigTableParams = new NgTableParams({}, { dataset: $scope.detail});
 
-	AdminService.getSizesByProvider($scope.idProvider)
+	AdminService.getSizesByProvider($scope.idProvider)//Only actives
 		.then(function(res){
+			//console.log(res);
 			$scope.sizes = res;
 		});
 
@@ -197,27 +212,42 @@ angular.module('LaMaceta').controller('ProductModalCtrl', function ($scope, Admi
 	}
 
   	$scope.save = function (product) {
-		product.images.upload = Upload.upload({
-	        url: '../bd/uploadFiles.php',
-	        data: {files: product.imagesToUpload,
-	        		type: "producto",
-	        		product: product}
-	      }).then(function(response){
-	      	if (response.status == 200){
-	      		$scope.errorMsg = response.data;
-	      	}else{
-	      		$scope.errorMsg = response.status + ': ' + response.data;
-	      	}
-	      	$scope.badFiles = [];
-	      	$scope.product.images = [];
-	      });
+  		//console.log(product);
+		AdminService.saveProduct(product)
+			.then(function(res){
+				//console.log(res);		
+		  		if(product.imagesToUpload!=null){
+		  			//console.log(product.imagesToUpload);
+		  			Upload.upload({
+				        url: '../bd/uploadFiles.php',
+				        data: {files: product.imagesToUpload,
+				        		type: "producto",
+				        		product: res}
+				      }).then(function(response){
+				      	console.log(response);
+				      	/*if (response.status == 200){
+				      		$scope.errorMsg = response.data;
+				      	}else{
+				      		$scope.errorMsg = response.status + ': ' + response.data;
+				      	}*/
+				      	$scope.badFiles = [];
+				      	$scope.product.images = [];
 
-	AdminService.saveProduct(product)
-		.then(function(res){	
-			$modalInstance.close(res);
-		}, function(error){
-			 $modalInstance.close();
-		})		    
+						AdminService.getAllArticles()
+								.then(function(res){
+							  		$modalInstance.close(res);	
+								});
+				      });		
+		  		}else{		  			
+					AdminService.getAllArticles()
+							.then(function(res){
+						  		$modalInstance.close(res);	
+							});
+		  		}
+	
+			}, function(error){
+				 $modalInstance.close();
+			})	
   	};
 
 	  $scope.cancel = function () {
@@ -227,6 +257,7 @@ angular.module('LaMaceta').controller('ProductModalCtrl', function ($scope, Admi
 });
 
 angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, AdminService, $modalInstance, factoryData, Upload) {
+	$scope.checklistToDelete = [];
 
 	AdminService.getProductById(factoryData.data.product.id)
 		.then(function(res){	
@@ -239,7 +270,7 @@ angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, 
 					$scope.product.images = res;
 				}); 
 
-			console.log($scope.product);
+			//console.log($scope.product);
 		}); 
 
 	$scope.imagesVerification = function(images,invalidImages){
@@ -247,7 +278,8 @@ angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, 
 	}
 
   	$scope.save = function (product) {
-		product.images.upload = Upload.upload({
+  		if(product.imagesToUpload!=null){
+  			product.images.upload = Upload.upload({
 		        url: '../bd/uploadFiles.php',
 		        data: {files: product.imagesToUpload,
 		        		type: "producto",
@@ -260,7 +292,8 @@ angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, 
 		      	}
 		      	$scope.badFiles = [];
 		      	$scope.product.images = [];
-		      });
+		      });		
+  		}
 
 		AdminService.saveProduct(product)
 			.then(function(res){	
@@ -270,14 +303,13 @@ angular.module('LaMaceta').controller('EditProductModalCtrl', function ($scope, 
 			})		    
   	};
 
-	$scope.deleteImages = function (images, idProd) {
-		console.log(images);
+	$scope.actionImages = function (images, idProd) {
+		//console.log(images);
 	    AdminService.deleteImagesForProducts(images, idProd)
 			.then(function(res){				
 				$scope.product.images = res;
 				$scope.checklistToDelete = [];
-
-				console.log($scope.product);
+				//console.log($scope.product);
 			});
 	};
 

@@ -187,7 +187,7 @@
                 <div class="goods-data clearfix">
                   <div class="table-wrapper-responsive">
                   <table ng-table="productsConfigTableParams" class="table table-condensed table-bordered table-striped">
-                    <tr ng-repeat="row in $data">
+                    <tr ng-repeat="row in $data" ng-class="{true: '', false: 'row-inactive'}[row.prodActive == true]">
                       <td data-title="'Nro. Prod'" class="goods-page-ref-no"  ><!-- filter="{sku: 'text'}"-->
                           <p>{{row.id}}</p>
                       </td>
@@ -204,7 +204,7 @@
                       <td data-title="'Producto'" filter="{name: 'text'}" sortable="'name'">
                           <p>{{row.name}}</p>
                       </td>
-                      <td data-title="'Descripcion'"">
+                      <td data-title="'Descripcion'">
                         <button type="submit" class="btn btn-primary" ng-click="openDetailProductModal(row.articles, row.id, row.idProvider)">Ver / Editar Detalles</button>
                       </td>
                       <td data-title="'Acciones'">
@@ -216,7 +216,15 @@
                           <ul class="dropdown-menu" aria-labelledby="ProductActions">
                             <li><a ng-click="openEditArticleModal(row)">Editar</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a ng-click="removeProduct(row)">Eliminar</a></li>
+                            <li><a ng-click="removeProduct(row)">
+                                <span ng-if="row.prodActive == true">
+                                    Desactivar
+                                  </span>
+                                  <span ng-if="row.prodActive == false">
+                                    Activar
+                                  </span>  
+                            </a></li>
+                            <li><a ng-click="eraseProduct(row)">Eliminar</a></li>
                           </ul>
                         </div>
                       </td>

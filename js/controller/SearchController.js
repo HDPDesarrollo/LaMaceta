@@ -61,7 +61,11 @@ angular.module("LaMaceta")
 		}	
 	};
 
-
+	$scope.changeItemView = function(){
+		$scope.totalItems = $scope.totalProductsSearch.length;
+		$scope.itemsPerPage = $scope.quantityPage;
+		$scope.paginateSearch();
+	}
 
 	$scope.pageChanged = function() {
 

@@ -30,15 +30,17 @@ switch($request->data->action){
 		break;
 
 	case 'validateStockByArticle': 
-		$connection = $entityManager->getConnection();
-
-		$statement = $connection->prepare('SELECT MAX(ID) as ID FROM article WHERE id_prod = '.$request->data->idProd.' AND id_size = '.$request->data->idSize.' AND id_color = '.$request->data->idColor.' AND stock >= '.$request->data->quantity);
 		
-		$statement->execute();
+			$connection = $entityManager->getConnection();
 
-		$idArticle = $statement->fetchAll();
+			$statement = $connection->prepare('SELECT MAX(id) as id FROM article WHERE id_prod = '.$request->data->idProd.' AND id_size = '.$request->data->idSize.' AND id_color = '.$request->data->idColor.' AND stock >= '.$request->data->quantity);
+			
+			$statement->execute();
 
-		echo(json_encode($idArticle));
+			$idArticle = $statement->fetchAll();
+
+			echo(json_encode($idArticle));
+		
 		break;
 /*
 	case 'getPromotions': 
@@ -67,3 +69,4 @@ switch($request->data->action){
 }		
 
 
+?>
